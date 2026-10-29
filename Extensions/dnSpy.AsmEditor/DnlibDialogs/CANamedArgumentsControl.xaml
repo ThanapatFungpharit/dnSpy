@@ -21,10 +21,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:dnlibdlgs="clr-namespace:dnSpy.AsmEditor.DnlibDialogs">
-    <UserControl.Resources>
-        <DataTemplate DataType="{x:Type dnlibdlgs:CANamedArgumentVM}">
-            <dnlibdlgs:CANamedArgumentControl />
-        </DataTemplate>
-    </UserControl.Resources>
+    <!-- The CANamedArgumentVM data template is created in the code behind, XAML can't use the internal type in dnSpy.AsmEditor.Core -->
     <dnlibdlgs:ListVMControl DataContext="{Binding}" />
 </UserControl>

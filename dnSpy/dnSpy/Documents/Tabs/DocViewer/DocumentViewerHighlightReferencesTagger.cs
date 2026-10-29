@@ -221,8 +221,8 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 				var snapshot = spans[0].Snapshot;
 				var theRef = currentSpanReference.Value;
 				foreach (var span in spans) {
-					foreach (var spanData in spanReferenceCollection.Find(span.Span)) {
-						if (spanData.Span.End > snapshot.Length)
+					foreach (var spanData in spanReferenceCollection.Find(span.Span.ToDsTextSpan())) {
+						if (spanData.TextSpan.End > snapshot.Length)
 							continue;
 						if (!IsEnabled(spanData.Data.Id))
 							continue;
@@ -230,7 +230,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 							continue;
 						if (!object.Equals(spanData.Data.Reference, theRef.Data.Reference))
 							continue;
-						yield return new TagSpan<ITextMarkerTag>(new SnapshotSpan(snapshot, spanData.Span), HighlightedReferenceTag);
+						yield return new TagSpan<ITextMarkerTag>(new SnapshotSpan(snapshot, spanData.TextSpan.ToVsSpan()), HighlightedReferenceTag);
 					}
 				}
 			}
@@ -241,9 +241,9 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 				var snapshot = spans[0].Snapshot;
 				var theRef = currentReference.Value;
 				foreach (var span in spans) {
-					foreach (var spanData in documentViewer.Content.ReferenceCollection.Find(span.Span)) {
-						Debug.Assert(spanData.Span.End <= snapshot.Length);
-						if (spanData.Span.End > snapshot.Length)
+					foreach (var spanData in documentViewer.Content.ReferenceCollection.Find(span.Span.ToDsTextSpan())) {
+						Debug.Assert(spanData.TextSpan.End <= snapshot.Length);
+						if (spanData.TextSpan.End > snapshot.Length)
 							continue;
 						if (spanData.Data.IsHidden || spanData.Data.NoFollow)
 							continue;
@@ -252,7 +252,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 							continue;
 						if (!SpanDataReferenceInfoExtensions.CompareReferences(spanData.Data, theRef.Data))
 							continue;
-						yield return new TagSpan<ITextMarkerTag>(new SnapshotSpan(snapshot, spanData.Span), tag);
+						yield return new TagSpan<ITextMarkerTag>(new SnapshotSpan(snapshot, spanData.TextSpan.ToVsSpan()), tag);
 					}
 				}
 			}

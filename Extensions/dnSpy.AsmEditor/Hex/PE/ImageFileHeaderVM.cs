@@ -58,7 +58,7 @@ namespace dnSpy.AsmEditor.Hex.PE {
 			new IntegerHexBitFieldEnumInfo(0x0200, "IA64"),
 			new IntegerHexBitFieldEnumInfo(0x01C4, "ARMNT"),
 			new IntegerHexBitFieldEnumInfo(0xAA64, "ARM64"),
-			new IntegerHexBitFieldEnumInfo(0, dnSpy_AsmEditor_Resources.Unknown),
+			new IntegerHexBitFieldEnumInfo(0, dnSpy_AsmEditor_Core_Resources.Unknown),
 			new IntegerHexBitFieldEnumInfo(0x0162, "R3000"),
 			new IntegerHexBitFieldEnumInfo(0x0166, "R4000"),
 			new IntegerHexBitFieldEnumInfo(0x0168, "R10000"),

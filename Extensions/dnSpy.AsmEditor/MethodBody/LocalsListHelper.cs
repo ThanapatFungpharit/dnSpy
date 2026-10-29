@@ -33,12 +33,12 @@ namespace dnSpy.AsmEditor.MethodBody {
 		CilBodyVM? cilBodyVM;
 		readonly TypeSigCreator typeSigCreator;
 
-		protected override string AddNewBeforeSelectionMessage => dnSpy_AsmEditor_Resources.Local_Command1;
-		protected override string AddNewAfterSelectionMessage => dnSpy_AsmEditor_Resources.Local_Command2;
-		protected override string AppendNewMessage => dnSpy_AsmEditor_Resources.Local_Command3;
-		protected override string RemoveSingularMessage => dnSpy_AsmEditor_Resources.Local_Command4;
-		protected override string RemovePluralMessage => dnSpy_AsmEditor_Resources.Local_Command5;
-		protected override string RemoveAllMessage => dnSpy_AsmEditor_Resources.Local_Command6;
+		protected override string AddNewBeforeSelectionMessage => dnSpy_AsmEditor_Core_Resources.Local_Command1;
+		protected override string AddNewAfterSelectionMessage => dnSpy_AsmEditor_Core_Resources.Local_Command2;
+		protected override string AppendNewMessage => dnSpy_AsmEditor_Core_Resources.Local_Command3;
+		protected override string RemoveSingularMessage => dnSpy_AsmEditor_Core_Resources.Local_Command4;
+		protected override string RemovePluralMessage => dnSpy_AsmEditor_Core_Resources.Local_Command5;
+		protected override string RemoveAllMessage => dnSpy_AsmEditor_Core_Resources.Local_Command6;
 
 		public LocalsListHelper(ListView listView, Window ownerWindow)
 			: base(listView) => typeSigCreator = new TypeSigCreator(ownerWindow);
@@ -66,42 +66,15 @@ namespace dnSpy.AsmEditor.MethodBody {
 
 		protected override void CopyItemsAsText(LocalVM[] locals) {
 			Array.Sort(locals, (a, b) => a.Index.CompareTo(b.Index));
-
-			var output = new StringBuilderTextColorOutput();
-
-			for (int i = 0; i < locals.Length; i++) {
-				if (i > 0)
-					output.WriteLine();
-
-				var local = locals[i];
-				output.Write(BoxedTextColor.Number, local.Index.ToString());
-				output.Write(BoxedTextColor.Text, "\t");
-				output.Write(BoxedTextColor.Text, local.IsPinned ? dnSpy_AsmEditor_Resources.Local_Pinned_Character : string.Empty);
-				output.Write(BoxedTextColor.Text, "\t");
-				output.Write(BoxedTextColor.Text, local.DebuggerHidden ? dnSpy_AsmEditor_Resources.Local_CompilerGenerated_Character : string.Empty);
-				output.Write(BoxedTextColor.Text, "\t");
-				output.Write(BoxedTextColor.Local, local.Name ?? string.Empty);
-				output.Write(BoxedTextColor.Text, "\t");
-				BodyUtils.WriteObject(output, local.Type);
-			}
-			if (locals.Length > 1)
-				output.WriteLine();
-
 			try {
-				Clipboard.SetText(output.ToString());
+				Clipboard.SetText(MethodBodyListUtils.LocalsToText(locals));
 			}
 			catch (ExternalException) { }
 		}
 
 		protected override bool CanUseClipboardData(LocalVM[] data, bool fromThisInstance) => true;
 
-		protected override LocalVM[] BeforeCopyingData(LocalVM[] data, bool fromThisInstance) {
-			if (fromThisInstance)
-				return data;
-			var newData = new LocalVM[data.Length];
-			for (int i = 0; i < data.Length; i++)
-				newData[i] = data[i].Import(cilBodyVM!.TypeSigCreatorOptions, cilBodyVM.OwnerModule);
-			return newData;
-		}
+		protected override LocalVM[] BeforeCopyingData(LocalVM[] data, bool fromThisInstance) =>
+			MethodBodyListUtils.ImportLocals(cilBodyVM!, data, fromThisInstance);
 	}
 }

@@ -115,8 +115,8 @@ namespace dnSpy.AsmEditor.Resources {
 
 		static string GetHeader(DocumentTreeNodeData[] nodes) {
 			if (nodes.Length == 1)
-				return string.Format(dnSpy_AsmEditor_Resources.DeleteX, UIUtilities.EscapeMenuItemHeader(nodes[0].ToString()));
-			return string.Format(dnSpy_AsmEditor_Resources.DeleteResourcesCommand, nodes.Length);
+				return string.Format(dnSpy_AsmEditor_Core_Resources.DeleteX, UIUtilities.EscapeMenuItemHeader(nodes[0].ToString()));
+			return string.Format(dnSpy_AsmEditor_Core_Resources.DeleteResourcesCommand, nodes.Length);
 		}
 
 		static bool CanExecute(DocumentTreeNodeData[] nodes) => nodes.Length > 0 && nodes.All(n => ResourceNode.GetResource(n) is not null);
@@ -189,7 +189,7 @@ namespace dnSpy.AsmEditor.Resources {
 
 		DeleteResourceCommand(DocumentTreeNodeData[] rsrcNodes) => nodes = new DeletableNodes<DocumentTreeNodeData>(rsrcNodes);
 
-		public string Description => dnSpy_AsmEditor_Resources.DeleteResourceCommand;
+		public string Description => dnSpy_AsmEditor_Core_Resources.DeleteResourceCommand;
 
 		public void Execute() {
 			nodes.Delete();
@@ -246,8 +246,8 @@ namespace dnSpy.AsmEditor.Resources {
 
 		static string GetHeader(DocumentTreeNodeData[] nodes) {
 			if (nodes.Length == 1)
-				return string.Format(dnSpy_AsmEditor_Resources.DeleteX, UIUtilities.EscapeMenuItemHeader(nodes[0].ToString()));
-			return string.Format(dnSpy_AsmEditor_Resources.DeleteResourcesCommand, nodes.Length);
+				return string.Format(dnSpy_AsmEditor_Core_Resources.DeleteX, UIUtilities.EscapeMenuItemHeader(nodes[0].ToString()));
+			return string.Format(dnSpy_AsmEditor_Core_Resources.DeleteResourcesCommand, nodes.Length);
 		}
 
 		static bool CanExecute(DocumentTreeNodeData[] nodes) => nodes.Length > 0 && nodes.All(n => ResourceElementNode.GetResourceElement(n) is not null);
@@ -301,7 +301,7 @@ namespace dnSpy.AsmEditor.Resources {
 
 		DeleteResourceElementCommand(DocumentTreeNodeData[] rsrcNodes) => nodes = new DeletableNodes<DocumentTreeNodeData>(rsrcNodes);
 
-		public string Description => dnSpy_AsmEditor_Resources.DeleteResourceCommand;
+		public string Description => dnSpy_AsmEditor_Core_Resources.DeleteResourceCommand;
 
 		public void Execute() {
 			Debug.Assert(savedResources.Count == 0);
@@ -398,8 +398,8 @@ namespace dnSpy.AsmEditor.Resources {
 
 		static string GetHeaderInternal(ResourceData[] infos) {
 			if (infos.Length == 1)
-				return string.Format(dnSpy_AsmEditor_Resources.SaveResourceCommand, UIUtilities.EscapeMenuItemHeader(infos[0].Name));
-			return string.Format(dnSpy_AsmEditor_Resources.SaveResourcesCommand, infos.Length);
+				return string.Format(dnSpy_AsmEditor_Core_Resources.SaveResourceCommand, UIUtilities.EscapeMenuItemHeader(infos[0].Name));
+			return string.Format(dnSpy_AsmEditor_Core_Resources.SaveResourcesCommand, infos.Length);
 		}
 	}
 
@@ -426,7 +426,7 @@ namespace dnSpy.AsmEditor.Resources {
 			public override bool IsVisible(IMenuItemContext context) => IsVisibleInternal(GetResourceData(GetResourceNodes(context)));
 		}
 
-		static string GetHeaderInternal(ResourceData[] infos) => string.Format(dnSpy_AsmEditor_Resources.SaveResourcesSubDirectoriesCommand, infos.Length);
+		static string GetHeaderInternal(ResourceData[] infos) => string.Format(dnSpy_AsmEditor_Core_Resources.SaveResourcesSubDirectoriesCommand, infos.Length);
 		internal static bool IsVisibleInternal(ResourceData[] infos) => infos.Length > 1 && infos.Any(a => a.Name.Contains('/') || a.Name.Contains('\\'));
 	}
 
@@ -453,8 +453,8 @@ namespace dnSpy.AsmEditor.Resources {
 
 		static string GetHeaderInternal(ResourceData[] infos) {
 			if (infos.Length == 1)
-				return string.Format(dnSpy_AsmEditor_Resources.RawSaveResourceCommand, UIUtilities.EscapeMenuItemHeader(infos[0].Name));
-			return string.Format(dnSpy_AsmEditor_Resources.RawSaveResourcesCommand, infos.Length);
+				return string.Format(dnSpy_AsmEditor_Core_Resources.RawSaveResourceCommand, UIUtilities.EscapeMenuItemHeader(infos[0].Name));
+			return string.Format(dnSpy_AsmEditor_Core_Resources.RawSaveResourcesCommand, infos.Length);
 		}
 	}
 
@@ -481,7 +481,7 @@ namespace dnSpy.AsmEditor.Resources {
 			public override bool IsVisible(IMenuItemContext context) => IsVisibleInternal(GetResourceData(GetResourceNodes(context)));
 		}
 
-		static string GetHeaderInternal(ResourceData[] infos) => string.Format(dnSpy_AsmEditor_Resources.RawSaveResourcesSubDirectoriesCommand, infos.Length);
+		static string GetHeaderInternal(ResourceData[] infos) => string.Format(dnSpy_AsmEditor_Core_Resources.RawSaveResourcesSubDirectoriesCommand, infos.Length);
 		static bool IsVisibleInternal(ResourceData[] infos) => SaveWithPathResourcesCommand.IsVisibleInternal(infos);
 	}
 
@@ -601,7 +601,7 @@ namespace dnSpy.AsmEditor.Resources {
 					newNodes[i] = new NodeAndResource(node);
 				}
 				catch (Exception ex) {
-					MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Resources.Error_ReadingFiles, ex.Message));
+					MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Core_Resources.Error_ReadingFiles, ex.Message));
 					return;
 				}
 			}
@@ -621,7 +621,7 @@ namespace dnSpy.AsmEditor.Resources {
 			this.nodes = nodes;
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.CreateFileResourceCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.CreateFileResourceCommand2;
 
 		public void Execute() {
 			foreach (var info in nodes) {
@@ -759,7 +759,7 @@ namespace dnSpy.AsmEditor.Resources {
 			};
 			var data = new ResourceVM(options, module, appService.DecompilerService);
 			var win = new ResourceDlg();
-			win.Title = dnSpy_AsmEditor_Resources.CreateMultiFileResourceCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.CreateMultiFileResourceCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -780,7 +780,7 @@ namespace dnSpy.AsmEditor.Resources {
 			: base(rsrcListNode, resTreeNode) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.CreateMultiFileResourceCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.CreateMultiFileResourceCommand2;
 	}
 
 	sealed class CreateAssemblyLinkedResourceCommand : CreateResourceTreeNodeCommand {
@@ -858,7 +858,7 @@ namespace dnSpy.AsmEditor.Resources {
 			};
 			var data = new ResourceVM(options, module, appService.DecompilerService);
 			var win = new ResourceDlg();
-			win.Title = dnSpy_AsmEditor_Resources.CreateAssemblyLinkedResourceCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.CreateAssemblyLinkedResourceCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -875,7 +875,7 @@ namespace dnSpy.AsmEditor.Resources {
 			: base(rsrcListNode, resTreeNode) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.CreateAssemblyLinkedResourceCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.CreateAssemblyLinkedResourceCommand2;
 	}
 
 	sealed class CreateFileLinkedResourceCommand : CreateResourceTreeNodeCommand {
@@ -953,7 +953,7 @@ namespace dnSpy.AsmEditor.Resources {
 			};
 			var data = new ResourceVM(options, module, appService.DecompilerService);
 			var win = new ResourceDlg();
-			win.Title = dnSpy_AsmEditor_Resources.CreateFileLinkedResourceCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.CreateFileLinkedResourceCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -971,7 +971,7 @@ namespace dnSpy.AsmEditor.Resources {
 			: base(rsrcListNode, resTreeNode) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.CreateFileLinkedResourceCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.CreateFileLinkedResourceCommand2;
 	}
 
 	[DebuggerDisplay("{Description}")]
@@ -1067,7 +1067,7 @@ namespace dnSpy.AsmEditor.Resources {
 			nameChanged = origOptions.Name != newOptions.Name;
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.EditResourceCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.EditResourceCommand2;
 
 		public void Execute() {
 			if (nameChanged) {
@@ -1263,7 +1263,7 @@ namespace dnSpy.AsmEditor.Resources {
 				}
 				catch (Exception ex) {
 					if (error is null)
-						error = string.Format(dnSpy_AsmEditor_Resources.Error_ReadingFiles, ex.Message);
+						error = string.Format(dnSpy_AsmEditor_Core_Resources.Error_ReadingFiles, ex.Message);
 				}
 			}
 			if (error is not null)
@@ -1279,7 +1279,7 @@ namespace dnSpy.AsmEditor.Resources {
 			: base(rsrcSetNode, nodes) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.CreateBitMapIconResourceCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.CreateBitMapIconResourceCommand2;
 	}
 
 	sealed class CreateImageListResourceElementCommand : CreateResourceElementCommandBase {
@@ -1356,14 +1356,14 @@ namespace dnSpy.AsmEditor.Resources {
 
 			var data = new ImageListVM(new ImageListOptions() { Name = "my.ImageStream" });
 			var win = new ImageListDlg();
-			win.Title = dnSpy_AsmEditor_Resources.CreateImageListStreamerResourceCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.CreateImageListStreamerResourceCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
 				return;
 
 			if (data.ImageListStreamerVM.Collection.Count == 0) {
-				MsgBox.Instance.Show(dnSpy_AsmEditor_Resources.Error_EmptyImageList);
+				MsgBox.Instance.Show(dnSpy_AsmEditor_Core_Resources.Error_EmptyImageList);
 				return;
 			}
 
@@ -1375,7 +1375,7 @@ namespace dnSpy.AsmEditor.Resources {
 				error = SerializedImageListStreamerUtilities.CheckCanUpdateData(module, opts.Create());
 			}
 			catch (Exception ex) {
-				error = string.Format(dnSpy_AsmEditor_Resources.Error_CouldNotSerializeImages, ex.Message);
+				error = string.Format(dnSpy_AsmEditor_Core_Resources.Error_CouldNotSerializeImages, ex.Message);
 			}
 			if (!string.IsNullOrEmpty(error)) {
 				MsgBox.Instance.Show(error);
@@ -1394,7 +1394,7 @@ namespace dnSpy.AsmEditor.Resources {
 			: base(rsrcSetNode, new[] { new NodeAndResourceElement(node) }) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.CreateImageListStreamerResourceCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.CreateImageListStreamerResourceCommand2;
 	}
 
 	sealed class CreateByteArrayResourceElementCommand : CreateResourceElementCommandBase {
@@ -1496,7 +1496,7 @@ namespace dnSpy.AsmEditor.Resources {
 					newNodes[i] = new NodeAndResourceElement(node);
 				}
 				catch (Exception ex) {
-					MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Resources.Error_ReadingFiles, ex.Message));
+					MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Core_Resources.Error_ReadingFiles, ex.Message));
 					return;
 				}
 			}
@@ -1509,7 +1509,7 @@ namespace dnSpy.AsmEditor.Resources {
 			: base(rsrcSetNode, nodes) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.CreateByteArrayResourceCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.CreateByteArrayResourceCommand2;
 	}
 
 	sealed class CreateStreamResourceElementCommand : CreateResourceElementCommandBase {
@@ -1586,7 +1586,7 @@ namespace dnSpy.AsmEditor.Resources {
 			: base(rsrcSetNode, nodes) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.CreateStreamResourceCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.CreateStreamResourceCommand2;
 	}
 
 	sealed class CreateResourceElementCommand : CreateResourceElementCommandBase {
@@ -1673,7 +1673,7 @@ namespace dnSpy.AsmEditor.Resources {
 			});
 			var data = new ResourceElementVM(options, module);
 			var win = new ResourceElementDlg();
-			win.Title = dnSpy_AsmEditor_Resources.CreateResourceCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.CreateResourceCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -1691,7 +1691,7 @@ namespace dnSpy.AsmEditor.Resources {
 			: base(rsrcSetNode, new[] { new NodeAndResourceElement(node) }) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.CreateResourceCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.CreateResourceCommand2;
 	}
 
 	[DebuggerDisplay("{Description}")]
@@ -1853,7 +1853,7 @@ namespace dnSpy.AsmEditor.Resources {
 			var data = new ResourceElementVM(options, module);
 			data.CanChangeType = false;
 			var win = new ResourceElementDlg();
-			win.Title = dnSpy_AsmEditor_Resources.EditResourceCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.EditResourceCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -1865,7 +1865,7 @@ namespace dnSpy.AsmEditor.Resources {
 				error = rsrcElNode.CheckCanUpdateData(opts.Create());
 			}
 			catch (Exception ex) {
-				error = string.Format(dnSpy_AsmEditor_Resources.Error_InvalidResourceData, ex.Message);
+				error = string.Format(dnSpy_AsmEditor_Core_Resources.Error_InvalidResourceData, ex.Message);
 			}
 			if (!string2.IsNullOrEmpty(error)) {
 				MsgBox.Instance.Show(error);
@@ -1879,7 +1879,7 @@ namespace dnSpy.AsmEditor.Resources {
 			: base(rsrcElNode, options) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.EditResourceCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.EditResourceCommand2;
 	}
 
 	sealed class ImageResourceElementSettingsCommand : ResourceElementSettingsBaseCommand {
@@ -1942,7 +1942,7 @@ namespace dnSpy.AsmEditor.Resources {
 			var options = new ResourceElementOptions(imgRsrcElNode.ResourceElement);
 			var data = new ImageResourceElementVM(options);
 			var win = new ImageResourceElementDlg();
-			win.Title = dnSpy_AsmEditor_Resources.EditResourceCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.EditResourceCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -1954,7 +1954,7 @@ namespace dnSpy.AsmEditor.Resources {
 				error = imgRsrcElNode.CheckCanUpdateData(opts.Create());
 			}
 			catch (Exception ex) {
-				error = string.Format(dnSpy_AsmEditor_Resources.Error_NewResourceDataMustBeImage, ex.Message);
+				error = string.Format(dnSpy_AsmEditor_Core_Resources.Error_NewResourceDataMustBeImage, ex.Message);
 			}
 			if (!string2.IsNullOrEmpty(error)) {
 				MsgBox.Instance.Show(error);
@@ -1968,7 +1968,7 @@ namespace dnSpy.AsmEditor.Resources {
 			: base(rsrcElNode, options) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.EditResourceCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.EditResourceCommand2;
 	}
 
 	sealed class SerializedImageResourceElementSettingsCommand : ResourceElementSettingsBaseCommand {
@@ -2029,7 +2029,7 @@ namespace dnSpy.AsmEditor.Resources {
 			var options = new ResourceElementOptions(imgRsrcElNode.GetAsRawImage());
 			var data = new ImageResourceElementVM(options);
 			var win = new ImageResourceElementDlg();
-			win.Title = dnSpy_AsmEditor_Resources.EditResourceCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.EditResourceCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -2043,7 +2043,7 @@ namespace dnSpy.AsmEditor.Resources {
 				error = imgRsrcElNode.CheckCanUpdateData(opts.Create());
 			}
 			catch (Exception ex) {
-				error = string.Format(dnSpy_AsmEditor_Resources.Error_NewResourceDataMustBeImage, ex.Message);
+				error = string.Format(dnSpy_AsmEditor_Core_Resources.Error_NewResourceDataMustBeImage, ex.Message);
 			}
 			if (!string2.IsNullOrEmpty(error)) {
 				MsgBox.Instance.Show(error);
@@ -2057,7 +2057,7 @@ namespace dnSpy.AsmEditor.Resources {
 			: base(rsrcElNode, options) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.EditResourceCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.EditResourceCommand2;
 	}
 
 	sealed class SerializedImageListStreamerResourceElementSettingsCommand : ResourceElementSettingsBaseCommand {
@@ -2119,7 +2119,7 @@ namespace dnSpy.AsmEditor.Resources {
 			var options = new ImageListOptions(imgNode.ImageListOptions);
 			var data = new ImageListVM(options);
 			var win = new ImageListDlg();
-			win.Title = dnSpy_AsmEditor_Resources.EditResourceCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.EditResourceCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -2128,7 +2128,7 @@ namespace dnSpy.AsmEditor.Resources {
 			var listOpts = data.CreateImageListOptions();
 
 			if (listOpts.ImageSources.Count == 0) {
-				MsgBox.Instance.Show(dnSpy_AsmEditor_Resources.Error_EmptyImageList);
+				MsgBox.Instance.Show(dnSpy_AsmEditor_Core_Resources.Error_EmptyImageList);
 				return;
 			}
 
@@ -2139,7 +2139,7 @@ namespace dnSpy.AsmEditor.Resources {
 				error = imgNode.CheckCanUpdateData(opts.Create());
 			}
 			catch (Exception ex) {
-				error = string.Format(dnSpy_AsmEditor_Resources.Error_CouldNotSerializeImages, ex.Message);
+				error = string.Format(dnSpy_AsmEditor_Core_Resources.Error_CouldNotSerializeImages, ex.Message);
 			}
 			if (!string2.IsNullOrEmpty(error)) {
 				MsgBox.Instance.Show(error);
@@ -2153,6 +2153,6 @@ namespace dnSpy.AsmEditor.Resources {
 			: base(rsrcElNode, options) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.EditResourceCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.EditResourceCommand2;
 	}
 }

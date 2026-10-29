@@ -17,6 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\dnSpy.Contracts.DnSpy.Core\dnSpy.Contracts.DnSpy.Core.csproj" />
     <ProjectReference Include="..\dnSpy.Contracts.Logic\dnSpy.Contracts.Logic.csproj" />
   </ItemGroup>
 

@@ -136,7 +136,7 @@ namespace dnSpy.Debugger.DotNet.Code {
 			var data = documentViewer.ReferenceCollection.FirstOrNull(a => a.Data.IsDefinition && a.Data.Reference == def);
 			if (data is null)
 				return false;
-			documentViewer.MoveCaretToPosition(data.Value.Span.Start);
+			documentViewer.MoveCaretToPosition(data.Value.TextSpan.Start);
 			return true;
 		}
 

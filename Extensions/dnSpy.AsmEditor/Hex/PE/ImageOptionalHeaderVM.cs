@@ -76,7 +76,7 @@ namespace dnSpy.AsmEditor.Hex.PE {
 		};
 
 		static readonly IntegerHexBitFieldEnumInfo[] SubsystemInfos = new IntegerHexBitFieldEnumInfo[] {
-			new IntegerHexBitFieldEnumInfo(0, dnSpy_AsmEditor_Resources.Unknown),
+			new IntegerHexBitFieldEnumInfo(0, dnSpy_AsmEditor_Core_Resources.Unknown),
 			new IntegerHexBitFieldEnumInfo(1, "Native"),
 			new IntegerHexBitFieldEnumInfo(2, "WindowsGui"),
 			new IntegerHexBitFieldEnumInfo(3, "WindowsCui"),

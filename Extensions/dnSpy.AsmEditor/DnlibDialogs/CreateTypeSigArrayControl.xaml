@@ -22,7 +22,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:dnlibdlgs="clr-namespace:dnSpy.AsmEditor.DnlibDialogs"
              xmlns:mvvm="clr-namespace:dnSpy.Contracts.MVVM;assembly=dnSpy.Contracts.DnSpy"
-             xmlns:p="clr-namespace:dnSpy.AsmEditor.Properties">
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -54,7 +54,7 @@
             <RepeatButton Grid.Row="0" Grid.Column="1"
                     Margin="5 5 0 0"
                     Command="{Binding TypeSigCollection.MoveSelectedUpCommand}"
-                    ToolTip="{x:Static p:dnSpy_AsmEditor_Resources.MoveUp_ToolTip}">
+                    ToolTip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MoveUp_ToolTip}">
                 <RepeatButton.Content>
                     <Path Fill="{DynamicResource ListArrowBackground}" Width="16" Height="16" Data="{StaticResource ListUpArrow16x16}">
                         <Path.LayoutTransform>
@@ -66,7 +66,7 @@
             <RepeatButton Grid.Row="2" Grid.Column="1"
                     Margin="5 5 0 0"
                     Command="{Binding TypeSigCollection.MoveSelectedDownCommand}"
-                    ToolTip="{x:Static p:dnSpy_AsmEditor_Resources.MoveDown_ToolTip}">
+                    ToolTip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MoveDown_ToolTip}">
                 <RepeatButton.Content>
                     <Path Fill="{DynamicResource ListArrowBackground}" Width="16" Height="16" Data="{StaticResource ListUpArrow16x16}">
                         <Path.LayoutTransform>

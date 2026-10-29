@@ -68,8 +68,8 @@ namespace dnSpy.AsmEditor.Namespace {
 
 		static string GetCommandName(int count) =>
 			count == 1 ?
-			dnSpy_AsmEditor_Resources.DeleteNamespaceCommand :
-			string.Format(dnSpy_AsmEditor_Resources.DeleteNamespacesCommand, count);
+			dnSpy_AsmEditor_Core_Resources.DeleteNamespaceCommand :
+			string.Format(dnSpy_AsmEditor_Core_Resources.DeleteNamespacesCommand, count);
 
 		static bool CanExecute(DocumentTreeNodeData[] nodes) =>
 			nodes is not null &&
@@ -246,7 +246,7 @@ namespace dnSpy.AsmEditor.Namespace {
 			typeRefInfos = RenameNamespaceCommand.GetTypeRefInfos(nodes[0].GetModule()!, nsNodes);
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.MoveTypesToEmptyNamespaceCommand;
+		public string Description => dnSpy_AsmEditor_Core_Resources.MoveTypesToEmptyNamespaceCommand;
 
 		readonly NamespaceNode? nsTarget;
 		DeletableNodes<NamespaceNode> nodes;

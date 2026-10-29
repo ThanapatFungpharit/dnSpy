@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\DnSpyCommon.props" />
+
+  <PropertyGroup>
+    <Copyright>$(DnSpyAssemblyCopyright)</Copyright>
+    <Version>$(DnSpyAssemblyVersion)</Version>
+    <InformationalVersion>$(DnSpyAssemblyInformationalVersion)</InformationalVersion>
+
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\dnSpy.snk</AssemblyOriginatorKeyFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
+    <!-- CompilerMetadataReference has a pointer to the raw metadata -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\dnSpy.Contracts.Logic\dnSpy.Contracts.Logic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Composition" Version="$(DotNetPackageVersion)" />
+    <!-- UI independent (only needs mscorlib, System and Microsoft.VisualStudio.CoreUtility). It has Span which the text and reference collections use. -->
+    <PackageReference Include="Microsoft.VisualStudio.Text.Data" Version="$(MSVSTextVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\dnSpy.Contracts.DnSpy.Core.Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dnSpy.Contracts.DnSpy.Core.Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\dnSpy.Contracts.DnSpy.Core.Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>dnSpy.Contracts.DnSpy.Core.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

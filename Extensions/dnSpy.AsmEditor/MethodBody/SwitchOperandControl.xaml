@@ -23,7 +23,7 @@
              xmlns:mbody="clr-namespace:dnSpy.AsmEditor.MethodBody"
              xmlns:mvvm="clr-namespace:dnSpy.Contracts.MVVM;assembly=dnSpy.Contracts.DnSpy"
              xmlns:vc="clr-namespace:dnSpy.AsmEditor.Converters"
-             xmlns:p="clr-namespace:dnSpy.AsmEditor.Properties">
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core">
     <UserControl.Resources>
         <vc:CilObjectConverter x:Key="CilObjectConverter" />
         <DataTemplate x:Key="InstructionTemplate">
@@ -56,8 +56,8 @@
                 ItemsSource="{Binding AllInstructionsVM.Items}"
                 SelectedIndex="{Binding AllInstructionsVM.SelectedIndex}"
                 VerticalContentAlignment="Center"/>
-            <Button Grid.Column="1" Style="{StaticResource DialogButton}" Margin="5 0 0 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_Add}" Command="{Binding AddInstructionCommand}" ToolTip="{x:Static p:dnSpy_AsmEditor_Resources.AddAfterSelInstr_ToolTip}"  />
-            <Button Grid.Column="2" Style="{StaticResource DialogButton}" Margin="5 0 0 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_Append}" Command="{Binding AppendInstructionCommand}" />
+            <Button Grid.Column="1" Style="{StaticResource DialogButton}" Margin="5 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Add}" Command="{Binding AddInstructionCommand}" ToolTip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.AddAfterSelInstr_ToolTip}"  />
+            <Button Grid.Column="2" Style="{StaticResource DialogButton}" Margin="5 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Append}" Command="{Binding AppendInstructionCommand}" />
         </Grid>
         <ListBox
             Grid.Row="1"

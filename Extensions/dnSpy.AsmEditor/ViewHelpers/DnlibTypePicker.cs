@@ -59,7 +59,8 @@ namespace dnSpy.AsmEditor.ViewHelpers {
 
 		public DnlibTypePicker(Window? ownerWindow) => this.ownerWindow = ownerWindow;
 
-		public T? GetDnlibType<T>(string title, IDocumentTreeNodeFilter filter, T? selectedObject, ModuleDef ownerModule) where T : class {
+		public T? GetDnlibType<T>(string title, DnlibTypePickerFilter pickerFilter, T? selectedObject, ModuleDef ownerModule) where T : class {
+			var filter = ToDocumentTreeNodeFilter(pickerFilter);
 			var newDocumentTreeView = documentTreeViewProvider.Create(filter);
 			try {
 				var win = new MemberPickerDlg(documentTreeView, newDocumentTreeView);
@@ -71,27 +72,22 @@ namespace dnSpy.AsmEditor.ViewHelpers {
 				if (win.ShowDialog() != true)
 					return null;
 
-				return ImportObject(ownerModule, data.SelectedDnlibObject) as T;
+				return DnlibTypePickerUtils.ImportObject(ownerModule, data.SelectedDnlibObject) as T;
 			}
 			finally {
 				newDocumentTreeView.Dispose();
 			}
 		}
 
-		static object? ImportObject(ModuleDef ownerModule, object? obj) {
-			var importer = new Importer(ownerModule, ImporterOptions.TryToUseDefs);
-
-			if (obj is IType type)
-				return importer.Import(type);
-
-			if (obj is IField field && field.IsField)
-				return importer.Import(field);
-
-			if (obj is IMethod method && method.IsMethod)
-				return importer.Import(method);
-
-			// DsDocument, namespace, PropertyDef, EventDef, AssemblyRef, ModuleRef
-			return obj;
+		static IDocumentTreeNodeFilter ToDocumentTreeNodeFilter(DnlibTypePickerFilter filter) {
+			if (filter.IsEntryPoint)
+				return new EntryPointDocumentTreeNodeFilter(filter.SameModule!);
+			IDocumentTreeNodeFilter result = new FlagsDocumentTreeNodeFilter(filter.Flags);
+			if (filter.SameModule is not null)
+				result = new SameModuleDocumentTreeNodeFilter(filter.SameModule, result);
+			else if (filter.SameAssembly is not null)
+				result = new SameAssemblyDocumentTreeNodeFilter(filter.SameAssembly, result);
+			return result;
 		}
 	}
 }

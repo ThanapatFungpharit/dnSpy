@@ -7,6 +7,10 @@
         - DnSpyRoslyn.props
     NOTE: Update the ABOVE files when TargetFrameworks is updated -->
     <TargetFrameworks>net48;net10.0-windows</TargetFrameworks>
+    <!-- Projects that also target plain net10.0 so dnSpy.Console runs on Linux/macOS -->
+    <DnSpyCrossPlatformProjects>;dnSpy.AsmEditor.Core;dnSpy.BamlDecompiler.Core;dnSpy.Contracts.DnSpy.Core;dnSpy.Core;dnSpy.Console;dnSpy.Contracts.Logic;dnSpy.Decompiler;dnSpy.Decompiler.ILSpy.Core;ICSharpCode.Decompiler;ICSharpCode.NRefactory;ICSharpCode.NRefactory.CSharp;ICSharpCode.NRefactory.VB;</DnSpyCrossPlatformProjects>
+    <DnSpyCrossPlatformTfm>net10.0</DnSpyCrossPlatformTfm>
+    <TargetFrameworks Condition=" $(DnSpyCrossPlatformProjects.Contains(';$(MSBuildProjectName);')) ">$(TargetFrameworks);$(DnSpyCrossPlatformTfm)</TargetFrameworks>
     <IsDotNetFramework>false</IsDotNetFramework>
     <IsDotNet>false</IsDotNet>
     <IsSelfContainedDotNet>false</IsSelfContainedDotNet>
@@ -43,6 +47,8 @@
     <!-- WFAC010,WFO0003: Prevent warning about app.manifest properties -->
     <NoWarn>NU1701;AD0001;WFAC010;NETSDK1189;WFO0003</NoWarn>
     <NoWarn Condition=" '$(IsDotNetFramework)' == 'true' ">$(NoWarn);CS8767</NoWarn>
+    <!-- NETSDK1106: WindowsDesktop SDK projects don't use WPF/WinForms when targeting the cross-platform TFM -->
+    <NoWarn Condition=" '$(TargetFramework)' == '$(DnSpyCrossPlatformTfm)' ">$(NoWarn);NETSDK1106</NoWarn>
 
     <!-- Update app.config whenever some of these versions change (eg. dnlib version) -->
     <DiaSymReaderVersion>1.7.0</DiaSymReaderVersion>
@@ -60,6 +66,8 @@
     <DbgShimVersion>9.0.661903</DbgShimVersion>
     <DotNetPackageVersion>10.0.11</DotNetPackageVersion>
     <MessagePackVersion>2.5.302</MessagePackVersion>
+    <AvaloniaVersion>12.1.4</AvaloniaVersion>
+    <AvaloniaEditVersion>12.0.0</AvaloniaEditVersion>
   </PropertyGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)Build\ConvertToNetstandardReferences\ConvertToNetstandardReferences.tasks" Condition=" '$(IsDotNet)' == 'true' " />

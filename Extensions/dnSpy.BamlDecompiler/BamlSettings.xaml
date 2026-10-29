@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:baml="clr-namespace:dnSpy.BamlDecompiler"
+                    xmlns:baml="clr-namespace:dnSpy.BamlDecompiler;assembly=dnSpy.BamlDecompiler.Core"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:p="clr-namespace:dnSpy.BamlDecompiler.Properties;assembly=dnSpy.BamlDecompiler.x">
+                    xmlns:p="clr-namespace:dnSpy.BamlDecompiler.Properties;assembly=dnSpy.BamlDecompiler.Core">
     <DataTemplate DataType="{x:Type baml:BamlSettings}">
         <Grid Margin="5">
             <StackPanel>

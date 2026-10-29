@@ -23,6 +23,7 @@
              xmlns:local="clr-namespace:dnSpy.AsmEditor.SaveModule"
              xmlns:mvvmvc="clr-namespace:dnSpy.AsmEditor.DnlibDialogs.Converters"
              xmlns:p="clr-namespace:dnSpy.AsmEditor.Properties"
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core"
              Height="200" Width="400"
              Title="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_Title}"
              Style="{StaticResource DialogWindowStyle}" WindowStartupLocation="CenterOwner"
@@ -96,7 +97,7 @@
             </Grid.RowDefinitions>
 
             <Button Grid.Column="1"
-                    Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_Cancel}"
+                    Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Cancel}"
                     IsCancel="False"
                     Command="{Binding CancelSaveCommand}"
                     Style="{StaticResource DialogButton}"

@@ -323,7 +323,7 @@ namespace dnSpy.AsmEditor.Assembly {
 				assemblyRefInfos = RefFinder.FindAssemblyRefsToThisModule(asmNode.Document.ModuleDef!).Where(a => AssemblyNameComparer.NameAndPublicKeyTokenOnly.Equals(a, asmNode.Document.AssemblyDef)).Select(a => new AssemblyRefInfo(a)).ToArray();
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.EditAssemblyCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.EditAssemblyCommand2;
 
 		public void Execute() {
 			newOptions.CopyTo(asmNode.Document.AssemblyDef!);
@@ -403,7 +403,7 @@ namespace dnSpy.AsmEditor.Assembly {
 			var data = new AssemblyOptionsVM(AssemblyOptions.Create("MyAssembly"), newModule, appService.DecompilerService);
 			data.CanShowClrVersion = true;
 			var win = new AssemblyOptionsDlg();
-			win.Title = dnSpy_AsmEditor_Resources.CreateAssemblyCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.CreateAssemblyCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -425,7 +425,7 @@ namespace dnSpy.AsmEditor.Assembly {
 			fileNodeCreator = RootDocumentNodeCreator.CreateAssembly(documentTreeView, file);
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.CreateAssemblyCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.CreateAssemblyCommand2;
 
 		public void Execute() {
 			fileNodeCreator.Add();

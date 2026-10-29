@@ -19,9 +19,9 @@
 
 using System.Collections.Generic;
 using System.Text;
+using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Text;
 using dnSpy.Contracts.Text.Classification;
-using Microsoft.VisualStudio.Text;
 
 namespace dnSpy.Contracts.Debugger.Text.DnSpy {
 	/// <summary>
@@ -63,7 +63,7 @@ namespace dnSpy.Contracts.Debugger.Text.DnSpy {
 		public void Write(DbgTextColor color, string? text) {
 			if (text is null)
 				return;
-			colors.Add(new SpanData<object>(new Span(sb.Length, text.Length), ColorConverter.ToDnSpyColor(color)));
+			colors.Add(new SpanData<object>(new TextSpan(sb.Length, text.Length), ColorConverter.ToDnSpyColor(color)));
 			sb.Append(text);
 		}
 

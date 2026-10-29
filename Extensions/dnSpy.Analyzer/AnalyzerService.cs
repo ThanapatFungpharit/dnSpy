@@ -302,12 +302,12 @@ namespace dnSpy.Analyzer {
 		int? FindLocation(IEnumerable<SpanData<ReferenceInfo>> refs, ITextSnapshot snapshot, int endPos, object? @ref) {
 			int lb = GetLineNumber(snapshot, endPos);
 			foreach (var info in refs) {
-				var la = GetLineNumber(snapshot, info.Span.Start);
-				int c = Compare(la, info.Span.Start, lb, endPos);
+				var la = GetLineNumber(snapshot, info.TextSpan.Start);
+				int c = Compare(la, info.TextSpan.Start, lb, endPos);
 				if (c > 0)
 					break;
 				if (RefEquals(@ref, info.Data.Reference))
-					return info.Span.Start;
+					return info.TextSpan.Start;
 			}
 			return null;
 		}

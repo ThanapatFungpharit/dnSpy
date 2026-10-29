@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Resources;
 using System.Text;
 using System.Xml;
 using dnlib.DotNet;
@@ -30,7 +29,7 @@ using dnlib.DotNet.Writer;
 
 namespace dnSpy.Decompiler.MSBuild {
 	/// <summary>
-	/// Implementation based on <see cref="ResXResourceWriter"/> and <see cref="ResXDataNode"/>
+	/// Implementation based on <c>System.Resources.ResXResourceWriter</c> and <c>System.Resources.ResXDataNode</c>
 	/// </summary>
 	sealed class ResXResourceFileWriter : IDisposable {
 		readonly struct ResXResourceInfo {
@@ -111,7 +110,7 @@ namespace dnSpy.Decompiler.MSBuild {
 
 			writer.WriteStartElement("root");
 
-			var reader = new XmlTextReader(new StringReader(ResXResourceWriter.ResourceSchema)) {
+			var reader = new XmlTextReader(new StringReader(ResXConstants.ResourceSchema)) {
 				WhitespaceHandling = WhitespaceHandling.None
 			};
 			writer.WriteNode(reader, true);
@@ -119,28 +118,28 @@ namespace dnSpy.Decompiler.MSBuild {
 			writer.WriteStartElement("resheader");
 			writer.WriteAttributeString("name", "resmimetype");
 			writer.WriteStartElement("value");
-			writer.WriteString(ResXResourceWriter.ResMimeType);
+			writer.WriteString(ResXConstants.ResMimeType);
 			writer.WriteEndElement();
 			writer.WriteEndElement();
 
 			writer.WriteStartElement("resheader");
 			writer.WriteAttributeString("name", "version");
 			writer.WriteStartElement("value");
-			writer.WriteString(ResXResourceWriter.Version);
+			writer.WriteString(ResXConstants.Version);
 			writer.WriteEndElement();
 			writer.WriteEndElement();
 
 			writer.WriteStartElement("resheader");
 			writer.WriteAttributeString("name", "reader");
 			writer.WriteStartElement("value");
-			writer.WriteString(GetTypeName(typeof(ResXResourceReader)));
+			writer.WriteString(GetWinFormsTypeName("ResXResourceReader"));
 			writer.WriteEndElement();
 			writer.WriteEndElement();
 
 			writer.WriteStartElement("resheader");
 			writer.WriteAttributeString("name", "writer");
 			writer.WriteStartElement("value");
-			writer.WriteString(GetTypeName(typeof(ResXResourceWriter)));
+			writer.WriteString(GetWinFormsTypeName("ResXResourceWriter"));
 			writer.WriteEndElement();
 			writer.WriteEndElement();
 		}
@@ -227,7 +226,7 @@ namespace dnSpy.Decompiler.MSBuild {
 					bufWriter.Position = BufferOffset;
 					bufWriter.WriteBytes(data);
 					bufWriter.WriteByte(0x0B);
-					return new ResXResourceInfo(ToBase64WrappedString(finalBuffer), null, ResXResourceWriter.BinSerializedObjectMimeType);
+					return new ResXResourceInfo(ToBase64WrappedString(finalBuffer), null, ResXConstants.BinSerializedObjectMimeType);
 				}
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -236,12 +235,12 @@ namespace dnSpy.Decompiler.MSBuild {
 			if (resourceData is BinaryResourceData binaryResourceData) {
 				switch (binaryResourceData.Format) {
 				case SerializationFormat.BinaryFormatter:
-					return new ResXResourceInfo(ToBase64WrappedString(binaryResourceData.Data), binaryResourceData.TypeName, ResXResourceWriter.BinSerializedObjectMimeType);
+					return new ResXResourceInfo(ToBase64WrappedString(binaryResourceData.Data), binaryResourceData.TypeName, ResXConstants.BinSerializedObjectMimeType);
 				case SerializationFormat.TypeConverterByteArray:
 				case SerializationFormat.ActivatorStream:
 					// RESX does not have a way to represent creation of an object using Activator.CreateInstance,
 					// so we fall back to the same representation as data passed into TypeConverter.
-					return new ResXResourceInfo(ToBase64WrappedString(binaryResourceData.Data), binaryResourceData.TypeName, ResXResourceWriter.ByteArraySerializedObjectMimeType);
+					return new ResXResourceInfo(ToBase64WrappedString(binaryResourceData.Data), binaryResourceData.TypeName, ResXConstants.ByteArraySerializedObjectMimeType);
 				case SerializationFormat.TypeConverterString:
 					return new ResXResourceInfo(Encoding.UTF8.GetString(binaryResourceData.Data), binaryResourceData.TypeName);
 				}
@@ -286,12 +285,8 @@ namespace dnSpy.Decompiler.MSBuild {
 		}
 
 		string GetTypeName(ResourceTypeCode typeCode) {
-			if (typeCode == ResourceTypeCode.Null) {
-				var asmRef = GetAssemblyRef("System.Windows.Forms");
-				if (asmRef is not null)
-					return new TypeRefUser(module, "System.Resources", "ResXNullRef", asmRef).AssemblyQualifiedName;
-				return GetTypeName(typeof(ResXDataNode).Assembly.GetType("System.Resources.ResXNullRef")!);
-			}
+			if (typeCode == ResourceTypeCode.Null)
+				return GetWinFormsTypeName("ResXNullRef");
 			return typeCode switch {
 				ResourceTypeCode.String => module.CorLibTypes.String.AssemblyQualifiedName,
 				ResourceTypeCode.Boolean => module.CorLibTypes.Boolean.AssemblyQualifiedName,
@@ -314,6 +309,17 @@ namespace dnSpy.Decompiler.MSBuild {
 					.AssemblyQualifiedName,
 				_ => throw new ArgumentOutOfRangeException(nameof(typeCode), typeCode, null)
 			};
+		}
+
+		string GetWinFormsTypeName(string name) {
+			var asmRef = GetAssemblyRef(ResXConstants.WinFormsAssemblyName);
+			if (asmRef is not null)
+				return new TypeRefUser(module, ResXConstants.ResourcesNamespace, name, asmRef).AssemblyQualifiedName;
+#if NETFRAMEWORK || WINDOWS
+			return GetTypeName(typeof(System.Resources.ResXDataNode).Assembly.GetType(ResXConstants.ResourcesNamespace + "." + name)!);
+#else
+			return new TypeRefUser(module, ResXConstants.ResourcesNamespace, name, new AssemblyRefUser(new AssemblyNameInfo(ResXConstants.WinFormsAssemblyFullName))).AssemblyQualifiedName;
+#endif
 		}
 
 		AssemblyRef? GetAssemblyRef(string name) {

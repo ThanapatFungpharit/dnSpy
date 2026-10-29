@@ -209,8 +209,8 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 			if (spanData is null)
 				return;
 			var info = spanData.Value;
-			Debug.Assert(info.Span.End <= snapshot.Length);
-			if (info.Span.End > snapshot.Length)
+			Debug.Assert(info.TextSpan.End <= snapshot.Length);
+			if (info.TextSpan.End > snapshot.Length)
 				return;
 
 			var toolTipContent = CreateToolTipContent(GetDecompiler(), info.Data.Reference);
@@ -218,7 +218,7 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 				return;
 
 			quickInfoContent.Add(toolTipContent);
-			applicableToSpan = snapshot.CreateTrackingSpan(info.Span, SpanTrackingMode.EdgeInclusive);
+			applicableToSpan = snapshot.CreateTrackingSpan(info.TextSpan.ToVsSpan(), SpanTrackingMode.EdgeInclusive);
 		}
 
 		public bool TryTriggerQuickInfo() {
@@ -233,9 +233,9 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 				return false;
 			var info = spanData.Value;
 			var snapshot = pos.Snapshot;
-			if (info.Span.End > snapshot.Length)
+			if (info.TextSpan.End > snapshot.Length)
 				return false;
-			var triggerPoint = snapshot.CreateTrackingPoint(info.Span.Start, PointTrackingMode.Negative);
+			var triggerPoint = snapshot.CreateTrackingPoint(info.TextSpan.Start, PointTrackingMode.Negative);
 			var session = quickInfoBroker.TriggerQuickInfo(documentViewer.TextView, triggerPoint, trackMouse: false);
 			return session?.IsDismissed == false;
 		}

@@ -88,7 +88,7 @@ namespace dnSpy.AsmEditor.Method {
 
 		static string GetHeader(DocumentTreeNodeData[] nodes) {
 			if (nodes.Length == 1)
-				return string.Format(dnSpy_AsmEditor_Resources.DeleteX, UIUtilities.EscapeMenuItemHeader(UIUtilities.TruncateWithElipsis(nodes[0].ToString())));
+				return string.Format(dnSpy_AsmEditor_Core_Resources.DeleteX, UIUtilities.EscapeMenuItemHeader(UIUtilities.TruncateWithElipsis(nodes[0].ToString())));
 			return string.Format(dnSpy_AsmEditor_Resources.DeleteMethodsCommand, nodes.Length);
 		}
 
@@ -98,7 +98,7 @@ namespace dnSpy.AsmEditor.Method {
 			if (!CanExecute(nodes))
 				return;
 
-			if (!AskDeleteDef(dnSpy_AsmEditor_Resources.AskDeleteMethod))
+			if (!AskDeleteDef(dnSpy_AsmEditor_Core_Resources.AskDeleteMethod))
 				return;
 
 			var methodNodes = nodes.Cast<MethodNode>().ToArray();
@@ -213,7 +213,7 @@ namespace dnSpy.AsmEditor.Method {
 					info.OwnerType.Methods.Insert(info.MethodIndex, node.MethodDef);
 
 					for (int j = info.PropEventInfos.Count - 1; j >= 0; j--) {
-						var pinfo = info.PropEventInfos[i];
+						var pinfo = info.PropEventInfos[j];
 						EventDef evt;
 						switch (pinfo.PropEventType) {
 						case ModelInfo.PropEventType.PropertyGetter:
@@ -271,7 +271,7 @@ namespace dnSpy.AsmEditor.Method {
 
 		DeleteMethodDefCommand(MethodNode[] methodNodes) => nodes = new DeletableNodes<MethodNode>(methodNodes);
 
-		public string Description => dnSpy_AsmEditor_Resources.DeleteMethodCommand;
+		public string Description => dnSpy_AsmEditor_Core_Resources.DeleteMethodCommand;
 
 		public void Execute() {
 			nodes.Delete();
@@ -368,7 +368,7 @@ namespace dnSpy.AsmEditor.Method {
 
 			var data = new MethodOptionsVM(options, module, appService.DecompilerService, typeNode.TypeDef, null);
 			var win = new MethodOptionsDlg();
-			win.Title = dnSpy_AsmEditor_Resources.CreateMethodCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.CreateMethodCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -387,7 +387,7 @@ namespace dnSpy.AsmEditor.Method {
 			methodNode = ownerNode.Create(options.CreateMethodDef(ownerNode.TypeDef.Module));
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.CreateMethodCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.CreateMethodCommand2;
 
 		public void Execute() {
 			ownerNode.TreeNode.EnsureChildrenLoaded();
@@ -504,7 +504,7 @@ namespace dnSpy.AsmEditor.Method {
 				memberRefInfos = RefFinder.FindMemberRefsToThisModule(methodNode.GetModule()!).Where(a => RefFinder.Equals(a, methodNode.MethodDef)).Select(a => new Field.MemberRefInfo(a)).ToArray();
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.EditMethodCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.EditMethodCommand2;
 
 		public void Execute() {
 			if (nameChanged) {

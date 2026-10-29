@@ -260,7 +260,7 @@ namespace dnSpy.Contracts.Utilities {
 					continue;
 				int bitness;
 				try {
-					bitness = GetPeFileBitness(file);
+					bitness = GetExecutableBitness(file);
 				}
 				catch {
 					continue;
@@ -308,7 +308,13 @@ namespace dnSpy.Contracts.Utilities {
 					yield return Path.Combine(progDirX86, dotnetDirName);
 			}
 			else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
+				if (Environment.GetEnvironmentVariable("DOTNET_ROOT") is string dotnetRoot && dotnetRoot.Length != 0)
+					yield return dotnetRoot;
+				// dotnet-install.sh's default install dir
+				yield return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".dotnet");
 				yield return "/usr/share/dotnet/";
+				yield return "/usr/lib/dotnet/";
+				yield return "/usr/lib64/dotnet/";
 				yield return "/usr/local/share/dotnet/";
 				yield return "/opt/dotnet/";
 			}
@@ -327,6 +333,9 @@ namespace dnSpy.Contracts.Utilities {
 			}
 		}
 
+#if NET
+		[System.Runtime.Versioning.SupportedOSPlatform("windows")]
+#endif
 		static bool TryGetInstallLocationFromRegistry(string regPath, [NotNullWhen(true)] out string? installLocation) {
 			using (var key = Registry.LocalMachine.OpenSubKey(regPath)) {
 				installLocation = key?.GetValue("InstallLocation") as string;
@@ -417,18 +426,34 @@ namespace dnSpy.Contracts.Utilities {
 			return Array.Empty<string>();
 		}
 
-		static int GetPeFileBitness(string file) {
+		// The dotnet host is a PE file on Windows, an ELF file on Linux and a Mach-O file on macOS
+		static int GetExecutableBitness(string file) {
 			using (var f = File.OpenRead(file)) {
 				var r = new BinaryReader(f);
-				if (r.ReadUInt16() != 0x5A4D)
+				uint magic = r.ReadUInt32();
+				switch (magic) {
+				case 0x464C457F:// "\x7FELF", next byte is EI_CLASS
+					return r.ReadByte() switch {
+						1 => 32,
+						2 => 64,
+						_ => -1
+					};
+				case 0xFEEDFACE:// MH_MAGIC
+					return 32;
+				case 0xFEEDFACF:// MH_MAGIC_64
+					return 64;
+				case 0xBEBAFECA:// FAT_MAGIC (big endian), a universal binary has code for more than one CPU
+					return IntPtr.Size * 8;
+				}
+				if ((ushort)magic != 0x5A4D)
 					return -1;
 				f.Position = 0x3C;
 				f.Position = r.ReadUInt32();
 				if (r.ReadUInt32() != 0x4550)
 					return -1;
 				f.Position += 0x14;
-				ushort magic = r.ReadUInt16();
-				return magic switch {
+				ushort peMagic = r.ReadUInt16();
+				return peMagic switch {
 					0x10B => 32,
 					0x20B => 64,
 					_ => -1

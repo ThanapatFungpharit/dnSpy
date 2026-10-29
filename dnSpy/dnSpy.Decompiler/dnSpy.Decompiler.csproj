@@ -10,8 +10,8 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\dnSpy.snk</AssemblyOriginatorKeyFile>
     <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF Condition=" '$(TargetFramework)' != '$(DnSpyCrossPlatformTfm)' ">true</UseWPF>
+    <UseWindowsForms Condition=" '$(TargetFramework)' != '$(DnSpyCrossPlatformTfm)' ">true</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +31,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\dnSpy.Contracts.Logic\dnSpy.Contracts.Logic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == '$(DnSpyCrossPlatformTfm)' ">
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="$(DotNetPackageVersion)" />
   </ItemGroup>
 
 </Project>

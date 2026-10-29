@@ -88,7 +88,7 @@ namespace dnSpy.AsmEditor.Field {
 
 		static string GetHeader(DocumentTreeNodeData[] nodes) {
 			if (nodes.Length == 1)
-				return string.Format(dnSpy_AsmEditor_Resources.DeleteX, UIUtilities.EscapeMenuItemHeader(nodes[0].ToString()));
+				return string.Format(dnSpy_AsmEditor_Core_Resources.DeleteX, UIUtilities.EscapeMenuItemHeader(nodes[0].ToString()));
 			return string.Format(dnSpy_AsmEditor_Resources.DeleteFieldsCommand, nodes.Length);
 		}
 
@@ -98,7 +98,7 @@ namespace dnSpy.AsmEditor.Field {
 			if (!CanExecute(nodes))
 				return;
 
-			if (!Method.DeleteMethodDefCommand.AskDeleteDef(dnSpy_AsmEditor_Resources.AskDeleteField))
+			if (!Method.DeleteMethodDefCommand.AskDeleteDef(dnSpy_AsmEditor_Core_Resources.AskDeleteField))
 				return;
 
 			var fieldNodes = nodes.Cast<FieldNode>().ToArray();
@@ -158,7 +158,7 @@ namespace dnSpy.AsmEditor.Field {
 
 		DeleteFieldDefCommand(FieldNode[] fieldNodes) => nodes = new DeletableNodes<FieldNode>(fieldNodes);
 
-		public string Description => dnSpy_AsmEditor_Resources.DeleteFieldCommand;
+		public string Description => dnSpy_AsmEditor_Core_Resources.DeleteFieldCommand;
 
 		public void Execute() {
 			nodes.Delete();
@@ -270,7 +270,7 @@ namespace dnSpy.AsmEditor.Field {
 
 			var data = new FieldOptionsVM(options, module, appService.DecompilerService, type);
 			var win = new FieldOptionsDlg();
-			win.Title = dnSpy_AsmEditor_Resources.CreateFieldCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.CreateFieldCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -289,7 +289,7 @@ namespace dnSpy.AsmEditor.Field {
 			fieldNode = ownerNode.Create(options.CreateFieldDef(ownerNode.TypeDef.Module));
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.CreateFieldCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.CreateFieldCommand2;
 
 		public void Execute() {
 			ownerNode.TreeNode.EnsureChildrenLoaded();
@@ -416,7 +416,7 @@ namespace dnSpy.AsmEditor.Field {
 				memberRefInfos = RefFinder.FindMemberRefsToThisModule(fieldNode.GetModule()!).Where(a => RefFinder.Equals(a, fieldNode.FieldDef)).Select(a => new MemberRefInfo(a)).ToArray();
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.EditFieldCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.EditFieldCommand2;
 
 		public void Execute() {
 			if (nameChanged) {

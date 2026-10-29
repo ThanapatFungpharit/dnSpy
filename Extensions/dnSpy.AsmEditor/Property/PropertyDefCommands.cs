@@ -87,7 +87,7 @@ namespace dnSpy.AsmEditor.Property {
 
 		static string GetHeader(DocumentTreeNodeData[] nodes) {
 			if (nodes.Length == 1)
-				return string.Format(dnSpy_AsmEditor_Resources.DeleteX, UIUtilities.EscapeMenuItemHeader(nodes[0].ToString()));
+				return string.Format(dnSpy_AsmEditor_Core_Resources.DeleteX, UIUtilities.EscapeMenuItemHeader(nodes[0].ToString()));
 			return string.Format(dnSpy_AsmEditor_Resources.DeletePropertiesCommand, nodes.Length);
 		}
 
@@ -176,7 +176,7 @@ namespace dnSpy.AsmEditor.Property {
 
 		DeletePropertyDefCommand(PropertyNode[] propNodes) => nodes = new DeletableNodes<PropertyNode>(propNodes);
 
-		public string Description => dnSpy_AsmEditor_Resources.DeletePropertyCommand;
+		public string Description => dnSpy_AsmEditor_Core_Resources.DeletePropertyCommand;
 
 		public void Execute() {
 			nodes.Delete();
@@ -270,7 +270,7 @@ namespace dnSpy.AsmEditor.Property {
 
 			var data = new PropertyOptionsVM(options, module, appService.DecompilerService, typeNode.TypeDef);
 			var win = new PropertyOptionsDlg();
-			win.Title = dnSpy_AsmEditor_Resources.CreatePropertyCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.CreatePropertyCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -289,7 +289,7 @@ namespace dnSpy.AsmEditor.Property {
 			propNode = ownerNode.Create(options.CreatePropertyDef(ownerNode.TypeDef.Module));
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.CreatePropertyCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.CreatePropertyCommand2;
 
 		public void Execute() {
 			ownerNode.TreeNode.EnsureChildrenLoaded();
@@ -403,7 +403,7 @@ namespace dnSpy.AsmEditor.Property {
 			nameChanged = origOptions.Name != newOptions.Name;
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.EditPropertyCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.EditPropertyCommand2;
 
 		public void Execute() {
 			if (nameChanged) {

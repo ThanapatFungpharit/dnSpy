@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\DnSpyCommon.props" />
+
+  <PropertyGroup>
+    <Copyright>Copyright © Ki 2015</Copyright>
+    <Version>$(DnSpyAssemblyVersion)</Version>
+    <InformationalVersion>$(DnSpyAssemblyInformationalVersion)</InformationalVersion>
+
+    <RootNamespace>dnSpy.BamlDecompiler</RootNamespace>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\dnSpy.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Baml\KnownThings.gen.cs" />
+    <None Include="Baml\KnownThings.gen.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="dnSpy.BamlDecompiler.x" Key="0024000004800000940000000602000000240000525341310004000001000100858d4f2519af95faeca8d359daa2078b20826765450f330daff3c5ec378adf9eb8e168eff8069ba51e15c1992d0d72b73129ed7a014f62863fa80a80dd9b010b8211c4d4c70ed26b9b65370007b0341685c98cc4cd2d16814d9581db82b382fb8ee838e1b8a2bd1c759e43ddda209e35cde530a7ba6a517787c04a3f283ea1b5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\dnSpy\dnSpy.Contracts.DnSpy.Core\dnSpy.Contracts.DnSpy.Core.csproj" />
+    <ProjectReference Include="..\..\dnSpy\dnSpy.Contracts.Logic\dnSpy.Contracts.Logic.csproj" />
+    <ProjectReference Include="..\ILSpy.Decompiler\ICSharpCode.Decompiler\ICSharpCode.Decompiler\ICSharpCode.Decompiler.csproj" />
+    <ProjectReference Include="..\..\dnSpy\dnSpy.Decompiler\dnSpy.Decompiler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Composition" Version="$(DotNetPackageVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\dnSpy.BamlDecompiler.Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dnSpy.BamlDecompiler.Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\dnSpy.BamlDecompiler.Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>dnSpy.BamlDecompiler.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

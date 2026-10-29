@@ -22,8 +22,18 @@ using System.Globalization;
 using System.Windows.Data;
 
 namespace dnSpy.AsmEditor.DnlibDialogs.Converters {
+	// The parameter is the value or the name of an enum value. XAML can't reference the internal enums in
+	// dnSpy.AsmEditor.Core so they use the name.
 	sealed class RadioButtonConverter : IValueConverter {
-		public object? Convert(object value, Type targetType, object parameter, CultureInfo culture) => value.Equals(parameter);
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value.Equals(true) ? parameter : Binding.DoNothing;
+		public object? Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
+			value is Enum && parameter is string name ? value.ToString() == name : value.Equals(parameter);
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+			if (!value.Equals(true))
+				return Binding.DoNothing;
+			if (parameter is string name && targetType.IsEnum)
+				return Enum.Parse(targetType, name);
+			return parameter;
+		}
 	}
 }

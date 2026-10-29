@@ -99,6 +99,13 @@ namespace dnSpy.Contracts.Decompiler {
 		public bool Intersects(int position) => start <= position && position <= end;
 
 		/// <summary>
+		/// Checks if <paramref name="span"/> intersects with this span. Spans that touch also intersect.
+		/// </summary>
+		/// <param name="span">Span</param>
+		/// <returns></returns>
+		public bool IntersectsWith(TextSpan span) => span.start <= end && span.end >= start;
+
+		/// <summary>
 		/// Equals()
 		/// </summary>
 		/// <param name="other"></param>

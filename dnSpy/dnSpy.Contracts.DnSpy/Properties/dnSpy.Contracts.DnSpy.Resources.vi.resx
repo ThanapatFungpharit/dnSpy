@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllFiles" xml:space="preserve">
-    <value>Tất cả tập tin</value>
-  </data>
   <data name="AnErrorOccurred" xml:space="preserve">
     <value>Xảy ra lỗi: 
 
@@ -128,35 +125,11 @@
   <data name="Button_Cancel" xml:space="preserve">
     <value>_Hủy</value>
   </data>
-  <data name="CouldNotConvert" xml:space="preserve">
-    <value>Không thể chuyển đổi '{0}'</value>
-  </data>
   <data name="CouldNotConvertFromString" xml:space="preserve">
     <value>Không thể chuyển đổi từ một chuỗi: {0}</value>
   </data>
   <data name="CouldNotDeserializeData" xml:space="preserve">
     <value>Không thể Deserialize dữ liệu: {0}</value>
-  </data>
-  <data name="Files_DotNetExecutables" xml:space="preserve">
-    <value>Các tệp tin thực thi .NET</value>
-  </data>
-  <data name="Files_DotNetNetModules" xml:space="preserve">
-    <value>.NET NetModules</value>
-  </data>
-  <data name="Files_Executables" xml:space="preserve">
-    <value>Thực thi</value>
-  </data>
-  <data name="Files_Images" xml:space="preserve">
-    <value>Hình ảnh</value>
-  </data>
-  <data name="Files_StrongNameKeyFiles" xml:space="preserve">
-    <value>Các tập tin khóa danh định SNK</value>
-  </data>
-  <data name="Files_XmlFiles" xml:space="preserve">
-    <value>Các tập tin XML</value>
-  </data>
-  <data name="InvalidGuid" xml:space="preserve">
-    <value>GUID không hợp lệ</value>
   </data>
   <data name="NewDataNotImageList" xml:space="preserve">
     <value>Dữ liệu mới không phải là danh sách hình ảnh.</value>
@@ -184,9 +157,5 @@
   </data>
   <data name="Search_SearchColumnInvertMatchHelpText" xml:space="preserve">
     <value>Sử dụng '{0}' để đảo ngược giống nhau, ví dụ {1}</value>
-  </data>
-  <data name="ValueMustBeType" xml:space="preserve">
-    <value>Giá trị phải là type {0}.
-Lỗi: {1}</value>
   </data>
 </root>

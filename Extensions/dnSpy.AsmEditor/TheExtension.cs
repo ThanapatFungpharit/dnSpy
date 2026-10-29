@@ -26,6 +26,9 @@ using dnSpy.Contracts.Extension;
 using dnSpy.Contracts.Settings.AppearanceCategory;
 using dnSpy.Contracts.Settings.Fonts;
 
+// The code editor's module importer is in dnSpy.AsmEditor.Core so hosts without WPF can use it
+[assembly: ExtensionPartsAssembly(typeof(dnSpy.AsmEditor.Compiler.RawModuleBytesProvider))]
+
 namespace dnSpy.AsmEditor {
 	[ExportExtension]
 	sealed class TheExtension : IExtension {

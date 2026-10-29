@@ -19,7 +19,7 @@
 
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.VisualStudio.Text;
+using dnSpy.Contracts.Decompiler;
 
 namespace dnSpy.Contracts.Text.Classification {
 	/// <summary>
@@ -60,7 +60,7 @@ namespace dnSpy.Contracts.Text.Classification {
 		public void Write(object color, string? text) {
 			if (text is null)
 				return;
-			colors.Add(new SpanData<object>(new Span(sb.Length, text.Length), color));
+			colors.Add(new SpanData<object>(new TextSpan(sb.Length, text.Length), color));
 			sb.Append(text);
 		}
 

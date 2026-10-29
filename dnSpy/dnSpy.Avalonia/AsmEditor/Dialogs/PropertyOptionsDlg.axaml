@@ -1,0 +1,106 @@
+<!--
+    Copyright (C) 2014-2026 de4dot@gmail.com
+
+    This file is part of dnSpy
+
+    dnSpy is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    dnSpy is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<local:DialogWindow x:Class="dnSpy.Avalonia.AsmEditor.PropertyOptionsDlg"
+             x:ClassModifier="internal"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:dnSpy.Avalonia.AsmEditor"
+             xmlns:vm="clr-namespace:dnSpy.AsmEditor.Property;assembly=dnSpy.AsmEditor.Core"
+             x:DataType="vm:PropertyOptionsVM"
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core"
+             Height="400" Width="550"
+             Title="{x:Static pc:dnSpy_AsmEditor_Core_Resources.EditPropertyCommand2}" WindowStartupLocation="CenterOwner"
+             MinHeight="400" MinWidth="500">
+    <Grid local:FocusHelper.FocusedElement="{Binding #nameTextBox}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TabControl Margin="5 5 5 0">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MainTab}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding #nameTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Property_Name}" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Name="nameTextBox" Text="{Binding Name}" local:DataErrorInfoHelper.Source="{Binding}" local:DataErrorInfoHelper.Property="Name" />
+                        </Grid>
+
+                        <local:GroupBox Grid.Row="1" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <CheckBox Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding SpecialName}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Property_Flags_SpecialName}" />
+                                <CheckBox Grid.Column="1" Margin="5 5 0 0" IsChecked="{Binding RTSpecialName}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Property_Flags_RTSpecialName}" />
+                            </Grid>
+                        </local:GroupBox>
+
+                        <local:ConstantControl Grid.Row="2" Margin="0 5 0 0" DataContext="{Binding ConstantVM}" />
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Property_Signature}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <local:MethodSigCreatorControl Margin="5" DataContext="{Binding MethodSigCreator}" />
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Property_GetterMethods}">
+                <local:MethodDefsControl Margin="0 5 0 0" DataContext="{Binding GetMethodsVM}" />
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Property_SetterMethods}">
+                <local:MethodDefsControl Margin="0 5 0 0" DataContext="{Binding SetMethodsVM}" />
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Property_OtherMethods}">
+                <local:MethodDefsControl Margin="0 5 0 0" DataContext="{Binding OtherMethodsVM}" />
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.CustomAttributesTab}">
+                <local:CustomAttributesControl Margin="0 5 0 0" DataContext="{Binding CustomAttributesVM}" />
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_OK}" IsEnabled="{Binding !HasError}" IsDefault="True" Classes="dialog" Margin="0,0,5,0" Click="okButton_Click" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Cancel}" IsCancel="True" Click="cancelButton_Click" Classes="dialog" Margin="0,0,5,0" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_RestoreSettings}" Classes="dialog" Command="{Binding ReinitializeCommand}" />
+        </StackPanel>
+    </Grid>
+</local:DialogWindow>

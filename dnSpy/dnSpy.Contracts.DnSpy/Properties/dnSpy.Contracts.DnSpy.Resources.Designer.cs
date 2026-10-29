@@ -61,15 +61,6 @@ namespace dnSpy.Contracts.DnSpy.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All Files.
-        /// </summary>
-        public static string AllFiles {
-            get {
-                return ResourceManager.GetString("AllFiles", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to An error occurred:
         ///
         ///{0}.
@@ -90,15 +81,6 @@ namespace dnSpy.Contracts.DnSpy.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not convert &apos;{0}&apos;.
-        /// </summary>
-        public static string CouldNotConvert {
-            get {
-                return ResourceManager.GetString("CouldNotConvert", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Could not convert it from a string: {0}.
         /// </summary>
         public static string CouldNotConvertFromString {
@@ -113,69 +95,6 @@ namespace dnSpy.Contracts.DnSpy.Properties {
         public static string CouldNotDeserializeData {
             get {
                 return ResourceManager.GetString("CouldNotDeserializeData", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .NET Executables.
-        /// </summary>
-        public static string Files_DotNetExecutables {
-            get {
-                return ResourceManager.GetString("Files_DotNetExecutables", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .NET NetModules.
-        /// </summary>
-        public static string Files_DotNetNetModules {
-            get {
-                return ResourceManager.GetString("Files_DotNetNetModules", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Executables.
-        /// </summary>
-        public static string Files_Executables {
-            get {
-                return ResourceManager.GetString("Files_Executables", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Images.
-        /// </summary>
-        public static string Files_Images {
-            get {
-                return ResourceManager.GetString("Files_Images", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Strong Name Key Files.
-        /// </summary>
-        public static string Files_StrongNameKeyFiles {
-            get {
-                return ResourceManager.GetString("Files_StrongNameKeyFiles", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to XML Files.
-        /// </summary>
-        public static string Files_XmlFiles {
-            get {
-                return ResourceManager.GetString("Files_XmlFiles", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid GUID.
-        /// </summary>
-        public static string InvalidGuid {
-            get {
-                return ResourceManager.GetString("InvalidGuid", resourceCulture);
             }
         }
         
@@ -257,16 +176,6 @@ namespace dnSpy.Contracts.DnSpy.Properties {
         public static string Search_SearchColumnInvertMatchHelpText {
             get {
                 return ResourceManager.GetString("Search_SearchColumnInvertMatchHelpText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Value must be type {0}.
-        ///Error: {1}.
-        /// </summary>
-        public static string ValueMustBeType {
-            get {
-                return ResourceManager.GetString("ValueMustBeType", resourceCulture);
             }
         }
     }

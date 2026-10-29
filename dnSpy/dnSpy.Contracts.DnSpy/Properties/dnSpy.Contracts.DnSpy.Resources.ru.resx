@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllFiles" xml:space="preserve">
-    <value>Все файлы</value>
-  </data>
   <data name="AnErrorOccurred" xml:space="preserve">
     <value>Произошла ошибка:
 
@@ -128,35 +125,11 @@
   <data name="Button_Cancel" xml:space="preserve">
     <value>_Отмена</value>
   </data>
-  <data name="CouldNotConvert" xml:space="preserve">
-    <value>Не могу преобразовать '{0}'</value>
-  </data>
   <data name="CouldNotConvertFromString" xml:space="preserve">
     <value>Не могу преобразовать из строки: {0}</value>
   </data>
   <data name="CouldNotDeserializeData" xml:space="preserve">
     <value>Не могу десериализовать данные: {0}</value>
-  </data>
-  <data name="Files_DotNetExecutables" xml:space="preserve">
-    <value>Исполняемые файлы .NET</value>
-  </data>
-  <data name="Files_DotNetNetModules" xml:space="preserve">
-    <value>Файлы .NET NetModule</value>
-  </data>
-  <data name="Files_Executables" xml:space="preserve">
-    <value>Исполняемые файлы</value>
-  </data>
-  <data name="Files_Images" xml:space="preserve">
-    <value>Изображения</value>
-  </data>
-  <data name="Files_StrongNameKeyFiles" xml:space="preserve">
-    <value>Файлы ключей строгого имени</value>
-  </data>
-  <data name="Files_XmlFiles" xml:space="preserve">
-    <value>XML-файлы</value>
-  </data>
-  <data name="InvalidGuid" xml:space="preserve">
-    <value>Недопустимый GUID</value>
   </data>
   <data name="NewDataNotImageList" xml:space="preserve">
     <value>Новые данные не являются списком изображений.</value>
@@ -184,9 +157,5 @@
   </data>
   <data name="Search_SearchColumnInvertMatchHelpText" xml:space="preserve">
     <value>Используйте '{0}' для инвертирования совпадения, например {1}</value>
-  </data>
-  <data name="ValueMustBeType" xml:space="preserve">
-    <value>Значение должно быть типа {0}.
-Ошибка: {1}</value>
   </data>
 </root>

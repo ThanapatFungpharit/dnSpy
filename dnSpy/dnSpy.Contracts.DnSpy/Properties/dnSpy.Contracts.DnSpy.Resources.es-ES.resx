@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllFiles" xml:space="preserve">
-    <value>Todos los archivos</value>
-  </data>
   <data name="AnErrorOccurred" xml:space="preserve">
     <value>Se ha producido un error:
 
@@ -128,35 +125,11 @@
   <data name="Button_Cancel" xml:space="preserve">
     <value>_Cancelar</value>
   </data>
-  <data name="CouldNotConvert" xml:space="preserve">
-    <value>No se pudo convertir '{0}'</value>
-  </data>
   <data name="CouldNotConvertFromString" xml:space="preserve">
     <value>No se pudo convertir desde una cadena: {0}</value>
   </data>
   <data name="CouldNotDeserializeData" xml:space="preserve">
     <value>No se pudo deserializar datos: {0}</value>
-  </data>
-  <data name="Files_DotNetExecutables" xml:space="preserve">
-    <value>_Archivos recientes</value>
-  </data>
-  <data name="Files_DotNetNetModules" xml:space="preserve">
-    <value>.NET NetModules</value>
-  </data>
-  <data name="Files_Executables" xml:space="preserve">
-    <value>Archivos ejecutables</value>
-  </data>
-  <data name="Files_Images" xml:space="preserve">
-    <value>Imágenes</value>
-  </data>
-  <data name="Files_StrongNameKeyFiles" xml:space="preserve">
-    <value>Archivos de clave de nombre seguro</value>
-  </data>
-  <data name="Files_XmlFiles" xml:space="preserve">
-    <value>Archivos XML</value>
-  </data>
-  <data name="InvalidGuid" xml:space="preserve">
-    <value>GUID no válido</value>
   </data>
   <data name="NewDataNotImageList" xml:space="preserve">
     <value>Los nuevos datos no son una lista de imágenes.</value>
@@ -184,8 +157,5 @@
   </data>
   <data name="Search_SearchColumnInvertMatchHelpText" xml:space="preserve">
     <value>Use '{0}' invertir la partida, por ejemplo. {1}</value>
-  </data>
-  <data name="ValueMustBeType" xml:space="preserve">
-    <value>Valor debe ser tipo {0}. Error: {1}</value>
   </data>
 </root>

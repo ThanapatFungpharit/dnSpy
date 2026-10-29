@@ -56,7 +56,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 				int write = 0;
 				for (int read = 0; read < infos.Count; read++) {
 					var info = infos[read];
-					if (info.Span.Length == 0)
+					if (info.TextSpan.Length == 0)
 						continue;
 					if (read != write)
 						infos[write] = info;
@@ -66,7 +66,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 					infos.RemoveRange(write, infos.Count - write);
 #if DEBUG
 				for (int i = 1; i < infos.Count; i++) {
-					if (infos[i - 1].Span.End > infos[i].Span.Start)
+					if (infos[i - 1].TextSpan.End > infos[i].TextSpan.Start)
 						throw new InvalidOperationException();
 				}
 #endif
@@ -75,7 +75,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 			void Add(CodeBracesRange curr) {
 				list.Add(curr);
 				listStack.Push(list.ToArray());
-				infos.Add(new SpanData<CodeBracesRange[]>(new Span(curr.Left.Start, 0), listStack.Peek()));
+				infos.Add(new SpanData<CodeBracesRange[]>(new TextSpan(curr.Left.Start, 0), listStack.Peek()));
 			}
 
 			void Close(int pos) {
@@ -84,16 +84,16 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 					var last = list[index];
 					if (last.Right.End <= pos) {
 						var tmp = infos[infos.Count - 1];
-						infos[infos.Count - 1] = new SpanData<CodeBracesRange[]>(Span.FromBounds(tmp.Span.Start, last.Right.End), tmp.Data);
+						infos[infos.Count - 1] = new SpanData<CodeBracesRange[]>(TextSpan.FromBounds(tmp.TextSpan.Start, last.Right.End), tmp.Data);
 						list.RemoveAt(index);
 						listStack.Pop();
 						if (list.Count > 0)
-							infos.Add(new SpanData<CodeBracesRange[]>(new Span(last.Right.End, 0), listStack.Peek()));
+							infos.Add(new SpanData<CodeBracesRange[]>(new TextSpan(last.Right.End, 0), listStack.Peek()));
 					}
 					else {
 						var tmp = infos[infos.Count - 1];
-						Debug.Assert(tmp.Span.Length == 0);
-						infos[infos.Count - 1] = new SpanData<CodeBracesRange[]>(Span.FromBounds(tmp.Span.Start, Math.Min(pos, last.Right.End)), tmp.Data);
+						Debug.Assert(tmp.TextSpan.Length == 0);
+						infos[infos.Count - 1] = new SpanData<CodeBracesRange[]>(TextSpan.FromBounds(tmp.TextSpan.Start, Math.Min(pos, last.Right.End)), tmp.Data);
 						break;
 					}
 				}
@@ -122,8 +122,8 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 		}
 
 		public void GetData(SnapshotSpan lineExtent, List<BlockStructureData> list) {
-			foreach (var spanData in coll.Find(lineExtent.Span)) {
-				if (spanData.Span.End == lineExtent.Start.Position)
+			foreach (var spanData in coll.Find(lineExtent.Span.ToDsTextSpan())) {
+				if (spanData.TextSpan.End == lineExtent.Start.Position)
 					continue;
 				foreach (var info in spanData.Data) {
 					var data = CreateBlockStructureData(info, lineExtent.Snapshot);

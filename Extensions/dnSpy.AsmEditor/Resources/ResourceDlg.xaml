@@ -24,8 +24,8 @@
              xmlns:mvvmvc="clr-namespace:dnSpy.Contracts.MVVM.Converters;assembly=dnSpy.Contracts.DnSpy"
              xmlns:winlocal="clr-namespace:dnSpy.Contracts.Controls;assembly=dnSpy.Contracts.DnSpy"
              xmlns:mbody="clr-namespace:dnSpy.AsmEditor.Resources"
-             xmlns:p="clr-namespace:dnSpy.AsmEditor.Properties"
-             Title="{x:Static p:dnSpy_AsmEditor_Resources.EditResourceCommand2}"
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core"
+             Title="{x:Static pc:dnSpy_AsmEditor_Core_Resources.EditResourceCommand2}"
              Height="250" Width="500"
              Style="{StaticResource DialogWindowStyle}" WindowStartupLocation="CenterOwner"
              MinHeight="250" MinWidth="500">
@@ -42,18 +42,18 @@
         </Grid.RowDefinitions>
 
         <TabControl Margin="5 5 5 0">
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.MainTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MainTab}">
                 <mbody:ResourceControl Margin="0 5 0 0" />
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.CustomAttributesTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.CustomAttributesTab}">
                 <dnlibdlgs:CustomAttributesControl Margin="0 5 0 0" DataContext="{Binding CustomAttributesVM}" />
             </TabItem>
         </TabControl>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_OK}" IsEnabled="{Binding HasError, Converter={StaticResource NegateBooleanConverter}}" IsDefault="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" Click="okButton_Click" />
-            <Button Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_Cancel}" IsCancel="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" />
-            <Button Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_RestoreSettings}" Style="{StaticResource DialogButton}" Command="{Binding ReinitializeCommand}" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_OK}" IsEnabled="{Binding HasError, Converter={StaticResource NegateBooleanConverter}}" IsDefault="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" Click="okButton_Click" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Cancel}" IsCancel="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_RestoreSettings}" Style="{StaticResource DialogButton}" Command="{Binding ReinitializeCommand}" />
         </StackPanel>
     </Grid>
 </winlocal:WindowBase>

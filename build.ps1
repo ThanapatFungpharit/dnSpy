@@ -1,12 +1,15 @@
 param(
-	[ValidateSet("all","netframework","net","net-x86","net-x64")]
+	[ValidateSet("all","netframework","net","net-x86","net-x64","console")]
 	[string]$buildtfm = 'all',
+	# Runtime identifiers of the self-contained cross-platform dnSpy.Console to publish when $buildtfm is 'console'
+	[string[]]$Rid = @('win-x64'),
 	[switch]$NoMsbuild
 	)
 $ErrorActionPreference = 'Stop'
 
 $netframework_tfm = 'net48'
 $net_tfm = 'net10.0-windows'
+$cross_platform_tfm = 'net10.0'
 $configuration = 'Release'
 $net_baseoutput = "dnSpy\dnSpy\bin\$configuration"
 $apphostpatcher_dir = "Build\AppHostPatcher"
@@ -100,6 +103,21 @@ function Build-SelfContainedNet {
 	}
 }
 
+function Publish-Console {
+	param([string]$rid)
+
+	Write-Host "Publishing self contained cross-platform dnSpy.Console $rid"
+
+	# The SDK can't sign osx-* apphosts on Windows and macOS on Apple silicon refuses to run unsigned executables
+	if ($rid.StartsWith('osx-')) {
+		Write-Warning "$rid should be published on macOS (./build.sh publish $rid) so dnSpy.Console gets signed"
+	}
+
+	dotnet publish -v:m -c $configuration -f $cross_platform_tfm -r $rid --self-contained dnSpy\dnSpy.Console\dnSpy.Console.csproj
+	if ($LASTEXITCODE) { exit $LASTEXITCODE }
+	Write-Host "Published $net_baseoutput\$cross_platform_tfm\$rid\publish"
+}
+
 $buildNetFramework  = $buildtfm -eq 'all' -or $buildtfm -eq 'netframework'
 $buildNet           = $buildtfm -eq 'all' -or $buildtfm -eq 'net'
 $buildNetX86        = $buildtfm -eq 'all' -or $buildtfm -eq 'net-x86'
@@ -131,4 +149,10 @@ if ($buildNetX86) {
 
 if ($buildNetX64) {
 	Build-SelfContainedNet x64
+}
+
+if ($buildtfm -eq 'console') {
+	foreach ($r in $Rid) {
+		Publish-Console $r
+	}
 }

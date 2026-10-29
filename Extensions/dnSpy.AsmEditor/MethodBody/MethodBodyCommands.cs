@@ -130,7 +130,7 @@ namespace dnSpy.AsmEditor.MethodBody {
 			origMethodBody = methodNode.MethodDef.MethodBody;
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.EditMethodBodyCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.EditMethodBodyCommand2;
 
 		public void Execute() {
 			isBodyModified = methodAnnotations.IsBodyModified(methodNode.MethodDef);
@@ -179,7 +179,7 @@ namespace dnSpy.AsmEditor.MethodBody {
 			var method = list[0].Method;
 			var methodNode = appService.DocumentTreeView.FindNode(method);
 			if (methodNode is null) {
-				MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Resources.Error_CouldNotFindMethod, method));
+				MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Core_Resources.Error_CouldNotFindMethod, method));
 				return;
 			}
 
@@ -276,7 +276,7 @@ namespace dnSpy.AsmEditor.MethodBody {
 				var method = statements[0].Method;
 				var methodNode = appService.DocumentTreeView.FindNode(method);
 				if (methodNode is null) {
-					MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Resources.Error_CouldNotFindMethod, method));
+					MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Core_Resources.Error_CouldNotFindMethod, method));
 					return;
 				}
 
@@ -317,7 +317,7 @@ namespace dnSpy.AsmEditor.MethodBody {
 			origMethodBody = methodNode.MethodDef.MethodBody;
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.ReplaceMethodBodyWithStubCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.ReplaceMethodBodyWithStubCommand2;
 
 		public void Execute() {
 			isBodyModified = methodAnnotations.IsBodyModified(methodNode.MethodDef);

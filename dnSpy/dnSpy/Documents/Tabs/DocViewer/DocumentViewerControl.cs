@@ -267,8 +267,8 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 		}
 
 		bool GoToCore(SpanData<ReferenceInfo> spanData, bool newTab, bool followLocalRefs, bool canRecordHistory, bool canFollowReference, MoveCaretOptions options) {
-			Debug.Assert(spanData.Span.End <= wpfTextViewHost.TextView.TextSnapshot.Length);
-			if (spanData.Span.End > wpfTextViewHost.TextView.TextSnapshot.Length)
+			Debug.Assert(spanData.TextSpan.End <= wpfTextViewHost.TextView.TextSnapshot.Length);
+			if (spanData.TextSpan.End > wpfTextViewHost.TextView.TextSnapshot.Length)
 				return false;
 			if (spanData.Data.NoFollow)
 				return false;
@@ -300,7 +300,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 						textEditorHelper.FollowReference(spanData.ToTextReference(), newTab);
 					}
 					else
-						MoveCaretToSpan(spanData.Span, options);
+						MoveCaretToSpan(spanData.TextSpan.ToVsSpan(), options);
 					return true;
 				}
 
@@ -319,7 +319,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 				int pos = -1;
 				if (!spanData.Data.IsLocal) {
 					if (spanData.Data.IsDefinition)
-						pos = spanData.Span.End;
+						pos = spanData.TextSpan.End;
 				}
 				if (pos >= 0) {
 					if (canRecordHistory) {
@@ -350,9 +350,9 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 		}
 
 		bool IsOwnerOf(SpanData<ReferenceInfo> refInfo) {
-			var other = currentContent.Content.ReferenceCollection.Find(refInfo.Span.Start);
+			var other = currentContent.Content.ReferenceCollection.Find(refInfo.TextSpan.Start);
 			return other is not null &&
-				other.Value.Span == refInfo.Span &&
+				other.Value.TextSpan == refInfo.TextSpan &&
 				other.Value.Data == refInfo.Data;
 		}
 
@@ -377,7 +377,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 			var referenceCollection = currentContent.Content.ReferenceCollection;
 			foreach (var vspan in selection.VirtualSelectedSpans) {
 				var span = vspan.SnapshotSpan;
-				foreach (var spanData in referenceCollection.Find(span.Span))
+				foreach (var spanData in referenceCollection.Find(span.Span.ToDsTextSpan()))
 					yield return spanData;
 			}
 		}
@@ -425,7 +425,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 			else if (spanData.Data.Reference is null)
 				return new ReferencePosition(statements);
 			else {
-				if (statements[0].Statement.TextSpan.Start < spanData.Span.Start)
+				if (statements[0].Statement.TextSpan.Start < spanData.TextSpan.Start)
 					return new ReferencePosition(statements);
 				return new ReferencePosition(spanData);
 			}
@@ -471,9 +471,9 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 			// no code references to it, but there's a 'Get' and 'End Get' in these refs that should be used.
 			var spanRefData = SpanDataCollectionUtilities.GetCurrentSpanReference(spanReferenceCollection, TextView);
 			if (spanRefData?.Data.Reference is not null) {
-				foreach (var newSpanData in GetReferenceInfosFrom(spanReferenceCollection, spanRefData.Value.Span.Start, forward)) {
+				foreach (var newSpanData in GetReferenceInfosFrom(spanReferenceCollection, spanRefData.Value.TextSpan.Start, forward)) {
 					if (object.Equals(newSpanData.Data.Reference, spanRefData.Value.Data.Reference)) {
-						MoveCaretToSpan(newSpanData.Span, MoveCaretOptions.Focus | MoveCaretOptions.Select);
+						MoveCaretToSpan(newSpanData.TextSpan.ToVsSpan(), MoveCaretOptions.Focus | MoveCaretOptions.Select);
 						break;
 					}
 				}
@@ -482,9 +482,9 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 
 			var spanData = GetCurrentReferenceInfo();
 			if (spanData is not null && !spanData.Value.Data.IsHidden && !spanData.Value.Data.NoFollow) {
-				foreach (var newSpanData in GetReferenceInfosFrom(spanData.Value.Span.Start, forward)) {
+				foreach (var newSpanData in GetReferenceInfosFrom(spanData.Value.TextSpan.Start, forward)) {
 					if (!newSpanData.Data.IsHidden && !newSpanData.Data.NoFollow && SpanDataReferenceInfoExtensions.CompareReferences(newSpanData.Data, spanData.Value.Data)) {
-						MoveCaretToSpan(newSpanData.Span, MoveCaretOptions.Focus | MoveCaretOptions.Select);
+						MoveCaretToSpan(newSpanData.TextSpan.ToVsSpan(), MoveCaretOptions.Focus | MoveCaretOptions.Select);
 						break;
 					}
 				}
@@ -496,7 +496,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 			int offset = wpfTextViewHost.TextView.Caret.Position.BufferPosition.Position;
 			foreach (var newSpanData in GetReferenceInfosFrom(offset, forward)) {
 				if (newSpanData.Data.IsDefinition && newSpanData.Data.Reference is IMemberDef) {
-					MoveCaretToSpan(newSpanData.Span, MoveCaretOptions.Focus | MoveCaretOptions.Select);
+					MoveCaretToSpan(newSpanData.TextSpan.ToVsSpan(), MoveCaretOptions.Focus | MoveCaretOptions.Select);
 					break;
 				}
 			}
@@ -512,7 +512,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 			bool isReversed = false;
 			// If there's another reference at the caret, move caret to Start instead of End
 			var nextRef = GetReferenceInfo(span.End);
-			if (nextRef is not null && nextRef.Value.Span != span) {
+			if (nextRef is not null && nextRef.Value.TextSpan.ToVsSpan() != span) {
 				wpfTextViewHost.TextView.Caret.MoveTo(new SnapshotPoint(snapshot, span.Start));
 				isReversed = true;
 			}
@@ -534,7 +534,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 
 			int startIndex = referenceCollection.GetStartIndex(position);
 			// If it's between two refs, always prefer the one whose Start == position
-			if (startIndex >= 0 && startIndex + 1 < referenceCollection.Count && referenceCollection[startIndex + 1].Span.Start == position)
+			if (startIndex >= 0 && startIndex + 1 < referenceCollection.Count && referenceCollection[startIndex + 1].TextSpan.Start == position)
 				startIndex = startIndex + 1;
 			if (forward) {
 				if (startIndex < 0)

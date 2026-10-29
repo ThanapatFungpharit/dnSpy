@@ -18,16 +18,12 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,8 +36,9 @@ using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Documents.Tabs;
 using dnSpy.Contracts.ETW;
 using dnSpy.Contracts.Images;
-using dnSpy.Contracts.Resources;
+using dnSpy.Contracts.MVVM;
 using dnSpy.Contracts.Settings;
+using dnSpy.Composition;
 using dnSpy.Controls;
 using dnSpy.Culture;
 using dnSpy.Documents.Tabs.Dialogs;
@@ -50,7 +47,6 @@ using dnSpy.Extension;
 using dnSpy.Images;
 using dnSpy.Roslyn.Text.Classification;
 using dnSpy.Scripting;
-using dnSpy.Settings;
 using Microsoft.VisualStudio.Composition;
 
 namespace dnSpy.MainApp {
@@ -79,34 +75,26 @@ namespace dnSpy.MainApp {
 			MessageBox.Show(msg, Constants.DnSpy, MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 
-		readonly ResourceManagerTokenCacheImpl resourceManagerTokenCacheImpl;
-		long resourceManagerTokensOffset;
-		volatile Assembly[]? mefAssemblies;
+		readonly MefHost mefHost;
 		AppWindow? appWindow;
 		ExtensionService? extensionService;
 		IDsLoaderService? dsLoaderService;
-		readonly List<LoadedExtension> loadedExtensions = new List<LoadedExtension>();
 		readonly IAppCommandLineArgs args;
 		ExportProvider? exportProvider;
-#if NET
-		readonly DotNetAssemblyLoader dotNetAssemblyLoader = new DotNetAssemblyLoader(System.Runtime.Loader.AssemblyLoadContext.Default);
-#endif
 
 		Task<ExportProvider> initializeMEFTask;
 		Stopwatch? startupStopwatch;
 		public App(bool readSettings, Stopwatch startupStopwatch) {
 			WineFixes.Initialize();
+			CommandRequery.Initialize(handler => CommandManager.RequerySuggested += handler, handler => CommandManager.RequerySuggested -= handler);
 
-			resourceManagerTokenCacheImpl = new ResourceManagerTokenCacheImpl();
 			args = new AppCommandLineArgs();
+			AppDirectories.SetSettingsFilename(args.SettingsFilename);
+			mefHost = new MefHost(CreateMefHostOptions(readSettings));
 
 			// PERF: Init MEF on a BG thread. Results in slightly faster startup, eg. InitializeComponent() becomes a 'free' call on this UI thread
-			initializeMEFTask = Task.Run(() => InitializeMEF(readSettings, useCache: readSettings));
+			initializeMEFTask = Task.Run(InitializeMEF);
 			this.startupStopwatch = startupStopwatch;
-
-			resourceManagerTokenCacheImpl.TokensUpdated += ResourceManagerTokenCacheImpl_TokensUpdated;
-			ResourceHelper.SetResourceManagerTokenCache(resourceManagerTokenCacheImpl);
-			AppDirectories.SetSettingsFilename(args.SettingsFilename);
 
 			AddAppContextFixes();
 			InstallExceptionHandlers();
@@ -122,293 +110,39 @@ namespace dnSpy.MainApp {
 			AppContext.SetSwitch("Switch.MS.Internal.DoNotApplyLayoutRoundingToMarginsAndBorderThickness", true);
 		}
 
-		ExportProvider InitializeMEF(bool readSettings, bool useCache) {
-			mefAssemblies = GetAssemblies();
-			var resolver = Resolver.DefaultInstance;
-
-			var factory = TryCreateExportProviderFactoryCached(resolver, useCache, out resourceManagerTokensOffset) ?? CreateExportProviderFactorySlow(resolver);
-			var exportProvider = factory.CreateExportProvider();
-
-			exportProvider.GetExportedValue<ServiceLocator>().SetExportProvider(Dispatcher, exportProvider);
-			if (readSettings) {
-				var settingsService = exportProvider.GetExportedValue<ISettingsService>();
-				try {
-					new XmlSettingsReader(settingsService).Read();
-				}
-				catch {
-				}
-			}
-
-			return exportProvider;
-		}
-
-		static string GetCachedCompositionConfigurationFilename() {
-			var profileDir = BGJitUtils.GetFolder();
-			return Path.Combine(profileDir, Constants.DnSpyFile + "-mef-info.bin");
-		}
-
-		IExportProviderFactory? TryCreateExportProviderFactoryCached(Resolver resolver, bool useCache, out long resourceManagerTokensOffset) {
-			resourceManagerTokensOffset = -1;
-			if (!useCache)
-				return null;
-			try {
-				return TryCreateExportProviderFactoryCachedCore(resolver, out resourceManagerTokensOffset);
-			}
-			catch (Exception ex) {
-				Debug.Fail(ex.ToString());
-				return null;
-			}
-		}
-
-		IExportProviderFactory? TryCreateExportProviderFactoryCachedCore(Resolver resolver, out long resourceManagerTokensOffset) {
-			Debug2.Assert(mefAssemblies is not null);
-			resourceManagerTokensOffset = -1;
-			var filename = GetCachedCompositionConfigurationFilename();
-			if (!File.Exists(filename))
-				return null;
-
-			Stream? cachedStream = null;
-			try {
-				try {
-					cachedStream = File.OpenRead(filename);
-					if (!new CachedMefInfo(mefAssemblies, cachedStream).CheckFile(resourceManagerTokenCacheImpl, out resourceManagerTokensOffset))
-						return null;
-				}
-				catch (Exception ex) when (IsFileIOException(ex)) {
-					return null;
-				}
-				try {
-					return new CachedComposition().LoadExportProviderFactoryAsync(cachedStream, resolver).Result;
-				}
-				catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && IsFileIOException(ex.InnerExceptions[0])) {
-					return null;
-				}
-			}
-			finally {
-				cachedStream?.Dispose();
-			}
-
-			static bool IsFileIOException(Exception ex) => ex is IOException || ex is UnauthorizedAccessException || ex is SecurityException;
-		}
-
-		IExportProviderFactory CreateExportProviderFactorySlow(Resolver resolver) {
-			Debug2.Assert(mefAssemblies is not null);
-			var discovery = new AttributedPartDiscoveryV1(resolver);
-			var parts = discovery.CreatePartsAsync(mefAssemblies).Result;
-			Debug.Assert(parts.ThrowOnErrors() == parts);
-
-			var catalog = ComposableCatalog.Create(resolver).AddParts(parts);
-			var config = CompositionConfiguration.Create(catalog);
-			// If this fails/throws, one of the following is probably true:
-			//	- you didn't build all projects or all files aren't in the same output dir
-			//	- netcoreapp: dnSpy isn't the startup project (eg. dnSpy-x86 is)
-			Debug.Assert(config.ThrowOnErrors() == config);
-
-			writingCachedMefFile = true;
-			Task.Run(() => SaveMefStateAsync(config)).ContinueWith(t => {
-				var ex = t.Exception;
-				Debug2.Assert(ex is null);
-				writingCachedMefFile = false;
-			}, CancellationToken.None);
-
-			return config.CreateExportProviderFactory();
-		}
-
-		bool writingCachedMefFile;
-		async Task SaveMefStateAsync(CompositionConfiguration config) {
-			Debug2.Assert(mefAssemblies is not null);
-			string filename = GetCachedCompositionConfigurationFilename();
-			bool fileCreated = false;
-			bool deleteFile = true;
-			try {
-				using (var cachedStream = File.Create(filename)) {
-					fileCreated = true;
-					long resourceManagerTokensOffsetTmp;
-					new CachedMefInfo(mefAssemblies, cachedStream).WriteFile(resourceManagerTokenCacheImpl.GetTokens(mefAssemblies), out resourceManagerTokensOffsetTmp);
-					await new CachedComposition().SaveAsync(config, cachedStream);
-					resourceManagerTokensOffset = resourceManagerTokensOffsetTmp;
-					deleteFile = false;
-				}
-			}
-			catch (IOException) {
-			}
-			catch (UnauthorizedAccessException) {
-			}
-			catch (SecurityException) {
-			}
-			finally {
-				if (fileCreated && deleteFile) {
-					try {
-						File.Delete(filename);
-					}
-					catch { }
-				}
-			}
-		}
-
-		void ResourceManagerTokenCacheImpl_TokensUpdated(object? sender, EventArgs e) => OnTokensUpdated();
-
-		void OnTokensUpdated() {
-			if (writingCachedMefFile)
-				Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(OnTokensUpdated));
-			else
-				UpdateResourceManagerTokens();
-		}
-
-		void UpdateResourceManagerTokens() {
-			Debug2.Assert(mefAssemblies is not null);
-			var tokensOffset = resourceManagerTokensOffset;
-			if (tokensOffset < 0)
-				return;
-			string filename = GetCachedCompositionConfigurationFilename();
-			if (!File.Exists(filename))
-				return;
-			bool deleteFile = true;
-			try {
-				using (var cachedStream = File.OpenWrite(filename)) {
-					new CachedMefInfo(mefAssemblies, cachedStream).UpdateResourceManagerTokens(tokensOffset, resourceManagerTokenCacheImpl);
-					deleteFile = false;
-				}
-			}
-			catch (IOException) {
-			}
-			catch (UnauthorizedAccessException) {
-			}
-			catch (SecurityException) {
-			}
-			if (deleteFile) {
-				try {
-					File.Delete(filename);
-				}
-				catch { }
-			}
-		}
-
-		Assembly[] GetAssemblies() {
-#if NET
-			dotNetAssemblyLoader.AddSearchPath(AppDirectories.BinDirectory);
-#endif
-			var list = new List<Assembly>();
-			list.Add(GetType().Assembly);
+		MefHostOptions CreateMefHostOptions(bool readSettings) {
+			var options = new MefHostOptions {
+				ExtraExtensionDirectory = args.ExtraExtensionDirectory,
+				AppVersion = GetType().Assembly.GetName().Version!,
+				UseCache = readSettings,
+				ReadSettings = readSettings,
+			};
+			options.Assemblies.Add(GetType().Assembly);
+			// dnSpy.Core
+			options.Assemblies.Add(typeof(MefHost).Assembly);
 			// dnSpy.Contracts.DnSpy
-			list.Add(typeof(MetroWindow).Assembly);
+			options.Assemblies.Add(typeof(MetroWindow).Assembly);
 			// dnSpy.Roslyn
-			list.Add(typeof(RoslynClassifier).Assembly);
+			options.Assemblies.Add(typeof(RoslynClassifier).Assembly);
 			// Microsoft.VisualStudio.Text.Logic (needed for the editor option definitions)
-			list.Add(typeof(Microsoft.VisualStudio.Text.Editor.ConvertTabsToSpaces).Assembly);
+			options.Assemblies.Add(typeof(Microsoft.VisualStudio.Text.Editor.ConvertTabsToSpaces).Assembly);
 			// Microsoft.VisualStudio.Text.UI (needed for the editor option definitions)
-			list.Add(typeof(Microsoft.VisualStudio.Text.Editor.AutoScrollEnabled).Assembly);
+			options.Assemblies.Add(typeof(Microsoft.VisualStudio.Text.Editor.AutoScrollEnabled).Assembly);
 			// Microsoft.VisualStudio.Text.UI.Wpf (needed for the editor option definitions)
-			list.Add(typeof(Microsoft.VisualStudio.Text.Editor.HighlightCurrentLineOption).Assembly);
+			options.Assemblies.Add(typeof(Microsoft.VisualStudio.Text.Editor.HighlightCurrentLineOption).Assembly);
 			// dnSpy.Roslyn.EditorFeatures
-			list.Add(typeof(Roslyn.EditorFeatures.Dummy).Assembly);
+			options.Assemblies.Add(typeof(Roslyn.EditorFeatures.Dummy).Assembly);
 			// dnSpy.Roslyn.CSharp.EditorFeatures
-			list.Add(typeof(Roslyn.CSharp.EditorFeatures.Dummy).Assembly);
+			options.Assemblies.Add(typeof(Roslyn.CSharp.EditorFeatures.Dummy).Assembly);
 			// dnSpy.Roslyn.VisualBasic.EditorFeatures
-			list.Add(typeof(Roslyn.VisualBasic.EditorFeatures.Dummy).Assembly);
-			foreach (var asm in LoadExtensionAssemblies())
-				list.Add(asm);
-			return list.ToArray();
+			options.Assemblies.Add(typeof(Roslyn.VisualBasic.EditorFeatures.Dummy).Assembly);
+			return options;
 		}
 
-		Assembly[] LoadExtensionAssemblies() {
-			var dir = AppDirectories.BinDirectory;
-			var unsortedFiles = GetExtensionFiles(dir);
-			if (!string.IsNullOrEmpty(args.ExtraExtensionDirectory))
-				unsortedFiles = unsortedFiles.Concat(GetExtensionFiles(args.ExtraExtensionDirectory));
-
-			// Load the modules in a predictable order or multicore-JIT could stop recording. See
-			// "Understanding Background JIT compilation -> What can go wrong with background JIT compilation"
-			// in the PerfView docs for more info.
-			var files = unsortedFiles.OrderBy(a => a, StringComparer.OrdinalIgnoreCase).ToArray();
-#if NET
-			foreach (var file in files)
-				dotNetAssemblyLoader.AddSearchPath(Path.GetDirectoryName(file)!);
-#endif
-			var asms = new List<Assembly>();
-			foreach (var file in files) {
-				try {
-					if (!File.Exists(file))
-						continue;
-					if (!CanLoadExtension(file))
-						continue;
-					var asm = Assembly.LoadFrom(file);
-					if (!CanLoadExtension(asm)) {
-						Debug.WriteLine($"Old extension detected ({file})");
-						continue;
-					}
-					asms.Add(asm);
-					loadedExtensions.Add(new LoadedExtension(asm));
-				}
-				catch (Exception ex) {
-					Debug.WriteLine($"Failed to load file '{file}', msg: {ex.Message}");
-				}
-			}
-			return asms.ToArray();
-		}
-
-		IEnumerable<string> GetExtensionFiles(string baseDir) {
-			const string EXTENSION_SEARCH_PATTERN = "*.x.dll";
-			const string EXTENSIONS_SUBDIR = "Extensions";
-			foreach (var f in GetFiles(baseDir, EXTENSION_SEARCH_PATTERN))
-				yield return f;
-			var extensionsSubDir = Path.Combine(baseDir, EXTENSIONS_SUBDIR);
-			if (Directory.Exists(extensionsSubDir)) {
-				foreach (var f in GetFiles(extensionsSubDir, EXTENSION_SEARCH_PATTERN))
-					yield return f;
-				foreach (var d in GetDirectories(extensionsSubDir)) {
-					foreach (var f in GetFiles(d, EXTENSION_SEARCH_PATTERN))
-						yield return f;
-				}
-			}
-		}
-
-		static string[] GetFiles(string dir, string searchPattern) {
-			try {
-				return Directory.GetFiles(dir, searchPattern);
-			}
-			catch {
-				return Array.Empty<string>();
-			}
-		}
-
-		static string[] GetDirectories(string dir) {
-			try {
-				return Directory.GetDirectories(dir);
-			}
-			catch {
-				return Array.Empty<string>();
-			}
-		}
-
-		bool CanLoadExtension(string file) {
-			var xmlFile = file + ".xml";
-			var config = ExtensionConfigReader.Read(xmlFile);
-			return config.IsSupportedOSversion(Environment.OSVersion.Version) &&
-				config.IsSupportedFrameworkVersion(Environment.Version) &&
-				config.IsSupportedAppVersion(GetType().Assembly.GetName().Version!);
-		}
-
-		bool CanLoadExtension(Assembly asm) {
-			var ourPublicKeyToken = GetType().Assembly.GetName().GetPublicKeyToken();
-			var minimumVersion = new Version(5, 0, 0, 0);
-			foreach (var a in asm.GetReferencedAssemblies()) {
-				if (!Equals(ourPublicKeyToken, a.GetPublicKeyToken()))
-					continue;
-				if (a.Version < minimumVersion)
-					return false;
-			}
-			return true;
-		}
-
-		static bool Equals(byte[]? a, byte[]? b) {
-			if (a is null || b is null || a.Length != b.Length)
-				return false;
-			for (int i = 0; i < a.Length; i++) {
-				if (a[i] != b[i])
-					return false;
-			}
-			return true;
+		ExportProvider InitializeMEF() {
+			var exportProvider = mefHost.CreateExportProvider();
+			exportProvider.GetExportedValue<ServiceLocator>().SetExportProvider(Dispatcher, exportProvider);
+			return exportProvider;
 		}
 
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -490,13 +224,8 @@ namespace dnSpy.MainApp {
 		void App_Exit(object? sender, ExitEventArgs e) {
 			extensionService?.OnAppExit();
 			dsLoaderService?.Save();
-			try {
-				var settingsService = exportProvider?.GetExportedValue<SettingsService>();
-				if (settingsService is not null)
-					new XmlSettingsWriter(settingsService).Write();
-			}
-			catch {
-			}
+			if (exportProvider is not null)
+				MefHost.SaveSettings(exportProvider);
 		}
 
 		void UIFixes() {
@@ -544,15 +273,30 @@ namespace dnSpy.MainApp {
 			extensionService = exportProvider.GetExportedValue<ExtensionService>();
 			dsLoaderService = exportProvider.GetExportedValue<IDsLoaderService>();
 
-			extensionService.LoadedExtensions = loadedExtensions;
+			extensionService.LoadedExtensions = mefHost.LoadedExtensions;
 			appWindow.CommandLineArgs = args;
 
 			var win = appWindow.InitializeMainWindow();
 			appWindow.MainWindow.SourceInitialized += MainWindow_SourceInitialized;
 			dsLoaderService.OnAppLoaded += DsLoaderService_OnAppLoaded;
 			dsLoaderService.Initialize(appWindow, win, args);
-			extensionService.LoadExtensions(Resources.MergedDictionaries);
+			extensionService.LoadExtensions(() => AddExtensionResources(extensionService));
 			win.Show();
+		}
+
+		void AddExtensionResources(ExtensionService extensionService) {
+			// It's not an extension but it needs to show stuff in the options dialog box
+			AddMergedDictionary(typeof(RoslynClassifier).Assembly.GetName(), "Themes/wpf.styles.templates.xaml");
+			foreach (var extension in extensionService.Extensions) {
+				var asm = extension.GetType().Assembly.GetName();
+				foreach (var rsrc in extension.MergedResourceDictionaries)
+					AddMergedDictionary(asm, rsrc);
+			}
+
+			void AddMergedDictionary(AssemblyName asm, string rsrc) {
+				var uri = new Uri("pack://application:,,,/" + asm.Name + ";v" + asm.Version + ";component/" + rsrc, UriKind.Absolute);
+				Resources.MergedDictionaries.Add(new ResourceDictionary { Source = uri });
+			}
 		}
 
 		void DsLoaderService_OnAppLoaded(object? sender, EventArgs e) {

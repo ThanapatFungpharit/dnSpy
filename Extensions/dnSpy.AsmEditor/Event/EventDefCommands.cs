@@ -87,7 +87,7 @@ namespace dnSpy.AsmEditor.Event {
 
 		static string GetHeader(DocumentTreeNodeData[] nodes) {
 			if (nodes.Length == 1)
-				return string.Format(dnSpy_AsmEditor_Resources.DeleteX, UIUtilities.EscapeMenuItemHeader(nodes[0].ToString()));
+				return string.Format(dnSpy_AsmEditor_Core_Resources.DeleteX, UIUtilities.EscapeMenuItemHeader(nodes[0].ToString()));
 			return string.Format(dnSpy_AsmEditor_Resources.DeleteEvents, nodes.Length);
 		}
 
@@ -181,7 +181,7 @@ namespace dnSpy.AsmEditor.Event {
 
 		DeleteEventDefCommand(EventNode[] eventNodes) => nodes = new DeletableNodes<EventNode>(eventNodes);
 
-		public string Description => dnSpy_AsmEditor_Resources.DeleteEventCommand;
+		public string Description => dnSpy_AsmEditor_Core_Resources.DeleteEventCommand;
 
 		public void Execute() {
 			nodes.Delete();
@@ -273,7 +273,7 @@ namespace dnSpy.AsmEditor.Event {
 
 			var data = new EventOptionsVM(options, module, appService.DecompilerService, typeNode.TypeDef);
 			var win = new EventOptionsDlg();
-			win.Title = dnSpy_AsmEditor_Resources.CreateEventCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.CreateEventCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -292,7 +292,7 @@ namespace dnSpy.AsmEditor.Event {
 			eventNode = ownerNode.Create(options.CreateEventDef(ownerNode.TypeDef.Module));
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.CreateEventCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.CreateEventCommand2;
 
 		public void Execute() {
 			ownerNode.TreeNode.EnsureChildrenLoaded();
@@ -406,7 +406,7 @@ namespace dnSpy.AsmEditor.Event {
 			nameChanged = origOptions.Name != newOptions.Name;
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.EditEventCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.EditEventCommand2;
 
 		public void Execute() {
 			if (nameChanged) {

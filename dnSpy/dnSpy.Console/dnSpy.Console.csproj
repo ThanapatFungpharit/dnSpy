@@ -22,13 +22,13 @@ The workaround is to add WindowsDesktop above.
     <OutputType>Exe</OutputType>
     <Prefer32Bit>false</Prefer32Bit>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseWPF>true</UseWPF>
-    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF Condition=" '$(TargetFramework)' != '$(DnSpyCrossPlatformTfm)' ">true</UseWPF>
+    <UseWindowsForms Condition=" '$(TargetFramework)' != '$(DnSpyCrossPlatformTfm)' ">true</UseWindowsForms>
     <DisableWinExeOutputInference>true</DisableWinExeOutputInference>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\dnSpy\MainApp\DotNetAssemblyLoader.cs" Link="DotNetAssemblyLoader.cs" />
+    <Compile Include="..\dnSpy.Core\Composition\DotNetAssemblyLoader.cs" Link="DotNetAssemblyLoader.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,6 +58,12 @@ The workaround is to add WindowsDesktop above.
   <ItemGroup>
     <ProjectReference Include="..\dnSpy.Contracts.Logic\dnSpy.Contracts.Logic.csproj" />
     <ProjectReference Include="..\dnSpy.Decompiler\dnSpy.Decompiler.csproj" />
+  </ItemGroup>
+
+  <!-- On Windows the decompilers are copied to the output dir by the dnSpy.Decompiler.ILSpy and dnSpy.BamlDecompiler extensions -->
+  <ItemGroup Condition=" '$(TargetFramework)' == '$(DnSpyCrossPlatformTfm)' ">
+    <ProjectReference Include="..\..\Extensions\dnSpy.BamlDecompiler.Core\dnSpy.BamlDecompiler.Core.csproj" />
+    <ProjectReference Include="..\..\Extensions\ILSpy.Decompiler\dnSpy.Decompiler.ILSpy.Core\dnSpy.Decompiler.ILSpy.Core.csproj" />
   </ItemGroup>
 
 </Project>

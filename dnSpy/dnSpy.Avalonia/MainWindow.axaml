@@ -1,0 +1,89 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="using:dnSpy.Avalonia.Controls"
+        xmlns:tn="using:dnSpy.Avalonia.TreeNodes"
+        xmlns:dc="using:dnSpy.Contracts.Decompiler"
+        x:Class="dnSpy.Avalonia.MainWindow"
+        Title="dnSpy"
+        Icon="avares://dnSpy.Avalonia/Images/dnSpy.ico"
+        Width="1280" Height="800"
+        DragDrop.AllowDrop="True">
+  <DockPanel>
+    <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+      <Menu DockPanel.Dock="Left">
+        <MenuItem Header="_File">
+          <MenuItem Header="_Open..." InputGesture="Ctrl+O" Click="Open_Click" />
+          <MenuItem Header="Open in _Hex Editor..." Click="OpenInHexEditor_Click" />
+          <Separator />
+          <MenuItem x:Name="saveModuleMenuItem" Header="_Save Module..." InputGesture="Ctrl+Shift+S" Click="SaveModule_Click" />
+          <MenuItem x:Name="saveAllMenuItem" Header="Save A_ll" InputGesture="Ctrl+S" Click="SaveAll_Click" />
+          <Separator />
+          <MenuItem Header="_Close" InputGesture="Delete" Click="Close_Click" />
+          <MenuItem Header="Close _All" Click="CloseAll_Click" />
+          <Separator />
+          <MenuItem Header="E_xit" Click="Exit_Click" />
+        </MenuItem>
+        <MenuItem x:Name="editMenu" Header="_Edit">
+          <MenuItem x:Name="undoMenuItem" Header="_Undo" InputGesture="Ctrl+Z" Click="Undo_Click" />
+          <MenuItem x:Name="redoMenuItem" Header="_Redo" InputGesture="Ctrl+Y" Click="Redo_Click" />
+          <Separator />
+          <MenuItem x:Name="editMethodMenuItem" Header="Edit _Method Body..." Click="EditMethod_Click" />
+          <MenuItem x:Name="editClassMenuItem" Header="Edit _Class..." Click="EditClass_Click" />
+          <MenuItem x:Name="addMembersMenuItem" Header="Add Class Mem_bers..." Click="AddMembers_Click" />
+          <MenuItem x:Name="addClassMenuItem" Header="_Add Class..." Click="AddClass_Click" />
+          <MenuItem x:Name="editAssemblyMenuItem" Header="Edit Assembly A_ttributes..." Click="EditAssembly_Click" />
+          <Separator />
+          <MenuItem x:Name="editSettingsMenuItem" Header="Edit _Settings..." InputGesture="Alt+Enter" Click="EditSettings_Click" />
+          <MenuItem x:Name="editMethodBodyMenuItem" Header="Edit IL Instruction_s..." Click="EditMethodBody_Click" />
+          <MenuItem x:Name="replaceMethodBodyWithStubMenuItem" Header="Replace Method Body with Stub" Click="ReplaceMethodBodyWithStub_Click" />
+          <Separator />
+          <MenuItem x:Name="openHexEditorMenuItem" Header="Open _Hex Editor" Click="OpenHexEditor_Click" />
+          <MenuItem x:Name="showInHexEditorMenuItem" Header="_Show in Hex Editor" Click="ShowInHexEditor_Click" />
+        </MenuItem>
+        <MenuItem Header="_View">
+          <MenuItem Header="_Back" InputGesture="Alt+Left" Click="Back_Click" />
+          <MenuItem Header="_Forward" InputGesture="Alt+Right" Click="Forward_Click" />
+          <Separator />
+          <MenuItem Header="_Theme">
+            <MenuItem Header="_System" Click="ThemeSystem_Click" />
+            <MenuItem Header="_Dark" Click="ThemeDark_Click" />
+            <MenuItem Header="_Light" Click="ThemeLight_Click" />
+          </MenuItem>
+        </MenuItem>
+      </Menu>
+      <ComboBox x:Name="decompilerComboBox" DockPanel.Dock="Right" Margin="4,2" MinWidth="180"
+                SelectionChanged="DecompilerComboBox_SelectionChanged">
+        <ComboBox.ItemTemplate>
+          <DataTemplate x:DataType="dc:IDecompiler">
+            <TextBlock Text="{Binding UniqueNameUI}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+    </DockPanel>
+
+    <Grid ColumnDefinitions="320,4,*">
+      <TreeView x:Name="treeView" Grid.Column="0" SelectionChanged="TreeView_SelectionChanged" KeyDown="TreeView_KeyDown">
+        <TreeView.Styles>
+          <Style Selector="TreeViewItem" x:DataType="tn:TreeNode">
+            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+            <Setter Property="MinHeight" Value="20" />
+          </Style>
+        </TreeView.Styles>
+        <TreeView.ItemTemplate>
+          <TreeDataTemplate x:DataType="tn:TreeNode" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal" Spacing="4">
+              <Image Source="{Binding Icon}" Width="16" Height="16" />
+              <c:ColoredTextBlock ColoredText="{Binding Text}" VerticalAlignment="Center" />
+            </StackPanel>
+          </TreeDataTemplate>
+        </TreeView.ItemTemplate>
+      </TreeView>
+      <GridSplitter Grid.Column="1" ResizeDirection="Columns" />
+      <TabControl x:Name="tabControl" Grid.Column="2" Padding="0">
+        <TabItem Header="Code">
+          <c:CodeViewer x:Name="codeViewer" />
+        </TabItem>
+      </TabControl>
+    </Grid>
+  </DockPanel>
+</Window>

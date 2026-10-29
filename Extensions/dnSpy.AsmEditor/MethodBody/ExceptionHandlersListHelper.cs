@@ -36,12 +36,12 @@ namespace dnSpy.AsmEditor.MethodBody {
 	sealed class ExceptionHandlersListHelper : ListBoxHelperBase<ExceptionHandlerVM> {
 		readonly TypeSigCreator typeSigCreator;
 
-		protected override string AddNewBeforeSelectionMessage => dnSpy_AsmEditor_Resources.EH_Command1;
-		protected override string AddNewAfterSelectionMessage => dnSpy_AsmEditor_Resources.EH_Command2;
-		protected override string AppendNewMessage => dnSpy_AsmEditor_Resources.EH_Command3;
-		protected override string RemoveSingularMessage => dnSpy_AsmEditor_Resources.EH_Command4;
-		protected override string RemovePluralMessage => dnSpy_AsmEditor_Resources.EH_Command5;
-		protected override string RemoveAllMessage => dnSpy_AsmEditor_Resources.EH_Command6;
+		protected override string AddNewBeforeSelectionMessage => dnSpy_AsmEditor_Core_Resources.EH_Command1;
+		protected override string AddNewAfterSelectionMessage => dnSpy_AsmEditor_Core_Resources.EH_Command2;
+		protected override string AppendNewMessage => dnSpy_AsmEditor_Core_Resources.EH_Command3;
+		protected override string RemoveSingularMessage => dnSpy_AsmEditor_Core_Resources.EH_Command4;
+		protected override string RemovePluralMessage => dnSpy_AsmEditor_Core_Resources.EH_Command5;
+		protected override string RemoveAllMessage => dnSpy_AsmEditor_Core_Resources.EH_Command6;
 
 		public ExceptionHandlersListHelper(ListView listView, Window ownerWindow)
 			: base(listView) => typeSigCreator = new TypeSigCreator(ownerWindow);
@@ -65,22 +65,7 @@ namespace dnSpy.AsmEditor.MethodBody {
 		}
 
 		void CopyCatchTypeMDTokens(ExceptionHandlerVM[] ehs) {
-			var sb = new StringBuilder();
-
-			int lines = 0;
-			for (int i = 0; i < ehs.Length; i++) {
-				uint? token = GetCatchTypeToken(ehs[i].CatchType);
-				if (token is null)
-					continue;
-
-				if (lines++ > 0)
-					sb.AppendLine();
-				sb.Append($"0x{token.Value:X8}");
-			}
-			if (lines > 1)
-				sb.AppendLine();
-
-			var text = sb.ToString();
+			var text = MethodBodyListUtils.CatchTypeMDTokensToText(ehs);
 			if (text.Length > 0) {
 				try {
 					Clipboard.SetText(text);
@@ -89,8 +74,7 @@ namespace dnSpy.AsmEditor.MethodBody {
 			}
 		}
 
-		bool CopyCatchTypeMDTokensCanExecute(ExceptionHandlerVM[] ehs) => ehs.Any(a => GetCatchTypeToken(a.CatchType) is not null);
-		static uint? GetCatchTypeToken(ITypeDefOrRef? type) => type is null ? (uint?)null : type.MDToken.Raw;
+		bool CopyCatchTypeMDTokensCanExecute(ExceptionHandlerVM[] ehs) => ehs.Any(a => MethodBodyListUtils.GetCatchTypeToken(a.CatchType) is not null);
 
 		void coll_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
 			if (e.NewItems is not null)
@@ -104,35 +88,8 @@ namespace dnSpy.AsmEditor.MethodBody {
 
 		protected override void CopyItemsAsText(ExceptionHandlerVM[] ehs) {
 			Array.Sort(ehs, (a, b) => a.Index.CompareTo(b.Index));
-
-			var output = new StringBuilderTextColorOutput();
-
-			for (int i = 0; i < ehs.Length; i++) {
-				if (i > 0)
-					output.WriteLine();
-
-				var eh = ehs[i];
-				output.Write(BoxedTextColor.Number, eh.Index.ToString());
-				output.Write(BoxedTextColor.Text, "\t");
-				BodyUtils.WriteObject(output, eh.TryStartVM.SelectedItem);
-				output.Write(BoxedTextColor.Text, "\t");
-				BodyUtils.WriteObject(output, eh.TryEndVM.SelectedItem);
-				output.Write(BoxedTextColor.Text, "\t");
-				BodyUtils.WriteObject(output, eh.FilterStartVM.SelectedItem);
-				output.Write(BoxedTextColor.Text, "\t");
-				BodyUtils.WriteObject(output, eh.HandlerStartVM.SelectedItem);
-				output.Write(BoxedTextColor.Text, "\t");
-				BodyUtils.WriteObject(output, eh.HandlerEndVM.SelectedItem);
-				output.Write(BoxedTextColor.Text, "\t");
-				output.Write(BoxedTextColor.Text, ((EnumVM)eh.HandlerTypeVM.Items[eh.HandlerTypeVM.SelectedIndex]).Name);
-				output.Write(BoxedTextColor.Text, "\t");
-				BodyUtils.WriteObject(output, eh.CatchType);
-			}
-			if (ehs.Length > 1)
-				output.WriteLine();
-
 			try {
-				Clipboard.SetText(output.ToString());
+				Clipboard.SetText(MethodBodyListUtils.ExceptionHandlersToText(ehs));
 			}
 			catch (ExternalException) { }
 		}

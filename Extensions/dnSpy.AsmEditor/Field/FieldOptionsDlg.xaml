@@ -23,9 +23,9 @@
              xmlns:dnlibdlgs="clr-namespace:dnSpy.AsmEditor.DnlibDialogs"
              xmlns:winlocal="clr-namespace:dnSpy.Contracts.Controls;assembly=dnSpy.Contracts.DnSpy"
              xmlns:mvvmvc="clr-namespace:dnSpy.Contracts.MVVM.Converters;assembly=dnSpy.Contracts.DnSpy"
-             xmlns:p="clr-namespace:dnSpy.AsmEditor.Properties"
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core"
              Height="370" Width="500"
-             Title="{x:Static p:dnSpy_AsmEditor_Resources.EditFieldCommand2}"
+             Title="{x:Static pc:dnSpy_AsmEditor_Core_Resources.EditFieldCommand2}"
              Style="{StaticResource DialogWindowStyle}" WindowStartupLocation="CenterOwner"
              MinHeight="370" MinWidth="500">
     <winlocal:WindowBase.Resources>
@@ -41,7 +41,7 @@
         </Grid.RowDefinitions>
 
         <TabControl Margin="5 5 5 0">
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.MainTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MainTab}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid Margin="5">
                         <Grid.RowDefinitions>
@@ -63,13 +63,13 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
-                            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=nameTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.Field_Name}" />
+                            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=nameTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Field_Name}" />
                             <TextBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Name="nameTextBox" Text="{Binding Name, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <Label Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.Field_Access}" Target="{Binding ElementName=accessComboBox}" />
+                            <Label Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Field_Access}" Target="{Binding ElementName=accessComboBox}" />
                             <ComboBox Grid.Row="0" Grid.Column="3" Margin="5 0 0 0" HorizontalAlignment="Stretch" Name="accessComboBox" DisplayMemberPath="Name" ItemsSource="{Binding FieldAccess.Items}" SelectedIndex="{Binding FieldAccess.SelectedIndex}" VerticalContentAlignment="Center" />
                         </Grid>
 
-                        <GroupBox Grid.Row="1" Header="{x:Static p:dnSpy_AsmEditor_Resources.Field_Flags}">
+                        <GroupBox Grid.Row="1" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Field_Flags}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
@@ -102,42 +102,42 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=fieldOffsetTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.Field_Offset}" />
+                            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=fieldOffsetTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Field_Offset}" />
                             <TextBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Name="fieldOffsetTextBox" Text="{Binding FieldOffset.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
                             <CheckBox Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" IsChecked="{Binding HasFieldRVA}">
-                                <Label Padding="0" VerticalAlignment="Center" Margin="0" Target="{Binding ElementName=initialValueTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.Field_InitialValue}" IsEnabled="{Binding HasFieldRVA}" />
+                                <Label Padding="0" VerticalAlignment="Center" Margin="0" Target="{Binding ElementName=initialValueTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Field_InitialValue}" IsEnabled="{Binding HasFieldRVA}" />
                             </CheckBox>
                             <TextBox Grid.Row="0" Grid.Column="3" Margin="5 0 0 0" Name="initialValueTextBox" Text="{Binding InitialValue.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding HasFieldRVA}" />
-                            <Label Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=rvaTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.Field_RVA}" />
+                            <Label Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=rvaTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Field_RVA}" />
                             <TextBox Grid.Row="1" Grid.Column="1" Margin="5 5 0 0" Name="rvaTextBox" Text="{Binding RVA.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.TypeTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.TypeTab}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <dnlibdlgs:TypeSigCreatorControl DataContext="{Binding TypeSigCreator}" />
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.MarshalTypeTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MarshalTypeTab}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <dnlibdlgs:MarshalTypeControl Margin="0 5 0 0" DataContext="{Binding MarshalTypeVM}" />
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.ImplMapTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ImplMapTab}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <dnlibdlgs:ImplMapControl DataContext="{Binding ImplMapVM}" />
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.CustomAttributesTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.CustomAttributesTab}">
                 <dnlibdlgs:CustomAttributesControl Margin="0 5 0 0" DataContext="{Binding CustomAttributesVM}" />
             </TabItem>
         </TabControl>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_OK}" IsEnabled="{Binding HasError, Converter={StaticResource NegateBooleanConverter}}" IsDefault="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" Click="okButton_Click" />
-            <Button Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_Cancel}" IsCancel="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" />
-            <Button Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_RestoreSettings}" Style="{StaticResource DialogButton}" Command="{Binding ReinitializeCommand}" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_OK}" IsEnabled="{Binding HasError, Converter={StaticResource NegateBooleanConverter}}" IsDefault="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" Click="okButton_Click" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Cancel}" IsCancel="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_RestoreSettings}" Style="{StaticResource DialogButton}" Command="{Binding ReinitializeCommand}" />
         </StackPanel>
     </Grid>
 </winlocal:WindowBase>

@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\DnSpyCommon.props" />
+
+  <PropertyGroup>
+    <!-- Avalonia doesn't run on .NET Framework so this is the only TFM. The project isn't built by
+    dnSpy.sln (see its configurations) because build.ps1 builds the solution with -f net48 / -f net10.0-windows.
+    Use './build.sh avalonia' or build this project directly. -->
+    <TargetFrameworks>$(DnSpyCrossPlatformTfm)</TargetFrameworks>
+    <Copyright>$(DnSpyAssemblyCopyright)</Copyright>
+    <Version>$(DnSpyAssemblyVersion)</Version>
+    <InformationalVersion>$(DnSpyAssemblyInformationalVersion)</InformationalVersion>
+
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\dnSpy.snk</AssemblyOriginatorKeyFile>
+    <!-- Same dir as dnSpy.Console so they share dnSpy.Core, the decompilers and the MEF cache folder -->
+    <OutputPath>..\dnSpy\bin\$(Configuration)\</OutputPath>
+    <RootNamespace>dnSpy.Avalonia</RootNamespace>
+    <Nullable>enable</Nullable>
+
+    <OutputType>WinExe</OutputType>
+    <ApplicationManifest>..\dnSpy\app.manifest</ApplicationManifest>
+    <ApplicationIcon>..\dnSpy\Images\dnSpy.ico</ApplicationIcon>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <!-- CompilerMetadataReference has a pointer to the raw metadata -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="..\dnSpy.Images\Images\*.16.16.png" Link="Images\%(Filename)%(Extension)" />
+    <AvaloniaResource Include="..\dnSpy\Images\dnSpy.ico" Link="Images\dnSpy.ico" />
+    <EmbeddedResource Include="..\dnSpy\Themes\dark.dntheme" Link="Themes\dark.dntheme" LogicalName="dark.dntheme" />
+    <EmbeddedResource Include="..\dnSpy\Themes\light.dntheme" Link="Themes\light.dntheme" LogicalName="light.dntheme" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia.AvaloniaEdit" Version="$(AvaloniaEditVersion)" />
+    <!-- The code editor: compiler, completion, quick info, classification -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="$(RoslynVersion)" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Features" Version="$(RoslynVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- UI independent, dnSpy.Roslyn is a WPF project -->
+    <Compile Include="..\Roslyn\dnSpy.Roslyn\Compiler\FrameworkDetector.cs" Link="Editing\FrameworkDetector.cs" />
+  </ItemGroup>
+
+  <!-- The XAML compiler re-signs the assembly with the key file which needs SHA-1. That fails where
+  Directory.Build.targets uses public signing (eg. Fedora) so keep the public signature instead. -->
+  <Target Name="DnSpyKeepPublicSignature" BeforeTargets="CompileAvaloniaXaml" Condition=" '$(PublicSign)' == 'true' ">
+    <PropertyGroup>
+      <DelaySign>true</DelaySign>
+    </PropertyGroup>
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\dnSpy.Contracts.DnSpy.Core\dnSpy.Contracts.DnSpy.Core.csproj" />
+    <ProjectReference Include="..\dnSpy.Contracts.Logic\dnSpy.Contracts.Logic.csproj" />
+    <ProjectReference Include="..\dnSpy.Core\dnSpy.Core.csproj" />
+    <ProjectReference Include="..\dnSpy.Decompiler\dnSpy.Decompiler.csproj" />
+    <ProjectReference Include="..\..\Extensions\dnSpy.AsmEditor.Core\dnSpy.AsmEditor.Core.csproj" />
+    <ProjectReference Include="..\..\Extensions\dnSpy.BamlDecompiler.Core\dnSpy.BamlDecompiler.Core.csproj" />
+    <ProjectReference Include="..\..\Extensions\ILSpy.Decompiler\dnSpy.Decompiler.ILSpy.Core\dnSpy.Decompiler.ILSpy.Core.csproj" />
+  </ItemGroup>
+
+</Project>

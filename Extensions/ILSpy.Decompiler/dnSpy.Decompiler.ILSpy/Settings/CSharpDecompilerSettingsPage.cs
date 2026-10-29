@@ -22,6 +22,7 @@ using System.Diagnostics;
 using System.Linq;
 using dnSpy.Contracts.MVVM;
 using dnSpy.Contracts.Settings.Dialog;
+using dnSpy.Decompiler.ILSpy.Core.Settings;
 using dnSpy.Decompiler.ILSpy.Properties;
 using ICSharpCode.Decompiler;
 

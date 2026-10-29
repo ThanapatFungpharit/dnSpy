@@ -197,7 +197,7 @@ namespace dnSpy.AsmEditor.Compiler {
 				method = containingMethod;
 			var methodNode = appService.DocumentTreeView.FindNode(method);
 			if (methodNode is null) {
-				MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Resources.Error_CouldNotFindMethod, method));
+				MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Core_Resources.Error_CouldNotFindMethod, method));
 				return;
 			}
 

@@ -1,0 +1,171 @@
+<!--
+    Copyright (C) 2014-2026 de4dot@gmail.com
+
+    This file is part of dnSpy
+
+    dnSpy is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    dnSpy is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<local:DialogWindow x:Class="dnSpy.Avalonia.AsmEditor.MethodOptionsDlg"
+             x:ClassModifier="internal"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:dnSpy.Avalonia.AsmEditor"
+             xmlns:vm="clr-namespace:dnSpy.AsmEditor.Method;assembly=dnSpy.AsmEditor.Core"
+             x:DataType="vm:MethodOptionsVM"
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core"
+             Height="450" Width="700"
+             Title="{x:Static pc:dnSpy_AsmEditor_Core_Resources.EditMethodCommand2}" WindowStartupLocation="CenterOwner"
+             MinHeight="400" MinWidth="550">
+    <Grid local:FocusHelper.FocusedElement="{Binding #nameTextBox}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TabControl Margin="5 5 5 0">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MainTab}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding #nameTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Method_Name}" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Name="nameTextBox" Text="{Binding Name}" local:DataErrorInfoHelper.Source="{Binding}" local:DataErrorInfoHelper.Property="Name" />
+                        </Grid>
+
+                        <local:GroupBox Grid.Row="1" Header="ImplFlags">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <CheckBox Grid.Row="0" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding ForwardRef}" Content="ForwardRef" />
+                                <CheckBox Grid.Row="0" Grid.Column="1" Margin="5 5 0 0" IsChecked="{Binding PreserveSig}" Content="PreserveSig" />
+                                <CheckBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" IsChecked="{Binding InternalCall}" Content="InternalCall" />
+                                <CheckBox Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding Synchronized}" Content="Synchronized" />
+                                <CheckBox Grid.Row="1" Grid.Column="1" Margin="5 5 0 0" IsChecked="{Binding NoInlining}" Content="NoInlining" />
+                                <CheckBox Grid.Row="1" Grid.Column="2" Margin="5 5 0 0" IsChecked="{Binding AggressiveInlining}" Content="AggressiveInlining" />
+                                <CheckBox Grid.Row="2" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding NoOptimization}" Content="NoOptimization" />
+                                <CheckBox Grid.Row="2" Grid.Column="1" Margin="5 5 0 0" IsChecked="{Binding AggressiveOptimization}" Content="AggressiveOptimization" />
+                                <CheckBox Grid.Row="2" Grid.Column="2" Margin="5 5 0 0" IsChecked="{Binding SecurityMitigations}" Content="SecurityMitigations" />
+                            </Grid>
+                        </local:GroupBox>
+
+                        <local:GroupBox Grid.Row="2" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <CheckBox Grid.Row="0" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding Static}" Content="Static" />
+                                <CheckBox Grid.Row="0" Grid.Column="1" Margin="5 5 0 0" IsChecked="{Binding Final}" Content="Final" />
+                                <CheckBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" IsChecked="{Binding Virtual}" Content="Virtual" />
+                                <CheckBox Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding HideBySig}" Content="HideBySig" />
+                                <CheckBox Grid.Row="1" Grid.Column="1" Margin="5 5 0 0" IsChecked="{Binding CheckAccessOnOverride}" Content="CheckAccessOnOverride" />
+                                <CheckBox Grid.Row="1" Grid.Column="2" Margin="5 5 0 0" IsChecked="{Binding Abstract}" Content="Abstract" />
+                                <CheckBox Grid.Row="2" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding SpecialName}" Content="SpecialName" />
+                                <CheckBox Grid.Row="2" Grid.Column="1" Margin="5 5 0 0" IsChecked="{Binding RTSpecialName}" Content="RTSpecialName" />
+                                <CheckBox Grid.Row="2" Grid.Column="2" Margin="5 5 0 0" IsChecked="{Binding UnmanagedExport}" Content="UnmanagedExport" />
+                                <CheckBox Grid.Row="3" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding RequireSecObject}" Content="RequireSecObject" />
+                            </Grid>
+                        </local:GroupBox>
+
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding #codeTypeComboBox}" Content="CodeType" />
+                            <ComboBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Name="codeTypeComboBox" HorizontalAlignment="Stretch" DisplayMemberBinding="{ReflectionBinding Name}" ItemsSource="{Binding CodeType.Items}" SelectedIndex="{Binding CodeType.SelectedIndex}" VerticalContentAlignment="Center" />
+                            <Label Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" Target="{Binding #managedTypeComboBox}" Content="ManagedType" />
+                            <ComboBox Grid.Row="0" Grid.Column="3" Margin="5 0 0 0" Name="managedTypeComboBox" HorizontalAlignment="Stretch" DisplayMemberBinding="{ReflectionBinding Name}" ItemsSource="{Binding ManagedType.Items}" SelectedIndex="{Binding ManagedType.SelectedIndex}" VerticalContentAlignment="Center" />
+
+                            <Label Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Target="{Binding #accessComboBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Method_Access}" />
+                            <ComboBox Grid.Row="1" Grid.Column="1" Margin="5 5 0 0" Name="accessComboBox" HorizontalAlignment="Stretch" DisplayMemberBinding="{ReflectionBinding Name}" ItemsSource="{Binding MethodAccess.Items}" SelectedIndex="{Binding MethodAccess.SelectedIndex}" VerticalContentAlignment="Center" />
+                            <Label Grid.Row="1" Grid.Column="2" Margin="5 5 0 0" Target="{Binding #vtableLayoutComboBox}" Content="VtableLayout" />
+                            <ComboBox Grid.Row="1" Grid.Column="3" Margin="5 5 0 0" Name="vtableLayoutComboBox" HorizontalAlignment="Stretch" DisplayMemberBinding="{ReflectionBinding Name}" ItemsSource="{Binding VtableLayout.Items}" SelectedIndex="{Binding VtableLayout.SelectedIndex}" VerticalContentAlignment="Center" />
+                        </Grid>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodSignatureTab}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <local:MethodSigCreatorControl Grid.Row="0" Margin="0 5 0 0" DataContext="{Binding MethodSigCreator}" />
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodParametersTab}">
+                <local:ParamDefsControl Margin="0 5 0 0" DataContext="{Binding ParamDefsVM}" />
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GenericParametersTab}">
+                <local:GenericParamsControl Margin="0 5 0 0" DataContext="{Binding GenericParamsVM}" />
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ImplMapTab}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <local:ImplMapControl Margin="0 5 0 0" DataContext="{Binding ImplMapVM}" />
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodOverridesTab}">
+                <local:MethodOverridesControl Margin="0 5 0 0" DataContext="{Binding MethodOverridesVM}" />
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.CustomAttributesTab}">
+                <local:CustomAttributesControl Margin="0 5 0 0" DataContext="{Binding CustomAttributesVM}" />
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SecurityDeclarationsTab}">
+                <local:DeclSecuritiesControl Margin="0 5 0 0" DataContext="{Binding DeclSecuritiesVM}" />
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_OK}" IsEnabled="{Binding !HasError}" IsDefault="True" Classes="dialog" Margin="0,0,5,0" Click="okButton_Click" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Cancel}" IsCancel="True" Click="cancelButton_Click" Classes="dialog" Margin="0,0,5,0" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_RestoreSettings}" Classes="dialog" Command="{Binding ReinitializeCommand}" />
+        </StackPanel>
+    </Grid>
+</local:DialogWindow>

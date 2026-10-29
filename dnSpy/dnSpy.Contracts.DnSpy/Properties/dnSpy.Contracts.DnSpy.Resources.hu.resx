@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllFiles" xml:space="preserve">
-    <value>Minden Fájl</value>
-  </data>
   <data name="AnErrorOccurred" xml:space="preserve">
     <value>Hiba történt:
 
@@ -128,35 +125,11 @@
   <data name="Button_Cancel" xml:space="preserve">
     <value>_Mégsem</value>
   </data>
-  <data name="CouldNotConvert" xml:space="preserve">
-    <value>'{0}' nem konvertálható</value>
-  </data>
   <data name="CouldNotConvertFromString" xml:space="preserve">
     <value>Nem tudtam átalakítani a stringről: {0}</value>
   </data>
   <data name="CouldNotDeserializeData" xml:space="preserve">
     <value>Nem sikerült deszerializálni az adatokat: {0}</value>
-  </data>
-  <data name="Files_DotNetExecutables" xml:space="preserve">
-    <value>.NET futtathatók</value>
-  </data>
-  <data name="Files_DotNetNetModules" xml:space="preserve">
-    <value>.NET NetModul</value>
-  </data>
-  <data name="Files_Executables" xml:space="preserve">
-    <value>Végrehajtható fájlok</value>
-  </data>
-  <data name="Files_Images" xml:space="preserve">
-    <value>Képek</value>
-  </data>
-  <data name="Files_StrongNameKeyFiles" xml:space="preserve">
-    <value>Erős nevű kulcs fájlok</value>
-  </data>
-  <data name="Files_XmlFiles" xml:space="preserve">
-    <value>XML fájlok</value>
-  </data>
-  <data name="InvalidGuid" xml:space="preserve">
-    <value>Érvénytelen GUID</value>
   </data>
   <data name="NewDataNotImageList" xml:space="preserve">
     <value>Az új adat nem kép lista.</value>
@@ -184,9 +157,5 @@
   </data>
   <data name="Search_SearchColumnInvertMatchHelpText" xml:space="preserve">
     <value>'{0}' használatával megfordítható az illesztés, pl. {1}</value>
-  </data>
-  <data name="ValueMustBeType" xml:space="preserve">
-    <value>Az értéknek {0} típusúnak kell lennie.
-Hiba: {1}</value>
   </data>
 </root>

@@ -1,0 +1,260 @@
+<!--
+    Copyright (C) 2014-2026 de4dot@gmail.com
+
+    This file is part of dnSpy
+
+    dnSpy is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    dnSpy is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<UserControl x:Class="dnSpy.Avalonia.AsmEditor.ConstantTypeControl"
+             x:ClassModifier="internal"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:dnSpy.Avalonia.AsmEditor"
+             xmlns:vm="clr-namespace:dnSpy.AsmEditor.DnlibDialogs;assembly=dnSpy.AsmEditor.Core"
+             x:DataType="vm:ConstantTypeVM"
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <ComboBox Grid.Column="0" Margin="0 0 0 0" DisplayMemberBinding="{ReflectionBinding Name}" Width="70" ItemsSource="{Binding ConstantTypeEnumList.Items}" SelectedIndex="{Binding ConstantTypeEnumList.SelectedIndex}" VerticalContentAlignment="Center" IsEnabled="{Binding IsEnabled}" ToolTip.Tip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ValueType_ToolTip}" />
+
+        <!-- Make sure nothing is resized when Null is selected -->
+        <Label Grid.Column="1" Margin="0 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" Opacity="0" IsHitTestVisible="False" IsTabStop="False" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Opacity="0" IsHitTestVisible="False" IsTabStop="False" />
+
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #booleanTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding BooleanIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Name="booleanTextBox" Text="{Binding Boolean.StringValue}" IsVisible="{Binding BooleanIsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding Boolean}" local:DataErrorInfoHelper.Property="StringValue" />
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #charTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding CharIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Name="charTextBox" Text="{Binding Char.StringValue}" IsVisible="{Binding CharIsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding Char}" local:DataErrorInfoHelper.Property="StringValue" />
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #sbyteTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding SByteIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Name="sbyteTextBox" Text="{Binding SByte.StringValue}" IsVisible="{Binding SByteIsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding SByte}" local:DataErrorInfoHelper.Property="StringValue" />
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #int16TextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding Int16IsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Name="int16TextBox" Text="{Binding Int16.StringValue}" IsVisible="{Binding Int16IsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding Int16}" local:DataErrorInfoHelper.Property="StringValue" />
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #int32TextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding Int32IsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Name="int32TextBox" Text="{Binding Int32.StringValue}" IsVisible="{Binding Int32IsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding Int32}" local:DataErrorInfoHelper.Property="StringValue" />
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #int64TextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding Int64IsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Name="int64TextBox" Text="{Binding Int64.StringValue}" IsVisible="{Binding Int64IsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding Int64}" local:DataErrorInfoHelper.Property="StringValue" />
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #byteTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding ByteIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Name="byteTextBox" Text="{Binding Byte.StringValue}" IsVisible="{Binding ByteIsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding Byte}" local:DataErrorInfoHelper.Property="StringValue" />
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #uint16TextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding UInt16IsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Name="uint16TextBox" Text="{Binding UInt16.StringValue}" IsVisible="{Binding UInt16IsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding UInt16}" local:DataErrorInfoHelper.Property="StringValue" />
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #uint32TextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding UInt32IsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Name="uint32TextBox" Text="{Binding UInt32.StringValue}" IsVisible="{Binding UInt32IsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding UInt32}" local:DataErrorInfoHelper.Property="StringValue" />
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #uint64TextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding UInt64IsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Name="uint64TextBox" Text="{Binding UInt64.StringValue}" IsVisible="{Binding UInt64IsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding UInt64}" local:DataErrorInfoHelper.Property="StringValue" />
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #singleTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding SingleIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Name="singleTextBox" Text="{Binding Single.StringValue}" IsVisible="{Binding SingleIsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding Single}" local:DataErrorInfoHelper.Property="StringValue" />
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #doubleTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding DoubleIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Name="doubleTextBox" Text="{Binding Double.StringValue}" IsVisible="{Binding DoubleIsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding Double}" local:DataErrorInfoHelper.Property="StringValue" />
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #stringTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding StringIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <TextBox Grid.Column="2" Margin="0 0 0 0" Name="stringTextBox" Text="{Binding String.StringValue}" IsVisible="{Binding StringIsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding String}" local:DataErrorInfoHelper.Property="StringValue" />
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #enumTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding EnumIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding EnumIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Name="enumTextBox" Text="{Binding Enum.StringValue}" IsVisible="{Binding EnumIsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding Enum}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Button Grid.Column="1" Margin="5 0 0 0" Classes="ellipsis" ToolTip.Tip="{Binding Enum.PickEnumToolTip}" Command="{Binding Enum.PickEnumTypeCommand}" IsVisible="{Binding EnumIsSelected}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #typeTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding TypeIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding TypeIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Name="typeTextBox" Background="Transparent" IsReadOnly="True" ToolTip.Tip="{Binding Type.StringValue}" Text="{Binding Type.StringValue, Mode=OneWay}" IsVisible="{Binding TypeIsSelected}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding Type}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Button Grid.Column="1" Margin="5 0 0 0" Classes="ellipsis" ToolTip.Tip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Pick_Type}" Command="{Binding Type.PickTypeCommand}" IsVisible="{Binding TypeIsSelected}" />
+        </Grid>
+
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #objectArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding ObjectArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding ObjectArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding ObjectArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="objectArrayTextBox" Background="Transparent" IsReadOnly="True" ToolTip.Tip="{Binding ObjectArray.StringValue}" Text="{Binding ObjectArray.StringValue, Mode=OneWay}" IsVisible="{Binding ObjectArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding ObjectArray}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding ObjectArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+            <Button Grid.Column="2" Margin="5 0 0 0" Classes="ellipsis" ToolTip.Tip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.AppendObject}" Command="{Binding ObjectArray.AddObjectCommand}" IsVisible="{Binding ObjectArrayIsSelectedAndNotNull}" />
+            <Button Grid.Column="3" Margin="5 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.RemoveCharacter}" ToolTip.Tip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.RemoveCharacter_ToolTip}" Width="25" Command="{Binding ObjectArray.RemoveObjectCommand}" IsVisible="{Binding ObjectArrayIsSelectedAndNotNull}" />
+            <Button Grid.Column="4" Margin="5 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ClearCharacter}" ToolTip.Tip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ClearCharacter_ToolTip}" Width="25" Command="{Binding ObjectArray.ClearObjectsCommand}" IsVisible="{Binding ObjectArrayIsSelectedAndNotNull}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #booleanArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding BooleanArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding BooleanArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding BooleanArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="booleanArrayTextBox" Text="{Binding BooleanArray.StringValue}" IsVisible="{Binding BooleanArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding BooleanArray}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding BooleanArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #charArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding CharArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding CharArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding CharArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="charArrayTextBox" Text="{Binding CharArray.StringValue}" IsVisible="{Binding CharArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding CharArray}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding CharArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #sbyteArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding SByteArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding SByteArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding SByteArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="sbyteArrayTextBox" Text="{Binding SByteArray.StringValue}" IsVisible="{Binding SByteArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding SByteArray}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding SByteArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #int16ArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding Int16ArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding Int16ArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding Int16ArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="int16ArrayTextBox" Text="{Binding Int16Array.StringValue}" IsVisible="{Binding Int16ArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding Int16Array}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding Int16ArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #int32ArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding Int32ArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding Int32ArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding Int32ArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="int32ArrayTextBox" Text="{Binding Int32Array.StringValue}" IsVisible="{Binding Int32ArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding Int32Array}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding Int32ArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #int64ArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding Int64ArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding Int64ArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding Int64ArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="int64ArrayTextBox" Text="{Binding Int64Array.StringValue}" IsVisible="{Binding Int64ArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding Int64Array}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding Int64ArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #byteArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding ByteArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding ByteArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding ByteArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="byteArrayTextBox" Text="{Binding ByteArray.StringValue}" IsVisible="{Binding ByteArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding ByteArray}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding ByteArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #uint16ArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding UInt16ArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding UInt16ArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding UInt16ArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="uint16ArrayTextBox" Text="{Binding UInt16Array.StringValue}" IsVisible="{Binding UInt16ArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding UInt16Array}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding UInt16ArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #uint32ArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding UInt32ArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding UInt32ArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding UInt32ArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="uint32ArrayTextBox" Text="{Binding UInt32Array.StringValue}" IsVisible="{Binding UInt32ArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding UInt32Array}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding UInt32ArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #uint64ArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding UInt64ArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding UInt64ArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding UInt64ArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="uint64ArrayTextBox" Text="{Binding UInt64Array.StringValue}" IsVisible="{Binding UInt64ArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding UInt64Array}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding UInt64ArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #singleArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding SingleArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding SingleArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding SingleArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="singleArrayTextBox" Text="{Binding SingleArray.StringValue}" IsVisible="{Binding SingleArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding SingleArray}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding SingleArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #doubleArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding DoubleArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding DoubleArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding DoubleArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="doubleArrayTextBox" Text="{Binding DoubleArray.StringValue}" IsVisible="{Binding DoubleArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding DoubleArray}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding DoubleArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #stringArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding StringArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding StringArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding StringArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="stringArrayTextBox" Text="{Binding StringArray.StringValue}" IsVisible="{Binding StringArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding StringArray}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding StringArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #enumArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding EnumArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding EnumArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding EnumArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="enumArrayTextBox" Text="{Binding EnumArray.StringValue}" IsVisible="{Binding EnumArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding EnumArray}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding EnumArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+            <Button Grid.Column="2" Margin="5 0 0 0" Classes="ellipsis" ToolTip.Tip="{Binding EnumArray.PickEnumToolTip}" Command="{Binding EnumArray.PickEnumTypeCommand}" IsVisible="{Binding EnumArrayIsSelectedAndNotNull}" />
+        </Grid>
+        <Label Grid.Column="1" Margin="0 0 0 0" Target="{Binding #typeArrayTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Value}" IsVisible="{Binding TypeArrayIsSelected}" IsEnabled="{Binding IsEnabled}" />
+        <Grid Grid.Column="2" Margin="0 0 0 0" IsVisible="{Binding TypeArrayIsSelected}" IsEnabled="{Binding IsEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0 0 5 0" VerticalAlignment="Center" IsChecked="{Binding TypeArrayIsNull}" IsVisible="{Binding ArraysCanBeNull}" IsEnabled="{Binding IsEnabled}" />
+            <TextBox Grid.Column="1" Name="typeArrayTextBox" Background="Transparent" IsReadOnly="True" ToolTip.Tip="{Binding TypeArray.StringValue}" Text="{Binding TypeArray.StringValue, Mode=OneWay}" IsVisible="{Binding TypeArrayIsSelectedAndNotNull}" IsEnabled="{Binding IsEnabled}" local:DataErrorInfoHelper.Source="{Binding TypeArray}" local:DataErrorInfoHelper.Property="StringValue" />
+            <Label Grid.Column="1" Content="null" IsVisible="{Binding TypeArrayIsNull}" IsEnabled="{Binding IsEnabled}" />
+            <Button Grid.Column="2" Margin="5 0 0 0" Classes="ellipsis" ToolTip.Tip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.AppendType}" Command="{Binding TypeArray.AddTypeCommand}" IsVisible="{Binding TypeArrayIsSelectedAndNotNull}" />
+            <Button Grid.Column="3" Margin="5 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.RemoveLastTypeCharacter}" ToolTip.Tip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.RemoveLastTypeCharacter_ToolTip}" Width="25" Command="{Binding TypeArray.RemoveTypeCommand}" IsVisible="{Binding TypeArrayIsSelectedAndNotNull}" />
+            <Button Grid.Column="4" Margin="5 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ClearTypesCharacter}" ToolTip.Tip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ClearTypesCharacter_ToolTip}" Width="25" Command="{Binding TypeArray.ClearTypesCommand}" IsVisible="{Binding TypeArrayIsSelectedAndNotNull}" />
+        </Grid>
+    </Grid>
+</UserControl>

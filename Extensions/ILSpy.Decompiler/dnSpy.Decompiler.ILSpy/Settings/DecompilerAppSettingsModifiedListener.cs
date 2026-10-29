@@ -23,6 +23,7 @@ using System.Linq;
 using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Documents.Tabs;
 using dnSpy.Contracts.Settings.Dialog;
+using dnSpy.Decompiler.ILSpy.Core.Settings;
 
 namespace dnSpy.Decompiler.ILSpy.Settings {
 	[ExportAppSettingsModifiedListener(Order = AppSettingsConstants.ORDER_LISTENER_DECOMPILER)]

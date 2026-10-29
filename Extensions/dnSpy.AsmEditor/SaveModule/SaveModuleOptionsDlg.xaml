@@ -22,10 +22,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:winlocal="clr-namespace:dnSpy.Contracts.Controls;assembly=dnSpy.Contracts.DnSpy"
              xmlns:mvvmvc="clr-namespace:dnSpy.Contracts.MVVM.Converters;assembly=dnSpy.Contracts.DnSpy"
-             xmlns:p="clr-namespace:dnSpy.AsmEditor.Properties"
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core"
              xmlns:img="clr-namespace:dnSpy.Contracts.Images;assembly=dnSpy.Contracts.DnSpy"
              Height="450" Width="500"
-             Title="{x:Static p:dnSpy_AsmEditor_Resources.SaveModuleCommand2}"
+             Title="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModuleCommand2}"
              Style="{StaticResource DialogWindowStyle}" WindowStartupLocation="CenterOwner"
              MinHeight="410" MinWidth="400">
     <winlocal:WindowBase.Resources>
@@ -40,7 +40,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TabControl Margin="5">
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.MainTab}" img:DsImage.BackgroundBrush="{DynamicResource TabItem.Selected.Background}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MainTab}" img:DsImage.BackgroundBrush="{DynamicResource TabItem.Selected.Background}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <Grid>
@@ -52,13 +52,13 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <CheckBox Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" IsEnabled="{Binding CanWritePdb}" IsChecked="{Binding WritePdb}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_WritePdb}" />
-                            <CheckBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" IsEnabled="{Binding CanSaveMixedModeModule}" IsChecked="{Binding UseMixedMode}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_UseMixedMode}" ToolTip="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_UseMixedMode_ToolTip}" />
-                            <CheckBox Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding ShareMethodBodies}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_ShareMethodBodies}" ToolTip="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_ShareMethodBodies_ToolTip}" />
+                            <CheckBox Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" IsEnabled="{Binding CanWritePdb}" IsChecked="{Binding WritePdb}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_WritePdb}" />
+                            <CheckBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" IsEnabled="{Binding CanSaveMixedModeModule}" IsChecked="{Binding UseMixedMode}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_UseMixedMode}" ToolTip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_UseMixedMode_ToolTip}" />
+                            <CheckBox Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding ShareMethodBodies}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_ShareMethodBodies}" ToolTip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_ShareMethodBodies_ToolTip}" />
                         </Grid>
 
                         <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
-                            <Label Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_ModuleType}" Margin="0 0 0 0" Target="{Binding ElementName=moduleKindComboBox}" />
+                            <Label Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_ModuleType}" Margin="0 0 0 0" Target="{Binding ElementName=moduleKindComboBox}" />
                             <ComboBox Name="moduleKindComboBox" Margin="5 0 0 0" DisplayMemberPath="Name" ItemsSource="{Binding ModuleKind.Items}" SelectedIndex="{Binding ModuleKind.SelectedIndex}" Width="100" VerticalContentAlignment="Center" />
                         </StackPanel>
 
@@ -72,24 +72,24 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=filenameTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_Filename}" />
+                            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=filenameTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_Filename}" />
                             <TextBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Name="filenameTextBox" Text="{Binding FileName, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Button Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" Style="{StaticResource EllipsisButton}" Command="{Binding PickNetExecutableFileNameCommand}" />
                         </Grid>
 
                         <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" Margin="5 5 0 0">
                             <img:DsImage ImageReference="{x:Static img:DsImages.StatusWarning}"/>
-                            <TextBlock Margin="5 0 0 0" Text="{x:Static p:dnSpy_AsmEditor_Resources.RerunNgenIfGacAssembly}" />
+                            <TextBlock Margin="5 0 0 0" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.RerunNgenIfGacAssembly}" />
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.MDWriterOptionsTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MDWriterOptionsTab}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <GroupBox ToolTip="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_PreserveTokens_ToolTip}" IsEnabled="{Binding CanSaveMixedModeModule}">
+                        <GroupBox ToolTip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_PreserveTokens_ToolTip}" IsEnabled="{Binding CanSaveMixedModeModule}">
                             <GroupBox.Header>
-                                <CheckBox IsThreeState="False" IsChecked="{Binding MetadataOptions.PreserveRids}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_PreserveTokens}" />
+                                <CheckBox IsThreeState="False" IsChecked="{Binding MetadataOptions.PreserveRids}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_PreserveTokens}" />
                             </GroupBox.Header>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -119,7 +119,7 @@
                         </GroupBox>
                         <GroupBox IsEnabled="{Binding CanSaveMixedModeModule}" Margin="0 5 0 0" >
                             <GroupBox.Header>
-                                <CheckBox IsThreeState="False" IsChecked="{Binding MetadataOptions.PreseveAllHeapOffsets}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_PreserveHeapOffsets}" />
+                                <CheckBox IsThreeState="False" IsChecked="{Binding MetadataOptions.PreseveAllHeapOffsets}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_PreserveHeapOffsets}" />
                             </GroupBox.Header>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -138,7 +138,7 @@
                         </GroupBox>
                         <GroupBox Margin="0 5 0 0" >
                             <GroupBox.Header>
-                                <CheckBox IsThreeState="False" IsChecked="{Binding MetadataOptions.AlwaysCreateAllHeaps}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_CreateHeapEvenIfEmpty}" />
+                                <CheckBox IsThreeState="False" IsChecked="{Binding MetadataOptions.AlwaysCreateAllHeaps}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_CreateHeapEvenIfEmpty}" />
                             </GroupBox.Header>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -157,7 +157,7 @@
                                 <CheckBox Grid.Row="0" Grid.Column="3" Margin="5 0 0 0" Content="#_Guid" IsChecked="{Binding MetadataOptions.AlwaysCreateGuidHeap}" />
                             </Grid>
                         </GroupBox>
-                        <GroupBox Header="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_MiscOptions}" Margin="0 5 0 0">
+                        <GroupBox Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_MiscOptions}" Margin="0 5 0 0">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
@@ -167,18 +167,18 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <CheckBox Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_PreserveExtraSigData}" IsChecked="{Binding MetadataOptions.PreserveExtraSignatureData}" ToolTip="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_PreserveExtraSigData_ToolTip}" IsEnabled="{Binding CanSaveMixedModeModule}" />
-                                <CheckBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_KeepOldMaxStack}" IsChecked="{Binding MetadataOptions.KeepOldMaxStack}" ToolTip="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_KeepOldMaxStack_ToolTip}" />
-                                <CheckBox Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_PreserveOtherMetadataStreams}" IsChecked="{Binding MetadataOptions.PreserveOtherMetadataStreams}" IsEnabled="{Binding CanPreserveOtherMetadataStreams}" />
+                                <CheckBox Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_PreserveExtraSigData}" IsChecked="{Binding MetadataOptions.PreserveExtraSignatureData}" ToolTip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_PreserveExtraSigData_ToolTip}" IsEnabled="{Binding CanSaveMixedModeModule}" />
+                                <CheckBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_KeepOldMaxStack}" IsChecked="{Binding MetadataOptions.KeepOldMaxStack}" ToolTip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_KeepOldMaxStack_ToolTip}" />
+                                <CheckBox Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_PreserveOtherMetadataStreams}" IsChecked="{Binding MetadataOptions.PreserveOtherMetadataStreams}" IsEnabled="{Binding CanPreserveOtherMetadataStreams}" />
                             </Grid>
                         </GroupBox>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.MetadataTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MetadataTab}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <GroupBox Header="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_MetadataHeaderOptions}">
+                        <GroupBox Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_MetadataHeaderOptions}">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
@@ -193,23 +193,23 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=signatureTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_Metadata_Signature}" />
+                                <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=signatureTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_Metadata_Signature}" />
                                 <TextBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Name="signatureTextBox" Text="{Binding MetadataOptions.MetadataHeaderOptions.Signature.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                                <Label Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" Target="{Binding ElementName=versionStringTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_Metadata_VersionString}" />
+                                <Label Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" Target="{Binding ElementName=versionStringTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_Metadata_VersionString}" />
                                 <TextBox Grid.Row="0" Grid.Column="3" Margin="5 0 0 0" Name="versionStringTextBox" Text="{Binding MetadataOptions.MetadataHeaderOptions.VersionString, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                                <Label Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=majorVersionTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_Metadata_MajorVersion}" />
+                                <Label Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=majorVersionTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_Metadata_MajorVersion}" />
                                 <TextBox Grid.Row="1" Grid.Column="1" Margin="5 5 0 0" Name="majorVersionTextBox" Text="{Binding MetadataOptions.MetadataHeaderOptions.MajorVersion.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                                <Label Grid.Row="1" Grid.Column="2" Margin="5 5 0 0" Target="{Binding ElementName=minorVersionTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_Metadata_MinorVersion}" />
+                                <Label Grid.Row="1" Grid.Column="2" Margin="5 5 0 0" Target="{Binding ElementName=minorVersionTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_Metadata_MinorVersion}" />
                                 <TextBox Grid.Row="1" Grid.Column="3" Margin="5 5 0 0" Name="minorVersionTextBox" Text="{Binding MetadataOptions.MetadataHeaderOptions.MinorVersion.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                                <Label Grid.Row="2" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=reserved1TextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_Metadata_Reserved1}" />
+                                <Label Grid.Row="2" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=reserved1TextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_Metadata_Reserved1}" />
                                 <TextBox Grid.Row="2" Grid.Column="1" Margin="5 5 0 0" Name="reserved1TextBox" Text="{Binding MetadataOptions.MetadataHeaderOptions.Reserved1.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                                <Label Grid.Row="2" Grid.Column="2" Margin="5 5 0 0" Target="{Binding ElementName=reserved2TextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_Metadata_Reserved2}" />
+                                <Label Grid.Row="2" Grid.Column="2" Margin="5 5 0 0" Target="{Binding ElementName=reserved2TextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_Metadata_Reserved2}" />
                                 <TextBox Grid.Row="2" Grid.Column="3" Margin="5 5 0 0" Name="reserved2TextBox" Text="{Binding MetadataOptions.MetadataHeaderOptions.Reserved2.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                                <Label Grid.Row="3" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=storageFlagsTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_Metadata_StorageFlags}" />
+                                <Label Grid.Row="3" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=storageFlagsTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_Metadata_StorageFlags}" />
                                 <TextBox Grid.Row="3" Grid.Column="1" Margin="5 5 0 0" Name="storageFlagsTextBox" Text="{Binding MetadataOptions.MetadataHeaderOptions.StorageFlags.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="Leave this blank or set it only to 0.&#x0A;Any other value will crash the assembly" />
                             </Grid>
                         </GroupBox>
-                        <GroupBox Header="{x:Static p:dnSpy_AsmEditor_Resources.TablesHeapOptionsTab}" Margin="0 5 0 0">
+                        <GroupBox Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.TablesHeapOptionsTab}" Margin="0 5 0 0">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
@@ -225,19 +225,19 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=majorVersionTextBox2}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_TablesHeap_MajorVersion}" />
+                                <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=majorVersionTextBox2}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_TablesHeap_MajorVersion}" />
                                 <TextBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Name="majorVersionTextBox2" Text="{Binding MetadataOptions.TablesHeapOptions.MajorVersion.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                                <Label Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" Target="{Binding ElementName=minorVersionTextBox2}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_TablesHeap_MinorVersion}" />
+                                <Label Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" Target="{Binding ElementName=minorVersionTextBox2}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_TablesHeap_MinorVersion}" />
                                 <TextBox Grid.Row="0" Grid.Column="3" Margin="5 0 0 0" Name="minorVersionTextBox2" Text="{Binding MetadataOptions.TablesHeapOptions.MinorVersion.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                                <Label Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=reserved1TextBox2}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_TablesHeap_Reserved1}" />
+                                <Label Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=reserved1TextBox2}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_TablesHeap_Reserved1}" />
                                 <TextBox Grid.Row="1" Grid.Column="1" Margin="5 5 0 0" Name="reserved1TextBox2" Text="{Binding MetadataOptions.TablesHeapOptions.Reserved1.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                                <Label Grid.Row="1" Grid.Column="2" Margin="5 5 0 0" Target="{Binding ElementName=extraDataTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_TablesHeap_ExtraData}" />
+                                <Label Grid.Row="1" Grid.Column="2" Margin="5 5 0 0" Target="{Binding ElementName=extraDataTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_TablesHeap_ExtraData}" />
                                 <TextBox Grid.Row="1" Grid.Column="3" Margin="5 5 0 0" Name="extraDataTextBox" Text="{Binding MetadataOptions.TablesHeapOptions.ExtraData.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                                <Label Grid.Row="2" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=log2RidTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_TablesHeap_Log2Rid}" />
+                                <Label Grid.Row="2" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=log2RidTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_TablesHeap_Log2Rid}" />
                                 <TextBox Grid.Row="2" Grid.Column="1" Margin="5 5 0 0" Name="log2RidTextBox" Text="{Binding MetadataOptions.TablesHeapOptions.Log2Rid.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                                <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5 5 0 0" IsThreeState="True" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_TablesHeap_HasDeletedRows}" IsChecked="{Binding MetadataOptions.TablesHeapOptions.HasDeletedRows}" />
-                                <CheckBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Margin="5 5 0 0" IsThreeState="True" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_TablesHeap_UseENC}" IsChecked="{Binding MetadataOptions.TablesHeapOptions.UseENC}" />
-                                <CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5 5 0 0" IsThreeState="True" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_TablesHeap_ForceBigColumns}" IsChecked="{Binding MetadataOptions.TablesHeapOptions.ForceBigColumns}" />
+                                <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5 5 0 0" IsThreeState="True" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_TablesHeap_HasDeletedRows}" IsChecked="{Binding MetadataOptions.TablesHeapOptions.HasDeletedRows}" />
+                                <CheckBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Margin="5 5 0 0" IsThreeState="True" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_TablesHeap_UseENC}" IsChecked="{Binding MetadataOptions.TablesHeapOptions.UseENC}" />
+                                <CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5 5 0 0" IsThreeState="True" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_TablesHeap_ForceBigColumns}" IsChecked="{Binding MetadataOptions.TablesHeapOptions.ForceBigColumns}" />
                             </Grid>
                         </GroupBox>
                     </StackPanel>
@@ -257,14 +257,14 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Target="{Binding ElementName=majorRuntimeVersionTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_Cor20_MajorRuntimeVersion}" />
+                            <Label Grid.Row="0" Grid.Column="0" Target="{Binding ElementName=majorRuntimeVersionTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_Cor20_MajorRuntimeVersion}" />
                             <TextBox Grid.Row="0" Grid.Column="1" Name="majorRuntimeVersionTextBox" Text="{Binding Cor20HeaderOptions.MajorRuntimeVersion.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <Label Grid.Row="0" Grid.Column="2" Target="{Binding ElementName=minorRuntimeVersionTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_Cor20_MinorRuntimeVersion}" />
+                            <Label Grid.Row="0" Grid.Column="2" Target="{Binding ElementName=minorRuntimeVersionTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_Cor20_MinorRuntimeVersion}" />
                             <TextBox Grid.Row="0" Grid.Column="3" Name="minorRuntimeVersionTextBox" Text="{Binding Cor20HeaderOptions.MinorRuntimeVersion.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <Label Grid.Row="1" Grid.Column="0" Target="{Binding ElementName=entryPointTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_Cor20_EntryPoint}" />
+                            <Label Grid.Row="1" Grid.Column="0" Target="{Binding ElementName=entryPointTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_Cor20_EntryPoint}" />
                             <TextBox Grid.Row="1" Grid.Column="1" Name="entryPointTextBox" Text="{Binding Cor20HeaderOptions.EntryPoint.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
-                        <GroupBox Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}" Margin="0 5 0 0">
+                        <GroupBox Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}" Margin="0 5 0 0">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
@@ -290,8 +290,8 @@
             <TabItem Header="PE">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <CheckBox Margin="5 5 0 0" IsChecked="{Binding AddCheckSum}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_AddPECheckSum}" />
-                        <CheckBox Margin="5 5 0 0" IsChecked="{Binding AddMvidSection}" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_AddMVIDSection}" />
+                        <CheckBox Margin="5 5 0 0" IsChecked="{Binding AddCheckSum}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_AddPECheckSum}" />
+                        <CheckBox Margin="5 5 0 0" IsChecked="{Binding AddMvidSection}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_AddMVIDSection}" />
                         <Grid Margin="0 5 0 0" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -331,10 +331,10 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Margin="0 5 0 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_PE_Machine}" Target="{Binding ElementName=machineComboBox}" />
+                                <Label Grid.Column="0" Margin="0 5 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_PE_Machine}" Target="{Binding ElementName=machineComboBox}" />
                                 <ComboBox Grid.Column="1" Margin="5 5 0 0" Name="machineComboBox" DisplayMemberPath="Name" ItemsSource="{Binding PEHeadersOptions.Machine.Items}" SelectedIndex="{Binding PEHeadersOptions.Machine.SelectedIndex}" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" />
 
-                                <Label Grid.Column="2" Margin="0 5 0 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.SaveModule_PE_Subsystem}" Target="{Binding ElementName=subsystemComboBox}" />
+                                <Label Grid.Column="2" Margin="0 5 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SaveModule_PE_Subsystem}" Target="{Binding ElementName=subsystemComboBox}" />
                                 <ComboBox Grid.Column="3" Margin="5 5 0 0" Name="subsystemComboBox" DisplayMemberPath="Name" ItemsSource="{Binding PEHeadersOptions.Subsystem.Items}" SelectedIndex="{Binding PEHeadersOptions.Subsystem.SelectedIndex}" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" />
                             </Grid>
 
@@ -476,9 +476,9 @@
             </TabItem>
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 5 5">
-            <Button Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_OK}" IsEnabled="{Binding HasError, Converter={StaticResource NegateBooleanConverter}}" IsDefault="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" Click="okButton_Click" />
-            <Button Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_Cancel}" IsCancel="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" />
-            <Button Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_RestoreSettings}" Style="{StaticResource DialogButton}" Command="{Binding ReinitializeCommand}" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_OK}" IsEnabled="{Binding HasError, Converter={StaticResource NegateBooleanConverter}}" IsDefault="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" Click="okButton_Click" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Cancel}" IsCancel="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_RestoreSettings}" Style="{StaticResource DialogButton}" Command="{Binding ReinitializeCommand}" />
         </StackPanel>
     </Grid>
 </winlocal:WindowBase>

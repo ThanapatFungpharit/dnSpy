@@ -57,6 +57,7 @@
     <ProjectReference Include="..\dnSpy.Contracts.Debugger.DotNet\dnSpy.Contracts.Debugger.DotNet.csproj" />
     <ProjectReference Include="..\dnSpy.Contracts.Debugger\dnSpy.Contracts.Debugger.csproj" />
     <ProjectReference Include="..\dnSpy.Contracts.DnSpy\dnSpy.Contracts.DnSpy.csproj" />
+    <ProjectReference Include="..\dnSpy.Core\dnSpy.Core.csproj" />
     <ProjectReference Include="..\dnSpy.Contracts.Logic\dnSpy.Contracts.Logic.csproj" />
     <ProjectReference Include="..\dnSpy.Images\dnSpy.Images.csproj" />
     <ProjectReference Include="..\Roslyn\dnSpy.Roslyn.CSharp.EditorFeatures\dnSpy.Roslyn.CSharp.EditorFeatures.csproj" />

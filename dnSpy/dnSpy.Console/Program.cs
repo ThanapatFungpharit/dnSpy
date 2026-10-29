@@ -192,7 +192,7 @@ namespace dnSpy_Console {
 		readonly IBamlDecompiler? bamlDecompiler;
 		readonly HashSet<string> reservedOptions;
 #if NET
-		readonly dnSpy.MainApp.DotNetAssemblyLoader dotNetAssemblyLoader = new dnSpy.MainApp.DotNetAssemblyLoader(System.Runtime.Loader.AssemblyLoadContext.Default);
+		readonly dnSpy.Composition.DotNetAssemblyLoader dotNetAssemblyLoader = new dnSpy.Composition.DotNetAssemblyLoader(System.Runtime.Loader.AssemblyLoadContext.Default);
 #endif
 
 		static readonly char PATHS_SEP = Path.PathSeparator;
@@ -246,7 +246,7 @@ namespace dnSpy_Console {
 			}
 		}
 
-		static IBamlDecompiler? TryLoadBamlDecompiler() => TryCreateType<IBamlDecompiler>("dnSpy.BamlDecompiler.x", "dnSpy.BamlDecompiler.BamlDecompiler");
+		static IBamlDecompiler? TryLoadBamlDecompiler() => TryCreateType<IBamlDecompiler>("dnSpy.BamlDecompiler.Core", "dnSpy.BamlDecompiler.BamlDecompiler");
 
 		static Assembly? TryLoad(string asmName) {
 			try {
@@ -317,7 +317,7 @@ namespace dnSpy_Console {
 			Console.WriteLine(dnSpy_Console_Resources.ExamplesHeader);
 			foreach (var info in helpInfos) {
 				Console.WriteLine("  " + progName + " " + info.CommandLine);
-				Console.WriteLine("      " + info.Description);
+				Console.WriteLine("      " + (isWindowsPathStyle ? info.Description : info.Description.Replace(@"C:\out\path", exampleOutPath)));
 			}
 		}
 
@@ -364,10 +364,13 @@ namespace dnSpy_Console {
 				Description = description;
 			}
 		}
+		static readonly bool isWindowsPathStyle = Path.DirectorySeparatorChar == '\\';
+		static readonly string exampleOutPath = isWindowsPathStyle ? @"C:\out\path" : "/out/path";
+		static readonly string exampleInPath = isWindowsPathStyle ? @"C:\some\path" : "/some/path";
 		static readonly HelpInfo[] helpInfos = new HelpInfo[] {
-			new HelpInfo(dnSpy_Console_Resources.ExampleDescription1, @"-o C:\out\path C:\some\path"),
-			new HelpInfo(dnSpy_Console_Resources.ExampleDescription2, @"-o C:\out\path -r C:\some\path"),
-			new HelpInfo(dnSpy_Console_Resources.ExampleDescription3, @"-o C:\out\path C:\some\path\*.dll"),
+			new HelpInfo(dnSpy_Console_Resources.ExampleDescription1, $"-o {exampleOutPath} {exampleInPath}"),
+			new HelpInfo(dnSpy_Console_Resources.ExampleDescription2, $"-o {exampleOutPath} -r {exampleInPath}"),
+			new HelpInfo(dnSpy_Console_Resources.ExampleDescription3, $"-o {exampleOutPath} {Path.Combine(exampleInPath, "*.dll")}"),
 			new HelpInfo(dnSpy_Console_Resources.ExampleDescription4, @"--md 0x06000123 file.dll"),
 			new HelpInfo(dnSpy_Console_Resources.ExampleDescription5, @"-t system.int32 --gac-file ""mscorlib, Version=4.0.0.0"""),
 		};
@@ -404,7 +407,15 @@ namespace dnSpy_Console {
 			}
 		}
 
-		string GetProgramBaseName() => GetBaseName(Environment.GetCommandLineArgs()[0]);
+		string GetProgramBaseName() {
+#if NET
+			// GetCommandLineArgs()[0] is dnSpy.Console.dll, use the apphost unless we were started by 'dotnet dnSpy.Console.dll'
+			var processPath = Environment.ProcessPath;
+			if (processPath is not null && !StringComparer.OrdinalIgnoreCase.Equals(Path.GetFileNameWithoutExtension(processPath), "dotnet"))
+				return GetBaseName(processPath);
+#endif
+			return GetBaseName(Environment.GetCommandLineArgs()[0]);
+		}
 
 		string GetBaseName(string name) {
 			int index = name.LastIndexOf(Path.DirectorySeparatorChar);

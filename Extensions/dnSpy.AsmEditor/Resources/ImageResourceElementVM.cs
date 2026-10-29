@@ -62,7 +62,7 @@ namespace dnSpy.AsmEditor.Resources {
 		}
 		byte[]? data;
 
-		public string DataString => string.Format(dnSpy_AsmEditor_Resources.XBytes, Data is null ? 0 : Data.Length);
+		public string DataString => string.Format(dnSpy_AsmEditor_Core_Resources.XBytes, Data is null ? 0 : Data.Length);
 
 		public ImageResourceElementVM(ResourceElementOptions options) {
 			origOptions = options;

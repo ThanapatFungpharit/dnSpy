@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllFiles" xml:space="preserve">
-    <value>Tüm dosyalar</value>
-  </data>
   <data name="AnErrorOccurred" xml:space="preserve">
     <value>Bir hata oluştu:
 
@@ -128,35 +125,11 @@
   <data name="Button_Cancel" xml:space="preserve">
     <value>İ_ptal</value>
   </data>
-  <data name="CouldNotConvert" xml:space="preserve">
-    <value>'{0}' dönüştürülemiyor</value>
-  </data>
   <data name="CouldNotConvertFromString" xml:space="preserve">
     <value>{0} bir dizeden dönüştürülemiyor</value>
   </data>
   <data name="CouldNotDeserializeData" xml:space="preserve">
     <value>Verisi serisi {0} kaldırılamadı</value>
-  </data>
-  <data name="Files_DotNetExecutables" xml:space="preserve">
-    <value>.NET yürütülebilir dosyaları</value>
-  </data>
-  <data name="Files_DotNetNetModules" xml:space="preserve">
-    <value>.NET NetModules</value>
-  </data>
-  <data name="Files_Executables" xml:space="preserve">
-    <value>Yürütülebilir dosyalar</value>
-  </data>
-  <data name="Files_Images" xml:space="preserve">
-    <value>Resimler</value>
-  </data>
-  <data name="Files_StrongNameKeyFiles" xml:space="preserve">
-    <value>Strong Name Key Files</value>
-  </data>
-  <data name="Files_XmlFiles" xml:space="preserve">
-    <value>XML dosyaları</value>
-  </data>
-  <data name="InvalidGuid" xml:space="preserve">
-    <value>Geçersiz GUID</value>
   </data>
   <data name="NewDataNotImageList" xml:space="preserve">
     <value>Yeni veri bir resim listesi değil.</value>
@@ -184,8 +157,5 @@
   </data>
   <data name="Search_SearchColumnInvertMatchHelpText" xml:space="preserve">
     <value>Eşleşmeyi ters çevirmek için '{0}' kullanın, örneğin. {1}</value>
-  </data>
-  <data name="ValueMustBeType" xml:space="preserve">
-    <value>Değer türü {0} olmalıdır. Hata: {1}</value>
   </data>
 </root>

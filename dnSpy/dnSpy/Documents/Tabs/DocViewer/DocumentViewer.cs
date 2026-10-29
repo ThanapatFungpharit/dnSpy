@@ -353,7 +353,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 		public void MoveCaretToSpan(SpanData<ReferenceInfo> refInfo, MoveCaretOptions options) {
 			if (isDisposed)
 				throw new ObjectDisposedException(nameof(IDocumentViewer));
-			documentViewerControl.MoveCaretToSpan(refInfo.Span, options);
+			documentViewerControl.MoveCaretToSpan(refInfo.TextSpan.ToVsSpan(), options);
 		}
 
 		public SpanData<ReferenceInfo>? SelectedReference {

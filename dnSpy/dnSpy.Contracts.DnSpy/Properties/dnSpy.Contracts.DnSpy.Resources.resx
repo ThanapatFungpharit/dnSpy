@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllFiles" xml:space="preserve">
-    <value>All Files</value>
-  </data>
   <data name="AnErrorOccurred" xml:space="preserve">
     <value>An error occurred:
 
@@ -128,35 +125,11 @@
   <data name="Button_Cancel" xml:space="preserve">
     <value>_Cancel</value>
   </data>
-  <data name="CouldNotConvert" xml:space="preserve">
-    <value>Could not convert '{0}'</value>
-  </data>
   <data name="CouldNotConvertFromString" xml:space="preserve">
     <value>Could not convert it from a string: {0}</value>
   </data>
   <data name="CouldNotDeserializeData" xml:space="preserve">
     <value>Could not deserialize data: {0}</value>
-  </data>
-  <data name="Files_DotNetExecutables" xml:space="preserve">
-    <value>.NET Executables</value>
-  </data>
-  <data name="Files_DotNetNetModules" xml:space="preserve">
-    <value>.NET NetModules</value>
-  </data>
-  <data name="Files_Executables" xml:space="preserve">
-    <value>Executables</value>
-  </data>
-  <data name="Files_Images" xml:space="preserve">
-    <value>Images</value>
-  </data>
-  <data name="Files_StrongNameKeyFiles" xml:space="preserve">
-    <value>Strong Name Key Files</value>
-  </data>
-  <data name="Files_XmlFiles" xml:space="preserve">
-    <value>XML Files</value>
-  </data>
-  <data name="InvalidGuid" xml:space="preserve">
-    <value>Invalid GUID</value>
   </data>
   <data name="NewDataNotImageList" xml:space="preserve">
     <value>The new data is not an image list.</value>
@@ -184,9 +157,5 @@
   </data>
   <data name="Search_SearchColumnInvertMatchHelpText" xml:space="preserve">
     <value>Use '{0}' to invert the match, eg. {1}</value>
-  </data>
-  <data name="ValueMustBeType" xml:space="preserve">
-    <value>Value must be type {0}.
-Error: {1}</value>
   </data>
 </root>

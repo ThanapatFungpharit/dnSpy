@@ -20,7 +20,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:tnhex="clr-namespace:dnSpy.AsmEditor.Hex.PE"
                     xmlns:mvvm="clr-namespace:dnSpy.Contracts.MVVM;assembly=dnSpy.Contracts.DnSpy"
-                    xmlns:p="clr-namespace:dnSpy.AsmEditor.Properties">
+                    xmlns:p="clr-namespace:dnSpy.AsmEditor.Properties"
+                    xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core">
 
     <Style x:Key="MDTableIndexTextBlockStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
@@ -1332,7 +1333,7 @@
                 <Label Grid.Row="5" Grid.Column="1" Margin="5 5 0 0" Target="{Binding ElementName=FlagsVMTextBox}" Content="{Binding FlagsVM.NameUI, Mode=OneTime}" />
                 <TextBox Grid.Row="5" Grid.Column="2" Margin="5 5 0 0" Name="FlagsVMTextBox" Text="{Binding FlagsVM.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
 
-                <GroupBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -1468,7 +1469,7 @@
                 <Label Grid.Row="0" Grid.Column="1" Margin="5 5 0 0" Target="{Binding ElementName=FFlagsVMTextBox}" Content="{Binding FFlagsVM.NameUI, Mode=OneTime}" />
                 <TextBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" Name="FFlagsVMTextBox" Text="{Binding FFlagsVM.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
 
-                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -1623,7 +1624,7 @@
                 <Label Grid.Row="3" Grid.Column="1" Margin="5 5 0 0" Target="{Binding ElementName=M_heapsVMTextBox}" Content="{Binding M_heapsVM.NameUI, Mode=OneTime}" Visibility="{Binding M_heapsVM.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <TextBox Grid.Row="3" Grid.Column="2" Margin="5 5 0 0" Name="M_heapsVMTextBox" Text="{Binding M_heapsVM.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" Visibility="{Binding M_heapsVM.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-                <GroupBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -2233,7 +2234,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -2282,7 +2283,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -2338,7 +2339,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -2401,7 +2402,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -2471,7 +2472,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -2548,7 +2549,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -2632,7 +2633,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -2738,7 +2739,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                        </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -2795,7 +2796,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -2859,7 +2860,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -2930,7 +2931,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -3008,7 +3009,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -3093,7 +3094,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -3185,7 +3186,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.Offset}">
+                        <GridViewColumn Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding OffsetString, Mode=OneTime}" />
@@ -3365,7 +3366,7 @@
                 <TextBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource MDTableRecTextBoxStyle}" Name="Column0TextBox" Text="{Binding Column0.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
                 <TextBox Grid.Row="0" Grid.Column="3" Margin="5 5 0 0" Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding Column0Description, Mode=OneWay}" IsTabStop="False" />
 
-                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -3468,7 +3469,7 @@
                 <TextBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource MDTableRecTextBoxStyle}" Name="Column0TextBox" Text="{Binding Column0.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
                 <TextBox Grid.Row="0" Grid.Column="3" Margin="5 5 0 0" Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding Column0Description, Mode=OneWay}" IsTabStop="False" />
 
-                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -3606,7 +3607,7 @@
                 <TextBox Grid.Row="4" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource MDTableRecTextBoxStyle}" Name="Column2TextBox" Text="{Binding Column2.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
                 <TextBox Grid.Row="4" Grid.Column="3" Margin="5 5 0 0" Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding Column2Description, Mode=OneWay}" IsTabStop="False" />
 
-                <GroupBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -3692,7 +3693,7 @@
                 <TextBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource MDTableRecTextBoxStyle}" Name="Column0TextBox" Text="{Binding Column0.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
                 <TextBox Grid.Row="0" Grid.Column="3" Margin="5 5 0 0" Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding Column0Description, Mode=OneWay}" IsTabStop="False" />
 
-                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -3799,7 +3800,7 @@
                 <TextBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource MDTableRecTextBoxStyle}" Name="Column0TextBox" Text="{Binding Column0.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
                 <TextBox Grid.Row="0" Grid.Column="3" Margin="5 5 0 0" Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding Column0Description, Mode=OneWay}" IsTabStop="False" />
 
-                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -3848,7 +3849,7 @@
                 <TextBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource MDTableRecTextBoxStyle}" Name="Column0TextBox" Text="{Binding Column0.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
                 <TextBox Grid.Row="0" Grid.Column="3" Margin="5 5 0 0" Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding Column0Description, Mode=OneWay}" IsTabStop="False" />
 
-                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -3898,7 +3899,7 @@
                 <TextBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource MDTableRecTextBoxStyle}" Name="Column0TextBox" Text="{Binding Column0.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
                 <TextBox Grid.Row="0" Grid.Column="3" Margin="5 5 0 0" Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding Column0Description, Mode=OneWay}" IsTabStop="False" />
 
-                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -3955,7 +3956,7 @@
                 <TextBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource MDTableRecTextBoxStyle}" Name="Column0TextBox" Text="{Binding Column0.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
                 <TextBox Grid.Row="0" Grid.Column="3" Margin="5 5 0 0" Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding Column0Description, Mode=OneWay}" IsTabStop="False" />
 
-                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -4080,7 +4081,7 @@
                 <TextBox Grid.Row="6" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource MDTableRecTextBoxStyle}" Name="Column5TextBox" Text="{Binding Column5.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
                 <TextBox Grid.Row="6" Grid.Column="3" Margin="5 5 0 0" Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding Column5Description, Mode=OneWay}" IsTabStop="False" />
 
-                <GroupBox Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -4183,7 +4184,7 @@
                 <TextBox Grid.Row="4" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource MDTableRecTextBoxStyle}" Name="Column4TextBox" Text="{Binding Column4.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
                 <TextBox Grid.Row="4" Grid.Column="3" Margin="5 5 0 0" Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding Column4Description, Mode=OneWay}" IsTabStop="False" />
 
-                <GroupBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -4264,7 +4265,7 @@
                 <TextBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource MDTableRecTextBoxStyle}" Name="Column0TextBox" Text="{Binding Column0.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
                 <TextBox Grid.Row="0" Grid.Column="3" Margin="5 5 0 0" Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding Column0Description, Mode=OneWay}" IsTabStop="False" />
 
-                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -4315,7 +4316,7 @@
                 <TextBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource MDTableRecTextBoxStyle}" Name="Column0TextBox" Text="{Binding Column0.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
                 <TextBox Grid.Row="0" Grid.Column="3" Margin="5 5 0 0" Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding Column0Description, Mode=OneWay}" IsTabStop="False" />
 
-                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -4477,7 +4478,7 @@
                 <TextBox Grid.Row="1" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource MDTableRecTextBoxStyle}" Name="Column1TextBox" Text="{Binding Column1.DataFieldVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
                 <TextBox Grid.Row="1" Grid.Column="3" Margin="5 5 0 0" Style="{StaticResource MDTableTextBoxReadOnlyStyle}" Background="Transparent" Text="{Binding Column1Description, Mode=OneWay}" IsTabStop="False" />
 
-                <GroupBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static p:dnSpy_AsmEditor_Resources.GP_GenericParamConstraints}">
+                <GroupBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GP_GenericParamConstraints}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />

@@ -24,6 +24,7 @@ using System.Runtime;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using dnSpy.Composition;
 using dnSpy.Contracts.ETW;
 using dnSpy.Properties;
 

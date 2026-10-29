@@ -19,7 +19,11 @@
 
 using System.Collections.Generic;
 using dnSpy.Contracts.Extension;
+using dnSpy.Decompiler.ILSpy.Core.Settings;
 using dnSpy.Decompiler.ILSpy.Properties;
+
+// The decompilers and their settings are exported by dnSpy.Decompiler.ILSpy.Core so hosts without a UI can use them
+[assembly: ExtensionPartsAssembly(typeof(DecompilerSettingsService))]
 
 namespace dnSpy.Decompiler.ILSpy {
 	[ExportExtension]

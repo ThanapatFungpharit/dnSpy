@@ -89,7 +89,7 @@ namespace dnSpy.AsmEditor.Hex.Nodes {
 		public void WriteHeader(IDecompilerOutput output) {
 			var cols = MetadataTableVM.TableInfo.Columns;
 
-			output.Write($"{dnSpy_AsmEditor_Resources.RowIdentifier}\t{dnSpy_AsmEditor_Resources.Token}\t{dnSpy_AsmEditor_Resources.Offset}", BoxedTextColor.Comment);
+			output.Write($"{dnSpy_AsmEditor_Resources.RowIdentifier}\t{dnSpy_AsmEditor_Resources.Token}\t{dnSpy_AsmEditor_Core_Resources.Offset}", BoxedTextColor.Comment);
 			for (int i = 0; i < cols.Count; i++) {
 				output.Write("\t", BoxedTextColor.Comment);
 				output.Write(MetadataTableVM.GetColumnName(i), BoxedTextColor.Comment);

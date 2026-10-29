@@ -28,6 +28,67 @@ cd dnSpy
 ./build.ps1 -NoMsbuild
 ```
 
+### Linux / macOS
+
+The GUI requires Windows (see [Running the GUI with Wine](#running-the-gui-with-wine) and the [cross-platform browser preview](#cross-platform-browser-preview)), but the command line decompiler (`dnSpy.Console`) also targets `net10.0` and runs on Windows, Linux and macOS. You need the .NET 10 SDK.
+
+```sh
+git clone --recursive https://github.com/dnSpyEx/dnSpy.git
+cd dnSpy
+./build.sh
+dnSpy/dnSpy/bin/Release/net10.0/dnSpy.Console -o out MyApp.dll
+```
+
+`./build.sh` builds a framework dependent `dnSpy.Console` that needs the .NET 10 runtime. If that runtime isn't in your default .NET install (eg. you installed the SDK to `~/.dotnet`), run it with `DOTNET_ROOT` pointing at that install.
+
+To get a self-contained build that runs without .NET installed, publish it for one or more [runtime identifiers](https://learn.microsoft.com/dotnet/core/rid-catalog). With no runtime identifier it publishes for the current OS and architecture.
+
+```sh
+./build.sh publish                      # current OS/arch, eg. linux-x64
+./build.sh publish linux-arm64 osx-arm64 win-x64
+dnSpy/dnSpy/bin/Release/net10.0/linux-x64/publish/dnSpy.Console -o out MyApp.dll
+```
+
+On Windows use `./build.ps1 console -Rid win-x64,win-arm64`. Publish `osx-*` on macOS, the SDK can only sign the executable there and macOS on Apple silicon won't run unsigned executables. On Linux the self-contained build needs `libstdc++` and ICU (eg. `apk add libstdc++ icu-libs` on Alpine, use the `linux-musl-*` runtime identifiers there). The CI uploads self-contained builds as `dnSpy-console-<rid>` artifacts, and a framework dependent build as `dnSpy-console-net`.
+
+`./build.sh all` builds the whole solution, including the Windows-only GUI targets (they compile on Linux but don't run there).
+
+Decompiling BAML to XAML needs the .NET Framework WPF assemblies (`PresentationFramework`, `PresentationCore`, `WindowsBase` 4.0.0.0), which aren't installed on Linux or macOS. The [Microsoft.NETFramework.ReferenceAssemblies.net48](https://www.nuget.org/packages/Microsoft.NETFramework.ReferenceAssemblies.net48) package (already in your NuGet cache after building) provides them:
+
+```sh
+refs=~/.nuget/packages/microsoft.netframework.referenceassemblies.net48/1.0.3/build/.NETFramework/v4.8
+dnSpy/dnSpy/bin/Release/net10.0/dnSpy.Console --asm-path "$refs:$refs/Facades" -o out MyWpfApp.dll
+```
+
+To work in JetBrains Rider, open `dnSpy.sln` and use the shared `dnSpy.Console (net10.0)` run configuration. If Rider picks up an older SDK, point *Settings | Build, Execution, Deployment | Toolset and Build | .NET CLI executable path* at a .NET 10 `dotnet`.
+
+### Cross-platform browser (preview)
+
+`dnSpy.Avalonia` is an early [Avalonia](https://avaloniaui.net/) port of the GUI that runs on Windows, Linux and macOS. It's a read-only browser: open assemblies (File menu, command line or drag and drop), browse the assembly tree and read the decompiled code in any of the decompiler languages. Click a reference to go to its definition, `Alt+Left` / `Alt+Right` go back and forward. There's no debugger, editing, search, tabs or extension support yet. It remembers the open assemblies in the same settings file as the WPF GUI.
+
+```sh
+./build.sh avalonia
+dnSpy/dnSpy/bin/Release/net10.0/dnSpy.Avalonia MyApp.dll
+./build.sh avalonia-publish             # self-contained, eg. dnSpy/dnSpy/bin/Release/net10.0/linux-x64/publish/dnSpy.Avalonia
+```
+
+### Running the GUI with Wine
+
+The GUI is WPF and only runs on Windows, but it can be run on Linux and macOS with [Wine](https://www.winehq.org/). This isn't officially supported and hasn't been tested much, expect rendering glitches.
+
+- Use the self-contained `dnSpy-net-win64` build, it doesn't need .NET to be installed in the Wine prefix. The `dnSpy-netframework` build needs .NET Framework 4.8 (`winetricks -q dotnet48`) and replaces Wine Mono.
+- Use a 64-bit prefix and a recent Wine version.
+- Install the core fonts if text is missing or looks wrong: `winetricks -q corefonts`
+- If windows are black or don't redraw, disable WPF hardware acceleration:
+
+  ```sh
+  wine reg add 'HKCU\Software\Microsoft\Avalon.Graphics' /v DisableHWAcceleration /t REG_DWORD /d 1 /f
+  ```
+
+- Debugging .NET programs depends on Windows debugging APIs and is unlikely to work under Wine.
+
+If you only need to decompile, prefer the native `dnSpy.Console` builds above.
+
 To debug Unity games, you need this repo too: https://github.com/dnSpyEx/dnSpy-Unity-mono
 
 # Debugger

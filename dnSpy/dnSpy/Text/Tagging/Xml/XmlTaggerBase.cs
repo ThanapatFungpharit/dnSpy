@@ -66,12 +66,12 @@ namespace dnSpy.Text.Tagging.Xml {
 					continue;
 				for (int i = index; i < classifications.Count; i++) {
 					var spanData = classifications[i];
-					if (spanData.Span.Start > span.Span.End)
+					if (spanData.TextSpan.Start > span.Span.End)
 						break;
-					Debug.Assert(spanData.Span.End <= snapshot.Length);
-					if (spanData.Span.End > snapshot.Length)
+					Debug.Assert(spanData.TextSpan.End <= snapshot.Length);
+					if (spanData.TextSpan.End > snapshot.Length)
 						break;
-					foreach (var t in GetTags(new SnapshotSpan(snapshot, spanData.Span), spanData.Data))
+					foreach (var t in GetTags(new SnapshotSpan(snapshot, spanData.TextSpan.ToVsSpan()), spanData.Data))
 						yield return t;
 				}
 			}
@@ -92,7 +92,7 @@ namespace dnSpy.Text.Tagging.Xml {
 				var classificationTag = GetClassificationTag(info.Value.Kind);
 				if (classificationTag is null)
 					continue;
-				builder.Add(info.Value.Span, classificationTag);
+				builder.Add(info.Value.Span.ToDsTextSpan(), classificationTag);
 			}
 
 			return builder.Create();

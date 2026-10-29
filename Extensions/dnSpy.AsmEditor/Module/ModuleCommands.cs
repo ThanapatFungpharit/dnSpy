@@ -110,7 +110,7 @@ namespace dnSpy.AsmEditor.Module {
 			fileNodeCreator = RootDocumentNodeCreator.CreateModule(documentTreeView, file);
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.CreateNetModuleCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.CreateNetModuleCommand2;
 
 		public void Execute() {
 			fileNodeCreator.Add();
@@ -179,7 +179,7 @@ namespace dnSpy.AsmEditor.Module {
 				savedStates[i] = new SavedState();
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.ConvNetModuleToAssemblyCommand;
+		public string Description => dnSpy_AsmEditor_Core_Resources.ConvNetModuleToAssemblyCommand;
 
 		public void Execute() {
 			Debug.Assert(!hasExecuted);
@@ -315,7 +315,7 @@ namespace dnSpy.AsmEditor.Module {
 
 		ConvertAssemblyToNetModuleCommand(DocumentTreeNodeData[] nodes) => this.nodes = nodes.Cast<AssemblyDocumentNode>().ToArray();
 
-		public string Description => dnSpy_AsmEditor_Resources.ConvAssemblyToNetModuleCommand;
+		public string Description => dnSpy_AsmEditor_Core_Resources.ConvAssemblyToNetModuleCommand;
 
 		public void Execute() {
 			Debug2.Assert(savedStates is null);
@@ -503,7 +503,7 @@ namespace dnSpy.AsmEditor.Module {
 			: base(undoCommandService, asmNode, modNode, true) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.AddNewNetModuleToAssemblyCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.AddNewNetModuleToAssemblyCommand2;
 	}
 
 	sealed class AddExistingNetModuleToAssemblyCommand : AddNetModuleToAssemblyCommand {
@@ -553,7 +553,7 @@ namespace dnSpy.AsmEditor.Module {
 			var fm = appService.DocumentTreeView.DocumentService;
 			var file = fm.CreateDocument(DsDocumentInfo.CreateDocument(filename), filename, true);
 			if (file.ModuleDef is null || file.AssemblyDef is not null || !(file is IDsDotNetDocument)) {
-				MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Resources.Error_NotNetModule, file.Filename), MsgBoxButton.OK);
+				MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Core_Resources.Error_NotNetModule, file.Filename), MsgBoxButton.OK);
 				if (file is IDisposable id)
 					id.Dispose();
 				return;
@@ -570,7 +570,7 @@ namespace dnSpy.AsmEditor.Module {
 			: base(undoCommandService, asmNode, modNode, false) {
 		}
 
-		public override string Description => dnSpy_AsmEditor_Resources.AddExistingNetModuleToAssemblyCommand2;
+		public override string Description => dnSpy_AsmEditor_Core_Resources.AddExistingNetModuleToAssemblyCommand2;
 	}
 
 	sealed class RemoveNetModuleFromAssemblyCommand : IUndoCommand2 {
@@ -654,7 +654,7 @@ namespace dnSpy.AsmEditor.Module {
 			Debug.Assert(removeIndexDocument >= 0);
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.RemoveNetModuleCommand;
+		public string Description => dnSpy_AsmEditor_Core_Resources.RemoveNetModuleCommand;
 
 		public void Execute() {
 			Debug2.Assert(modNode.TreeNode.Parent is not null);
@@ -761,7 +761,7 @@ namespace dnSpy.AsmEditor.Module {
 			origOptions = new ModuleOptions(modNode.Document.ModuleDef!);
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.EditModuleCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.EditModuleCommand2;
 
 		void WriteModuleOptions(ModuleOptions theOptions) {
 			theOptions.CopyTo(modNode.Document.ModuleDef!);

@@ -55,7 +55,7 @@ namespace dnSpy.Text.Classification {
 				yield break;
 			foreach (var spanData in context.Colors) {
 				var ct = ColorUtils.GetClassificationType(classificationTypeRegistryService, themeClassificationTypeService, spanData.Data);
-				yield return new TextClassificationTag(spanData.Span, ct);
+				yield return new TextClassificationTag(spanData.TextSpan.ToVsSpan(), ct);
 			}
 		}
 	}

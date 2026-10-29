@@ -1,0 +1,12 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:asmed="using:dnSpy.Avalonia.AsmEditor"
+             x:Class="dnSpy.Avalonia.App"
+             Name="dnSpy"
+             RequestedThemeVariant="Default">
+  <Application.Styles>
+    <FluentTheme DensityStyle="Compact" />
+    <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+    <StyleInclude Source="avares://dnSpy.Avalonia/AsmEditor/DialogStyles.axaml" />
+  </Application.Styles>
+</Application>

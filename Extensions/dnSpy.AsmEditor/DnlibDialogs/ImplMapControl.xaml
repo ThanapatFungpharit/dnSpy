@@ -20,10 +20,10 @@
              x:ClassModifier="internal"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:p="clr-namespace:dnSpy.AsmEditor.Properties">
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core">
     <GroupBox>
         <GroupBox.Header>
-            <CheckBox IsChecked="{Binding IsEnabled}" VerticalAlignment="Center" Content="{x:Static p:dnSpy_AsmEditor_Resources.ImplMap_Enable}" />
+            <CheckBox IsChecked="{Binding IsEnabled}" VerticalAlignment="Center" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ImplMap_Enable}" />
         </GroupBox.Header>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -39,9 +39,9 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=nameTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.ImplMap_Name}" IsEnabled="{Binding IsEnabled}" />
+            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=nameTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ImplMap_Name}" IsEnabled="{Binding IsEnabled}" />
             <TextBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Name="nameTextBox" Text="{Binding Name, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" />
-            <Label Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" Target="{Binding ElementName=moduleTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.ImplMap_Module}" IsEnabled="{Binding IsEnabled}" />
+            <Label Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" Target="{Binding ElementName=moduleTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ImplMap_Module}" IsEnabled="{Binding IsEnabled}" />
             <TextBox Grid.Row="0" Grid.Column="3" Margin="5 0 0 0" Name="moduleTextBox" Text="{Binding ModuleName, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" />
 
             <CheckBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" Content="NoMangle" IsChecked="{Binding NoMangle}" IsEnabled="{Binding IsEnabled}" />

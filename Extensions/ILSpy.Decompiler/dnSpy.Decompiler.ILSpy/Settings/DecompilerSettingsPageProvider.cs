@@ -20,6 +20,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using dnSpy.Contracts.Settings.Dialog;
+using dnSpy.Decompiler.ILSpy.Core.Settings;
 using ICSharpCode.Decompiler;
 
 namespace dnSpy.Decompiler.ILSpy.Settings {

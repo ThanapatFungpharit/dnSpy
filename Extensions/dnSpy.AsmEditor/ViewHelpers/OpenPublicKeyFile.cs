@@ -58,7 +58,7 @@ namespace dnSpy.AsmEditor.ViewHelpers {
 			catch {
 			}
 
-			MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Resources.Error_NotSNKFile, dialog.FileName), MsgBoxButton.OK, ownerWindow);
+			MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Core_Resources.Error_NotSNKFile, dialog.FileName), MsgBoxButton.OK, ownerWindow);
 			return null;
 		}
 	}

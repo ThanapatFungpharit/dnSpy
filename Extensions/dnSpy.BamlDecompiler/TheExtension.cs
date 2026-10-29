@@ -24,6 +24,9 @@ using System.Collections.Generic;
 using dnSpy.BamlDecompiler.Properties;
 using dnSpy.Contracts.Extension;
 
+// The decompiler and its settings are exported by dnSpy.BamlDecompiler.Core so hosts without a UI can use them
+[assembly: ExtensionPartsAssembly(typeof(dnSpy.BamlDecompiler.BamlSettings))]
+
 namespace dnSpy.BamlDecompiler {
 	[ExportExtension]
 	sealed class TheExtension : IExtension {

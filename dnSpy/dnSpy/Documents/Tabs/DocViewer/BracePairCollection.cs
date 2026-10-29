@@ -50,7 +50,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 					if (!p.Flags.IsBraces())
 						continue;
 					if (prevEnd <= p.Left.Start) {
-						builder.Add(new Span(p.Left.Start, p.Left.Length), new Span(p.Right.Start, p.Right.Length));
+						builder.Add(p.Left, new Span(p.Right.Start, p.Right.Length));
 						prevEnd = p.Left.End;
 					}
 				}
@@ -63,7 +63,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 					if (!p.Flags.IsBraces())
 						continue;
 					if (prevEnd <= p.Right.Start) {
-						builder.Add(new Span(p.Right.Start, p.Right.Length), new Span(p.Left.Start, p.Left.Length));
+						builder.Add(p.Right, new Span(p.Left.Start, p.Left.Length));
 						prevEnd = p.Right.End;
 					}
 				}
@@ -85,11 +85,11 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 			var left = leftSorted.Find(position);
 			var right = rightSorted.Find(position);
 			if (left is not null && right is not null)
-				return new BracePairResultCollection(new BracePairResult(left.Value.Span, left.Value.Data), new BracePairResult(right.Value.Data, right.Value.Span));
+				return new BracePairResultCollection(new BracePairResult(left.Value.TextSpan.ToVsSpan(), left.Value.Data), new BracePairResult(right.Value.Data, right.Value.TextSpan.ToVsSpan()));
 			if (left is not null)
-				return new BracePairResultCollection(new BracePairResult(left.Value.Span, left.Value.Data), null);
+				return new BracePairResultCollection(new BracePairResult(left.Value.TextSpan.ToVsSpan(), left.Value.Data), null);
 			if (right is not null)
-				return new BracePairResultCollection(new BracePairResult(right.Value.Data, right.Value.Span), null);
+				return new BracePairResultCollection(new BracePairResult(right.Value.Data, right.Value.TextSpan.ToVsSpan()), null);
 			return null;
 		}
 	}

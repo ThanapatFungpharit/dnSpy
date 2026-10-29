@@ -22,18 +22,6 @@ using Ookii.Dialogs.Wpf;
 
 namespace dnSpy.Contracts.MVVM {
 	/// <summary>
-	/// Asks the user to pick a directory
-	/// </summary>
-	public interface IPickDirectory {
-		/// <summary>
-		/// Lets the user pick a directory. Returns null if user canceled.
-		/// </summary>
-		/// <param name="currentDir">Current directory or null</param>
-		/// <returns></returns>
-		string? GetDirectory(string? currentDir = null);
-	}
-
-	/// <summary>
 	/// Implements <see cref="IPickDirectory"/>
 	/// </summary>
 	[Export(typeof(IPickDirectory))]

@@ -23,21 +23,6 @@ using System.Windows.Forms;
 
 namespace dnSpy.Contracts.MVVM {
 	/// <summary>
-	/// Asks the user to pick a filename
-	/// </summary>
-	public interface IPickSaveFilename {
-		/// <summary>
-		/// Lets the user pick a new filename. Returns null if the user didn't pick a new filename.
-		/// </summary>
-		/// <param name="currentFileName">Current filename or null</param>
-		/// <param name="defaultExtension">Default extension. It must not contain a period. Eg. valid
-		/// extensions are "exe" and "dll" but not ".exe"</param>
-		/// <param name="filter">Filename filter or null</param>
-		/// <returns></returns>
-		string? GetFilename(string? currentFileName, string? defaultExtension, string? filter = null);
-	}
-
-	/// <summary>
 	/// Implements <see cref="IPickSaveFilename"/>
 	/// </summary>
 	[Export(typeof(IPickSaveFilename))]

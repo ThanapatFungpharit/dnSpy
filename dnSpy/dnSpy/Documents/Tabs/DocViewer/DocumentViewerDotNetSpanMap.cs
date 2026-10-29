@@ -72,7 +72,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 					if (def is null)
 						continue;
 					var tokenId = new ModuleTokenId(moduleIdProvider.Create(def.Module), def.MDToken);
-					toTokenInfo[tokenId] = data.Span;
+					toTokenInfo[tokenId] = data.TextSpan.ToVsSpan();
 				}
 			}
 			if (!toTokenInfo.TryGetValue(new ModuleTokenId(module, token), out var span))

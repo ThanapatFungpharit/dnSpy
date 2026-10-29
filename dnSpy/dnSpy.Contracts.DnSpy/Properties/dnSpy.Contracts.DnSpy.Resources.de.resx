@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllFiles" xml:space="preserve">
-    <value>Alle Dateien</value>
-  </data>
   <data name="AnErrorOccurred" xml:space="preserve">
     <value>Ein Fehler ist aufgetreten:
 
@@ -128,35 +125,11 @@
   <data name="Button_Cancel" xml:space="preserve">
     <value>_Abbrechen</value>
   </data>
-  <data name="CouldNotConvert" xml:space="preserve">
-    <value>Konnte '{0}' nicht konvertieren</value>
-  </data>
   <data name="CouldNotConvertFromString" xml:space="preserve">
     <value>Konnte es nicht aus einer Zeichenfolge konvertieren: {0}</value>
   </data>
   <data name="CouldNotDeserializeData" xml:space="preserve">
     <value>Konnte Daten nicht deserialisieren: {0}</value>
-  </data>
-  <data name="Files_DotNetExecutables" xml:space="preserve">
-    <value>.NET Executables</value>
-  </data>
-  <data name="Files_DotNetNetModules" xml:space="preserve">
-    <value>.NET NetModules</value>
-  </data>
-  <data name="Files_Executables" xml:space="preserve">
-    <value>Ausführbare Dateien</value>
-  </data>
-  <data name="Files_Images" xml:space="preserve">
-    <value>Bilder</value>
-  </data>
-  <data name="Files_StrongNameKeyFiles" xml:space="preserve">
-    <value>Schlüsseldateien mit starken Namen</value>
-  </data>
-  <data name="Files_XmlFiles" xml:space="preserve">
-    <value>XML-Dateien</value>
-  </data>
-  <data name="InvalidGuid" xml:space="preserve">
-    <value>Ungültige GUID</value>
   </data>
   <data name="NewDataNotImageList" xml:space="preserve">
     <value>Der neue Wert ist keine Liste von Bildern.</value>
@@ -184,9 +157,5 @@
   </data>
   <data name="Search_SearchColumnInvertMatchHelpText" xml:space="preserve">
     <value>Verwende '{0}' um die Übereinstimmung zu invertieren, z.B. {1}</value>
-  </data>
-  <data name="ValueMustBeType" xml:space="preserve">
-    <value>Wert muss den Typ {0} haben.
-Fehler: {1}</value>
   </data>
 </root>

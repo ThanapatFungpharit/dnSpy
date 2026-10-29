@@ -22,7 +22,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vc="clr-namespace:dnSpy.AsmEditor.DnlibDialogs.Converters"
              xmlns:dnlibdlgs="clr-namespace:dnSpy.AsmEditor.DnlibDialogs"
-             xmlns:p="clr-namespace:dnSpy.AsmEditor.Properties">
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core">
     <UserControl.Resources>
         <vc:BooleanToGridrowLengthConverter x:Key="BooleanToGridrowLengthConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -42,7 +42,7 @@
         <TextBox Grid.Row="0" IsReadOnly="True" Background="Transparent" Text="{Binding SignatureFullName, Mode=OneWay}" TextWrapping="Wrap" Visibility="{Binding ShowSignatureFullName, Converter={StaticResource BooleanToVisibilityConverter}}" />
         <GroupBox Grid.Row="1"
                   Margin="0 0 0 0"
-                  Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                  Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -55,16 +55,16 @@
                 </Grid.ColumnDefinitions>
                 <CheckBox Grid.Column="0" Margin="0 0 0 0" IsChecked="{Binding HasThis}" Content="HasThis" VerticalAlignment="Center" />
                 <CheckBox Grid.Column="1" Margin="5 0 0 0" IsChecked="{Binding ExplicitThis}" Content="ExplicitThis" VerticalAlignment="Center" />
-                <Label Grid.Column="2" Margin="5 0 0 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.MethodSig_CallingConv}" Target="{Binding ElementName=methodCallingConvComboBox}" Visibility="{Binding IsMethodSig, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Label Grid.Column="2" Margin="5 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodSig_CallingConv}" Target="{Binding ElementName=methodCallingConvComboBox}" Visibility="{Binding IsMethodSig, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <ComboBox Grid.Column="3" Margin="5 0 0 0" Name="methodCallingConvComboBox" DisplayMemberPath="Name" ItemsSource="{Binding MethodCallingConv.Items}" SelectedIndex="{Binding MethodCallingConv.SelectedIndex}" Width="70" VerticalContentAlignment="Center" Visibility="{Binding IsMethodSig, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <Button Grid.Column="4" Margin="5 0 0 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.MethodSig_ReturnType}" Command="{Binding AddReturnTypeCommand}" />
-                <Label Grid.Column="5" Margin="5 0 0 0" Target="{Binding ElementName=genericParameterCountTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.MethodSig_NumGenerics}" />
+                <Button Grid.Column="4" Margin="5 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodSig_ReturnType}" Command="{Binding AddReturnTypeCommand}" />
+                <Label Grid.Column="5" Margin="5 0 0 0" Target="{Binding ElementName=genericParameterCountTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodSig_NumGenerics}" />
                 <TextBox Grid.Column="6" Margin="5 0 0 0" Name="genericParameterCountTextBox" Text="{Binding GenericParameterCount.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </GroupBox>
         <Expander Grid.Row="6"
                   Margin="0 5 0 0"
-                  Header="{x:Static p:dnSpy_AsmEditor_Resources.MethodSig_MethodParameterTypes}"
+                  Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodSig_MethodParameterTypes}"
                   IsExpanded="True">
             <Grid DataContext="{Binding ParametersCreateTypeSigArray}">
                 <Grid.RowDefinitions>
@@ -78,15 +78,15 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="1" Margin="0 0 5 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_Add}" Style="{StaticResource DialogButton}" Command="{Binding AddCommand}" />
-                    <Button Grid.Column="2" Margin="0 0 0 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_Delete}" Style="{StaticResource DialogButton}" Command="{Binding TypeSigCollection.RemoveSelectedCommand}" />
+                    <Button Grid.Column="1" Margin="0 0 5 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Add}" Style="{StaticResource DialogButton}" Command="{Binding AddCommand}" />
+                    <Button Grid.Column="2" Margin="0 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Delete}" Style="{StaticResource DialogButton}" Command="{Binding TypeSigCollection.RemoveSelectedCommand}" />
                 </Grid>
             </Grid>
         </Expander>
         <Expander Grid.Row="7"
                   Margin="0 5 0 0"
                   Visibility="{Binding CanHaveSentinel, Converter={StaticResource BooleanToVisibilityConverter}}"
-                  Header="{x:Static p:dnSpy_AsmEditor_Resources.MethodSig_MethodVarArgParameterTypes}"
+                  Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodSig_MethodVarArgParameterTypes}"
                   IsExpanded="False">
             <Grid DataContext="{Binding SentinelCreateTypeSigArray}">
                 <Grid.RowDefinitions>
@@ -100,8 +100,8 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="1" Margin="0 0 5 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_Add}" Style="{StaticResource DialogButton}" Command="{Binding AddCommand}" />
-                    <Button Grid.Column="2" Margin="0 0 0 0" Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_Delete}" Style="{StaticResource DialogButton}" Command="{Binding TypeSigCollection.RemoveSelectedCommand}" />
+                    <Button Grid.Column="1" Margin="0 0 5 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Add}" Style="{StaticResource DialogButton}" Command="{Binding AddCommand}" />
+                    <Button Grid.Column="2" Margin="0 0 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Delete}" Style="{StaticResource DialogButton}" Command="{Binding TypeSigCollection.RemoveSelectedCommand}" />
                 </Grid>
             </Grid>
         </Expander>

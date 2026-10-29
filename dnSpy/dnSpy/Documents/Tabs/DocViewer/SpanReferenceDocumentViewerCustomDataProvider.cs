@@ -38,7 +38,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 					// The data should already be sorted. We don't support overlaps at the moment.
 					Debug.Assert(prevEnd <= d.Span.Start);
 					if (prevEnd <= d.Span.Start) {
-						builder.Add(new Span(d.Span.Start, d.Span.Length), new ReferenceAndId(d.Reference, d.Id));
+						builder.Add(d.Span, new ReferenceAndId(d.Reference, d.Id));
 						prevEnd = d.Span.End;
 					}
 				}

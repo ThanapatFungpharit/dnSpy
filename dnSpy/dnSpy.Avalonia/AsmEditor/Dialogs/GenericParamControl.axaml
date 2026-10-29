@@ -1,0 +1,101 @@
+<!--
+    Copyright (C) 2014-2026 de4dot@gmail.com
+
+    This file is part of dnSpy
+
+    dnSpy is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    dnSpy is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<UserControl x:Class="dnSpy.Avalonia.AsmEditor.GenericParamControl"
+             x:ClassModifier="internal"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:dnSpy.Avalonia.AsmEditor"
+             xmlns:vm="clr-namespace:dnSpy.AsmEditor.DnlibDialogs;assembly=dnSpy.AsmEditor.Core"
+             x:DataType="vm:GenericParamVM"
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core">
+    <TabControl>
+        <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MainTab}" local:FocusHelper.FocusedElement="{Binding #nameTextBox}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding #nameTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GP_Name}" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Name="nameTextBox" Text="{Binding Name}" local:DataErrorInfoHelper.Source="{Binding}" local:DataErrorInfoHelper.Property="Name" />
+                        <Label Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" Target="{Binding #seqTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GP_Number}" />
+                        <TextBox Grid.Row="0" Grid.Column="3" Margin="5 0 0 0" Name="seqTextBox" Text="{Binding Number.StringValue}" local:DataErrorInfoHelper.Source="{Binding Number}" local:DataErrorInfoHelper.Property="StringValue" />
+                    </Grid>
+
+                    <local:GroupBox Grid.Row="1" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GP_GenericParamConstraints}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <CheckBox Grid.Row="0" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding ReferenceTypeConstraint}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GP_Class}" />
+                            <CheckBox Grid.Row="0" Grid.Column="1" Margin="5 5 0 0" IsChecked="{Binding NotNullableValueTypeConstraint}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GP_Struct}" />
+                            <CheckBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" IsChecked="{Binding DefaultConstructorConstraint}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GP_DefaultConstructor}" />
+                            <CheckBox Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding AllowByRefLike}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GP_AllowByRefLike}" />
+                        </Grid>
+                    </local:GroupBox>
+
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GP_Variance}" Target="{Binding #varianceComboBox}" />
+                        <ComboBox Grid.Row="0" Grid.Column="1" Margin="5 5 0 0" HorizontalAlignment="Stretch" Name="varianceComboBox" DisplayMemberBinding="{ReflectionBinding Name}" ItemsSource="{Binding GPVarianceVM.Items}" SelectedIndex="{Binding GPVarianceVM.SelectedIndex}" VerticalContentAlignment="Center" />
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+        </TabItem>
+        <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GP_Constraints}">
+            <local:TypeDefOrRefAndCAsControl Margin="0 5 0 0" DataContext="{Binding TypeDefOrRefAndCAsVM}" />
+        </TabItem>
+        <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.CustomAttributesTab}">
+            <local:CustomAttributesControl Margin="0 5 0 0" DataContext="{Binding CustomAttributesVM}" />
+        </TabItem>
+        <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GP_Kind}" ToolTip.Tip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GP_Kind_ToolTip}">
+            <local:TypeSigCreatorControl Grid.Row="0" DataContext="{Binding TypeSigCreator}" />
+        </TabItem>
+    </TabControl>
+</UserControl>

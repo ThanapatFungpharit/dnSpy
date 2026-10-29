@@ -97,10 +97,10 @@ namespace dnSpy.Text {
 				int count = infoPart.CachedColors.Count;
 				while (index < count) {
 					var info = infoPart.CachedColors[index];
-					if (info.Span.Start > end)
+					if (info.TextSpan.Start > end)
 						break;
 
-					var realSpan = new Span(span.Span.Start - offs + info.Span.Start, info.Span.Length);
+					var realSpan = new Span(span.Span.Start - offs + info.TextSpan.Start, info.TextSpan.Length);
 					if (realSpan.End > snapshot.Length)
 						break;
 

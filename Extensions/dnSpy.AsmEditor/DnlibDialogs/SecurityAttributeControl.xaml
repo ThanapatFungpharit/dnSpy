@@ -21,7 +21,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:dnlibdlgs="clr-namespace:dnSpy.AsmEditor.DnlibDialogs"
-             xmlns:p="clr-namespace:dnSpy.AsmEditor.Properties">
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -32,10 +32,10 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Style="{StaticResource EllipsisButton}" Command="{Binding PickAttributeTypeCommand}" ToolTip="{x:Static p:dnSpy_AsmEditor_Resources.Pick_Type}" />
+            <Button Grid.Column="0" Style="{StaticResource EllipsisButton}" Command="{Binding PickAttributeTypeCommand}" ToolTip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Pick_Type}" />
             <TextBox Grid.Column="1" Margin="5 0 0 0" IsReadOnly="True" Background="Transparent" Text="{Binding AttributeType.FullName, Mode=OneWay}" />
         </Grid>
-        <GroupBox Grid.Row="1" Margin="0 5 0 0" Header="{x:Static p:dnSpy_AsmEditor_Resources.NamedArguments}">
+        <GroupBox Grid.Row="1" Margin="0 5 0 0" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.NamedArguments}">
             <dnlibdlgs:CANamedArgumentsControl DataContext="{Binding CANamedArgumentsVM}" />
         </GroupBox>
     </Grid>

@@ -1,0 +1,147 @@
+<!--
+    Copyright (C) 2014-2026 de4dot@gmail.com
+
+    This file is part of dnSpy
+
+    dnSpy is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    dnSpy is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<UserControl x:Class="dnSpy.Avalonia.AsmEditor.MethodBodyControl"
+             x:ClassModifier="internal"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:dnSpy.Avalonia.AsmEditor"
+             xmlns:ctl="using:dnSpy.Avalonia.Controls"
+             xmlns:vm="clr-namespace:dnSpy.AsmEditor.MethodBody;assembly=dnSpy.AsmEditor.Core"
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core"
+             x:DataType="vm:MethodBodyVM">
+    <UserControl.Resources>
+        <!-- Any object that BodyUtils.WriteObject() can write: opcodes, instructions, locals, types etc -->
+        <DataTemplate x:Key="CilTemplate">
+            <ctl:ColoredTextBlock ColoredText="{ReflectionBinding Converter={x:Static local:CilObjectConverter.Instance}}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+        </DataTemplate>
+        <!-- Instructions without their operands -->
+        <DataTemplate x:Key="ShortCilTemplate">
+            <ctl:ColoredTextBlock ColoredText="{ReflectionBinding Converter={x:Static local:CilObjectConverter.ShortInstance}}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+        </DataTemplate>
+        <DataTemplate x:Key="NameTemplate">
+            <TextBlock Text="{ReflectionBinding Name}" TextTrimming="CharacterEllipsis" />
+        </DataTemplate>
+    </UserControl.Resources>
+    <TabControl Name="tabControl">
+        <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.InstructionsTab}">
+            <Grid RowDefinitions="Auto,*">
+                <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto,*">
+                    <Label Grid.Column="0" Margin="0 5 0 0" Target="{Binding #methodBodyTypeComboBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodBody_Type}" />
+                    <ComboBox Grid.Column="1" Margin="5 5 0 0" HorizontalAlignment="Stretch" Name="methodBodyTypeComboBox" DisplayMemberBinding="{ReflectionBinding Name}" ItemsSource="{Binding MethodBodyTypeVM.Items}" SelectedIndex="{Binding MethodBodyTypeVM.SelectedIndex}" VerticalContentAlignment="Center" />
+                    <Label Grid.Column="2" Margin="5 5 0 0" Target="{Binding #codeTypeComboBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodBody_CodeType}" />
+                    <ComboBox Grid.Column="3" Margin="5 5 0 0" Name="codeTypeComboBox" HorizontalAlignment="Stretch" DisplayMemberBinding="{ReflectionBinding Name}" ItemsSource="{Binding CodeTypeVM.Items}" SelectedIndex="{Binding CodeTypeVM.SelectedIndex}" VerticalContentAlignment="Center" />
+                </Grid>
+                <Grid Grid.Row="1" IsVisible="{Binding IsNativeBody}" RowDefinitions="Auto,*" ColumnDefinitions="Auto,*">
+                    <Label Grid.Row="0" Grid.Column="0" Margin="0 5 0 0" Target="{Binding #rvaTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodBody_RVA}" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="5 5 0 0" Name="rvaTextBox" Text="{Binding NativeMethodBodyVM.RVA.StringValue}" local:DataErrorInfoHelper.Source="{Binding NativeMethodBodyVM.RVA}" local:DataErrorInfoHelper.Property="StringValue" />
+                </Grid>
+                <Grid Grid.Row="1" IsVisible="{Binding IsCilBody}" RowDefinitions="Auto,Auto,*">
+                    <Grid Grid.Row="0" Margin="0 5 0 0" ColumnDefinitions="Auto,Auto,Auto,*,Auto,*,Auto,*,Auto,*">
+                        <CheckBox Grid.Column="0" IsChecked="{Binding CilBodyVM.KeepOldMaxStack}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodBody_KeepOldMaxStack}" ToolTip.Tip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodBody_KeepOldMaxStack_ToolTip}" />
+                        <CheckBox Grid.Column="1" Margin="5 0 0 0" IsChecked="{Binding CilBodyVM.InitLocals}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodBody_InitLocals}" />
+                        <Label Grid.Column="2" Margin="5 0 0 0" Target="{Binding #rva2TextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodBody_HeaderRVA}" />
+                        <TextBox Grid.Column="3" Margin="5 0 0 0" Name="rva2TextBox" IsReadOnly="True" Background="Transparent" Text="{Binding CilBodyVM.HeaderRVA.StringValue, Mode=OneWay}" />
+                        <Label Grid.Column="4" Margin="5 0 0 0" Target="{Binding #fileOffsetTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodBody_HeaderOffset}" />
+                        <TextBox Grid.Column="5" Margin="5 0 0 0" Name="fileOffsetTextBox" IsReadOnly="True" Background="Transparent" Text="{Binding CilBodyVM.HeaderFileOffset.StringValue, Mode=OneWay}" />
+                        <Label Grid.Column="6" Margin="5 0 0 0" Target="{Binding #maxStackTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodBody_MaxStack}" />
+                        <TextBox Grid.Column="7" Margin="5 0 0 0" Name="maxStackTextBox" Text="{Binding CilBodyVM.MaxStack.StringValue}" local:DataErrorInfoHelper.Source="{Binding CilBodyVM.MaxStack}" local:DataErrorInfoHelper.Property="StringValue" />
+                        <Label Grid.Column="8" Margin="5 0 0 0" Target="{Binding #localVarSigTokTextBox}" Content="_LocalVarSigTok" />
+                        <TextBox Grid.Column="9" Margin="5 0 0 0" Name="localVarSigTokTextBox" Text="{Binding CilBodyVM.LocalVarSigTok.StringValue}" local:DataErrorInfoHelper.Source="{Binding CilBodyVM.LocalVarSigTok}" local:DataErrorInfoHelper.Property="StringValue" />
+                    </Grid>
+                    <Grid Grid.Row="1" Classes="cilHeader" ColumnDefinitions="50,50,130,*">
+                        <TextBlock Grid.Column="0" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Index}" />
+                        <TextBlock Grid.Column="1" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Offset}" />
+                        <TextBlock Grid.Column="2" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodBody_Column_OpCode}" />
+                        <TextBlock Grid.Column="3" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.InstructionOperand}" />
+                    </Grid>
+                    <ListBox Grid.Row="2" Name="instructionsListBox" Classes="cil" SelectionMode="Multiple" ItemsSource="{Binding CilBodyVM.InstructionsListVM}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="vm:InstructionVM">
+                                <Grid ColumnDefinitions="50,50,130,*">
+                                    <TextBlock Grid.Column="0" Classes="cilIndex" Text="{Binding Index}" />
+                                    <TextBlock Grid.Column="1" Classes="cilLabel" Text="{Binding Offset, StringFormat={}{0:X4}}" />
+                                    <ComboBox Grid.Column="2" HorizontalAlignment="Stretch" ItemsSource="{Binding CodeVM.Items}" SelectedIndex="{Binding CodeVM.SelectedIndex}" ItemTemplate="{StaticResource CilTemplate}" />
+                                    <local:InstructionOperandControl Grid.Column="3" Margin="2 0 0 0" InstructionOperandVM="{Binding InstructionOperandVM}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.LocalsTab}" IsEnabled="{Binding IsCilBody}">
+            <Grid RowDefinitions="Auto,*">
+                <Grid Grid.Row="0" Classes="cilHeader" ColumnDefinitions="50,30,30,200,*">
+                    <TextBlock Grid.Column="0" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Index}" />
+                    <TextBlock Grid.Column="1" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Local_Pinned_Character}" />
+                    <TextBlock Grid.Column="2" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Local_CompilerGenerated_Character}" />
+                    <TextBlock Grid.Column="3" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.LocalName}" />
+                    <TextBlock Grid.Column="4" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.LocalType}" />
+                </Grid>
+                <ListBox Grid.Row="1" Name="localsListBox" Classes="cil" SelectionMode="Multiple" ItemsSource="{Binding CilBodyVM.LocalsListVM}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:LocalVM">
+                            <Grid ColumnDefinitions="50,30,30,200,*">
+                                <TextBlock Grid.Column="0" Classes="cilIndex" Text="{Binding Index}" />
+                                <CheckBox Grid.Column="1" IsChecked="{Binding IsPinned}" ToolTip.Tip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Local_Pinned_Character_ToolTip}" />
+                                <CheckBox Grid.Column="2" IsChecked="{Binding DebuggerHidden}" ToolTip.Tip="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Local_CompilerGenerated_Character_ToolTip}" />
+                                <TextBox Grid.Column="3" Classes="cilOperand" Text="{Binding Name, UpdateSourceTrigger=LostFocus}" local:DataErrorInfoHelper.Source="{Binding}" local:DataErrorInfoHelper.Property="Name" />
+                                <Button Grid.Column="4" Margin="2 0 0 0" Classes="cilOperand" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Command="{Binding EditTypeCommand}" ClickMode="Press">
+                                    <ctl:ColoredTextBlock ColoredText="{Binding Type, Converter={x:Static local:CilObjectConverter.Instance}}" TextTrimming="CharacterEllipsis" />
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </TabItem>
+        <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ExceptionHandlersTab}" IsEnabled="{Binding IsCilBody}">
+            <Grid RowDefinitions="Auto,*">
+                <Grid Grid.Row="0" Classes="cilHeader" ColumnDefinitions="50,150,150,150,150,150,90,*">
+                    <TextBlock Grid.Column="0" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Index}" />
+                    <TextBlock Grid.Column="1" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ExceptionHandler_Column_TryStart}" />
+                    <TextBlock Grid.Column="2" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ExceptionHandler_Column_TryEnd}" />
+                    <TextBlock Grid.Column="3" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ExceptionHandler_Column_FilterStart}" />
+                    <TextBlock Grid.Column="4" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ExceptionHandler_Column_HandlerStart}" />
+                    <TextBlock Grid.Column="5" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ExceptionHandler_Column_HandlerEnd}" />
+                    <TextBlock Grid.Column="6" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ExceptionHandler_Column_Type}" />
+                    <TextBlock Grid.Column="7" Text="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ExceptionHandler_Column_CatchType}" />
+                </Grid>
+                <ListBox Grid.Row="1" Name="ehListBox" Classes="cil" SelectionMode="Multiple" ItemsSource="{Binding CilBodyVM.ExceptionHandlersListVM}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ExceptionHandlerVM">
+                            <Grid ColumnDefinitions="50,150,150,150,150,150,90,*">
+                                <TextBlock Grid.Column="0" Classes="cilIndex" Text="{Binding Index}" />
+                                <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource CilTemplate}" SelectionBoxItemTemplate="{StaticResource ShortCilTemplate}" ItemsSource="{Binding TryStartVM.Items}" SelectedIndex="{Binding TryStartVM.SelectedIndex}" local:DataErrorInfoHelper.Source="{Binding TryStartVM}" local:DataErrorInfoHelper.Property="SelectedIndex" />
+                                <ComboBox Grid.Column="2" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource CilTemplate}" SelectionBoxItemTemplate="{StaticResource ShortCilTemplate}" ItemsSource="{Binding TryEndVM.Items}" SelectedIndex="{Binding TryEndVM.SelectedIndex}" local:DataErrorInfoHelper.Source="{Binding TryEndVM}" local:DataErrorInfoHelper.Property="SelectedIndex" />
+                                <ComboBox Grid.Column="3" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource CilTemplate}" SelectionBoxItemTemplate="{StaticResource ShortCilTemplate}" ItemsSource="{Binding FilterStartVM.Items}" SelectedIndex="{Binding FilterStartVM.SelectedIndex}" local:DataErrorInfoHelper.Source="{Binding FilterStartVM}" local:DataErrorInfoHelper.Property="SelectedIndex" />
+                                <ComboBox Grid.Column="4" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource CilTemplate}" SelectionBoxItemTemplate="{StaticResource ShortCilTemplate}" ItemsSource="{Binding HandlerStartVM.Items}" SelectedIndex="{Binding HandlerStartVM.SelectedIndex}" local:DataErrorInfoHelper.Source="{Binding HandlerStartVM}" local:DataErrorInfoHelper.Property="SelectedIndex" />
+                                <ComboBox Grid.Column="5" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource CilTemplate}" SelectionBoxItemTemplate="{StaticResource ShortCilTemplate}" ItemsSource="{Binding HandlerEndVM.Items}" SelectedIndex="{Binding HandlerEndVM.SelectedIndex}" local:DataErrorInfoHelper.Source="{Binding HandlerEndVM}" local:DataErrorInfoHelper.Property="SelectedIndex" />
+                                <ComboBox Grid.Column="6" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource NameTemplate}" ItemsSource="{Binding HandlerTypeVM.Items}" SelectedIndex="{Binding HandlerTypeVM.SelectedIndex}" />
+                                <Button Grid.Column="7" Margin="2 0 0 0" Classes="cilOperand" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Command="{Binding EditCatchTypeCommand}" ClickMode="Press">
+                                    <ctl:ColoredTextBlock ColoredText="{Binding CatchType, Converter={x:Static local:CilObjectConverter.Instance}}" TextTrimming="CharacterEllipsis" />
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</UserControl>

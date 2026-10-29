@@ -1,0 +1,94 @@
+<!--
+    Copyright (C) 2014-2026 de4dot@gmail.com
+
+    This file is part of dnSpy
+
+    dnSpy is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    dnSpy is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:dnSpy.Avalonia.AsmEditor">
+    <Style Selector="local|GroupBox">
+        <Setter Property="Margin" Value="0 5 0 0" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid RowDefinitions="Auto,*">
+                    <ContentPresenter Grid.Row="0" Name="PART_HeaderPresenter" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" Margin="3 0 0 2" />
+                    <Border Grid.Row="1" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="1" CornerRadius="3" Padding="5 0 5 5">
+                        <ContentPresenter Name="PART_ContentPresenter" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="Button.dialog">
+        <Setter Property="MinWidth" Value="75" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Button.ellipsis">
+        <Setter Property="Content" Value="..." />
+        <Setter Property="Padding" Value="6 0" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+    <Style Selector="Window.dnSpyDialog Label">
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <!-- Fluent's tab headers are large and wrap to several lines in the dialogs -->
+    <Style Selector="Window.dnSpyDialog TabItem">
+        <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="Padding" Value="8 4" />
+    </Style>
+    <Style Selector="Window.dnSpyDialog CheckBox">
+        <Setter Property="MinHeight" Value="0" />
+    </Style>
+    <!-- The error is shown in a tool tip and the control gets a red border -->
+    <Style Selector="Window.dnSpyDialog DataValidationErrors">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ContentPresenter Name="PART_ContentPresenter" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                  CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}" />
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <!-- The method body editor's lists -->
+    <Style Selector="ListBox.cil">
+        <Setter Property="FontFamily" Value="Cascadia Mono, Consolas, Menlo, DejaVu Sans Mono, Liberation Mono, Noto Sans Mono, monospace" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemControlForegroundBaseLowBrush}" />
+    </Style>
+    <Style Selector="ListBox.cil > ListBoxItem">
+        <Setter Property="Padding" Value="4 1" />
+        <Setter Property="MinHeight" Value="0" />
+    </Style>
+    <Style Selector="ListBox.cil ComboBox, ListBox.cil Button.cilOperand, ListBox.cil TextBox.cilOperand, ListBox.cil CheckBox">
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="Padding" Value="4 1" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="ListBox.cil TextBlock.cilIndex, ListBox.cil TextBlock.cilLabel">
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="ListBox.cil TextBlock.cilIndex">
+        <Setter Property="Opacity" Value="0.7" />
+    </Style>
+    <Style Selector="Grid.cilHeader">
+        <Setter Property="Margin" Value="5 5 0 2" />
+    </Style>
+    <Style Selector="Grid.cilHeader > TextBlock">
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+</Styles>

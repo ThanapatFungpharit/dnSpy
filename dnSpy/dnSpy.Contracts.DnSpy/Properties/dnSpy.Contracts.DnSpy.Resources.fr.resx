@@ -117,44 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllFiles" xml:space="preserve">
-    <value>Tous les fichiers</value>
-  </data>
   <data name="AnErrorOccurred" xml:space="preserve">
     <value>Une erreur s’est produite :{0}</value>
   </data>
   <data name="Button_Cancel" xml:space="preserve">
     <value>_Annuler</value>
   </data>
-  <data name="CouldNotConvert" xml:space="preserve">
-    <value>Impossible de convertir "{0}"</value>
-  </data>
   <data name="CouldNotConvertFromString" xml:space="preserve">
     <value>Impossible de convertir depuis une chaîne : "{0}"</value>
   </data>
   <data name="CouldNotDeserializeData" xml:space="preserve">
     <value>Ne peut pas désérialiser des données : {0}</value>
-  </data>
-  <data name="Files_DotNetExecutables" xml:space="preserve">
-    <value>Exécutables .NET</value>
-  </data>
-  <data name="Files_DotNetNetModules" xml:space="preserve">
-    <value>NetModules .NET</value>
-  </data>
-  <data name="Files_Executables" xml:space="preserve">
-    <value>Exécutables</value>
-  </data>
-  <data name="Files_Images" xml:space="preserve">
-    <value>Images</value>
-  </data>
-  <data name="Files_StrongNameKeyFiles" xml:space="preserve">
-    <value>Fichiers des clés Strong Name</value>
-  </data>
-  <data name="Files_XmlFiles" xml:space="preserve">
-    <value>Fichiers XML</value>
-  </data>
-  <data name="InvalidGuid" xml:space="preserve">
-    <value>GUID invalide</value>
   </data>
   <data name="NewDataNotImageList" xml:space="preserve">
     <value>Les nouvelles données ne sont pas une liste d’images.</value>
@@ -182,8 +155,5 @@
   </data>
   <data name="Search_SearchColumnInvertMatchHelpText" xml:space="preserve">
     <value>Utiliser "{0}" pour inverser le match, ex. {1}</value>
-  </data>
-  <data name="ValueMustBeType" xml:space="preserve">
-    <value>La valeur doit être de type {0}. Erreur : {1}</value>
   </data>
 </root>

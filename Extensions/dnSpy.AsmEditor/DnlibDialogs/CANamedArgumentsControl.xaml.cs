@@ -17,10 +17,18 @@
     along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+using System.Windows;
 using System.Windows.Controls;
 
 namespace dnSpy.AsmEditor.DnlibDialogs {
 	sealed partial class CANamedArgumentsControl : UserControl {
-		public CANamedArgumentsControl() => InitializeComponent();
+		public CANamedArgumentsControl() {
+			var template = new DataTemplate(typeof(CANamedArgumentVM)) {
+				VisualTree = new FrameworkElementFactory(typeof(CANamedArgumentControl)),
+			};
+			template.Seal();
+			Resources.Add(template.DataTemplateKey, template);
+			InitializeComponent();
+		}
 	}
 }

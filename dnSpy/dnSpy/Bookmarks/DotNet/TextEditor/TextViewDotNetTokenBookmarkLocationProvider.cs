@@ -23,6 +23,7 @@ using dnlib.DotNet;
 using dnSpy.Contracts.Bookmarks.TextEditor;
 using dnSpy.Contracts.Documents.Tabs;
 using dnSpy.Contracts.Metadata;
+using dnSpy.Contracts.Text;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 
@@ -52,7 +53,7 @@ namespace dnSpy.Bookmarks.DotNet.TextEditor {
 				var def = data.Data.Reference as IMemberDef;
 				if (def is null)
 					continue;
-				var span = data.Span;
+				var span = data.TextSpan.ToVsSpan();
 
 				var snapshot = textView.TextSnapshot;
 				if (span.End > snapshot.Length)

@@ -93,7 +93,7 @@ namespace dnSpy.AsmEditor.Types {
 		static string GetHeader(DocumentTreeNodeData[] nodes) {
 			nodes = DeleteTypeDefCommand.FilterOutGlobalTypes(nodes);
 			if (nodes.Length == 1)
-				return string.Format(dnSpy_AsmEditor_Resources.DeleteX, UIUtilities.TruncateWithElipsis(UIUtilities.EscapeMenuItemHeader(nodes[0].ToString())));
+				return string.Format(dnSpy_AsmEditor_Core_Resources.DeleteX, UIUtilities.TruncateWithElipsis(UIUtilities.EscapeMenuItemHeader(nodes[0].ToString())));
 			return string.Format(dnSpy_AsmEditor_Resources.DeleteTypesCommand, nodes.Length);
 		}
 
@@ -108,7 +108,7 @@ namespace dnSpy.AsmEditor.Types {
 			if (!CanExecute(nodes))
 				return;
 
-			if (!Method.DeleteMethodDefCommand.AskDeleteDef(dnSpy_AsmEditor_Resources.AskDeleteType))
+			if (!Method.DeleteMethodDefCommand.AskDeleteDef(dnSpy_AsmEditor_Core_Resources.AskDeleteType))
 				return;
 
 			var typeNodes = FilterOutGlobalTypes(nodes).Cast<TypeNode>().ToArray();
@@ -168,7 +168,7 @@ namespace dnSpy.AsmEditor.Types {
 
 		DeleteTypeDefCommand(TypeNode[] asmNodes) => nodes = new DeletableNodes<TypeNode>(asmNodes);
 
-		public string Description => dnSpy_AsmEditor_Resources.DeleteTypeCommand;
+		public string Description => dnSpy_AsmEditor_Core_Resources.DeleteTypeCommand;
 
 		public void Execute() {
 			nodes.Delete();
@@ -237,7 +237,7 @@ namespace dnSpy.AsmEditor.Types {
 
 			var data = new TypeOptionsVM(options, module, appService.DecompilerService, null);
 			var win = new TypeOptionsDlg();
-			win.Title = dnSpy_AsmEditor_Resources.CreateTypeCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.CreateTypeCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -262,7 +262,7 @@ namespace dnSpy.AsmEditor.Types {
 			typeNode = modNode.Context.DocumentTreeView.Create(options.CreateTypeDef(modNode.Document.ModuleDef!));
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.CreateTypeCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.CreateTypeCommand2;
 
 		public void Execute() {
 			nsNodeCreator.Add();
@@ -360,7 +360,7 @@ namespace dnSpy.AsmEditor.Types {
 
 			var data = new TypeOptionsVM(options, module, appService.DecompilerService, null);
 			var win = new TypeOptionsDlg();
-			win.Title = dnSpy_AsmEditor_Resources.CreateNestedTypeCommand2;
+			win.Title = dnSpy_AsmEditor_Core_Resources.CreateNestedTypeCommand2;
 			win.DataContext = data;
 			win.Owner = appService.MainWindow;
 			if (win.ShowDialog() != true)
@@ -384,7 +384,7 @@ namespace dnSpy.AsmEditor.Types {
 			nestedType = ownerType.Create(options.CreateTypeDef(modNode.Document.ModuleDef!));
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.CreateNestedTypeCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.CreateNestedTypeCommand2;
 
 		public void Execute() {
 			ownerType.TreeNode.EnsureChildrenLoaded();
@@ -522,7 +522,7 @@ namespace dnSpy.AsmEditor.Types {
 				typeRefInfos = RefFinder.FindTypeRefsToThisModule(module).Where(a => RefFinder.TypeEqualityComparerInstance.Equals(a, typeNode.TypeDef)).Select(a => new TypeRefInfo(a)).ToArray();
 		}
 
-		public string Description => dnSpy_AsmEditor_Resources.EditTypeCommand2;
+		public string Description => dnSpy_AsmEditor_Core_Resources.EditTypeCommand2;
 
 		public void Execute() {
 			if (nsNodeCreator is not null) {

@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllFiles" xml:space="preserve">
-    <value>همه پرونده ها</value>
-  </data>
   <data name="AnErrorOccurred" xml:space="preserve">
     <value>خطایی رخ داده است:
 
@@ -128,35 +125,11 @@
   <data name="Button_Cancel" xml:space="preserve">
     <value>_انصراف</value>
   </data>
-  <data name="CouldNotConvert" xml:space="preserve">
-    <value>امکان تبدیل '{0}' وجود ندارد</value>
-  </data>
   <data name="CouldNotConvertFromString" xml:space="preserve">
     <value>نمی توان آن را از یک رشته تبدیل کرد: {0}</value>
   </data>
   <data name="CouldNotDeserializeData" xml:space="preserve">
     <value>داده ها را نمیتوان deserialize کرد: {0}</value>
-  </data>
-  <data name="Files_DotNetExecutables" xml:space="preserve">
-    <value>اجرایی.NET</value>
-  </data>
-  <data name="Files_DotNetNetModules" xml:space="preserve">
-    <value>NetModule های دات نت</value>
-  </data>
-  <data name="Files_Executables" xml:space="preserve">
-    <value>فایل های اجرایی</value>
-  </data>
-  <data name="Files_Images" xml:space="preserve">
-    <value>تصاویر</value>
-  </data>
-  <data name="Files_StrongNameKeyFiles" xml:space="preserve">
-    <value>کلید فایل های Strong Name</value>
-  </data>
-  <data name="Files_XmlFiles" xml:space="preserve">
-    <value>فایل های XML</value>
-  </data>
-  <data name="InvalidGuid" xml:space="preserve">
-    <value>GUID غیر معتبر است</value>
   </data>
   <data name="NewDataNotImageList" xml:space="preserve">
     <value>داده های جدید لیست تصویر نیست.</value>
@@ -184,8 +157,5 @@
   </data>
   <data name="Search_SearchColumnInvertMatchHelpText" xml:space="preserve">
     <value>از '{0}' برای معکوس کردن تطابقات استفاده کنید، برای عنوان مثال. {1}</value>
-  </data>
-  <data name="ValueMustBeType" xml:space="preserve">
-    <value>مقدار باید از نوع {0} باشد. خطا: {1}</value>
   </data>
 </root>

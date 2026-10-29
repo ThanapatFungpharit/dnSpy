@@ -342,7 +342,7 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 		protected override string? Verify(string columnName) {
 			if (columnName == nameof(SelectedItem) || columnName == nameof(SearchResult)) {
 				if (SelectedItem is null && SearchResult is null)
-					return dnSpy_AsmEditor_Resources.PickMember_TypeMustBeSelected;
+					return dnSpy_AsmEditor_Core_Resources.PickMember_TypeMustBeSelected;
 				if (SelectedDnlibObject is null)
 					return GetErrorMessage();
 				return string.Empty;
@@ -350,7 +350,7 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 			return string.Empty;
 		}
 
-		string GetErrorMessage() => dnSpy_AsmEditor_Resources.PickMember_SelectCorrectNode;
+		string GetErrorMessage() => dnSpy_AsmEditor_Core_Resources.PickMember_SelectCorrectNode;
 
 		public override bool HasError {
 			get {

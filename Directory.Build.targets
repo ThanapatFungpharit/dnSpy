@@ -1,4 +1,8 @@
 <Project>
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' and '$(SignAssembly)' == 'true' ">
+    <!-- Strong name signing needs SHA-1 which some Linux distros' OpenSSL rejects (eg. Fedora). Public signing keeps the same identity. -->
+    <PublicSign>true</PublicSign>
+  </PropertyGroup>
   <ItemGroup>
     <!-- Remove unwanted files, eg. resources of unused files, unused native files -->
     <GarbageFile Include="cs\Microsoft.CodeAnalysis.Workspaces.Desktop.resources.dll" />

@@ -23,9 +23,9 @@
              xmlns:dnlibdlgs="clr-namespace:dnSpy.AsmEditor.DnlibDialogs"
              xmlns:winlocal="clr-namespace:dnSpy.Contracts.Controls;assembly=dnSpy.Contracts.DnSpy"
              xmlns:mvvmvc="clr-namespace:dnSpy.Contracts.MVVM.Converters;assembly=dnSpy.Contracts.DnSpy"
-             xmlns:p="clr-namespace:dnSpy.AsmEditor.Properties"
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core"
              Height="450" Width="700"
-             Title="{x:Static p:dnSpy_AsmEditor_Resources.EditMethodCommand2}"
+             Title="{x:Static pc:dnSpy_AsmEditor_Core_Resources.EditMethodCommand2}"
              Style="{StaticResource DialogWindowStyle}" WindowStartupLocation="CenterOwner"
              MinHeight="400" MinWidth="550">
     <winlocal:WindowBase.Resources>
@@ -41,7 +41,7 @@
         </Grid.RowDefinitions>
 
         <TabControl Margin="5 5 5 0">
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.MainTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MainTab}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid Margin="5">
                         <Grid.ColumnDefinitions>
@@ -60,7 +60,7 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=nameTextBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.Method_Name}" />
+                            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding ElementName=nameTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Method_Name}" />
                             <TextBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Name="nameTextBox" Text="{Binding Name, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
 
@@ -88,7 +88,7 @@
                             </Grid>
                         </GroupBox>
 
-                        <GroupBox Grid.Row="2" Header="{x:Static p:dnSpy_AsmEditor_Resources.Flags}">
+                        <GroupBox Grid.Row="2" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
@@ -131,7 +131,7 @@
                             <Label Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" Target="{Binding ElementName=managedTypeComboBox}" Content="ManagedType" />
                             <ComboBox Grid.Row="0" Grid.Column="3" Margin="5 0 0 0" Name="managedTypeComboBox" HorizontalAlignment="Stretch" DisplayMemberPath="Name" ItemsSource="{Binding ManagedType.Items}" SelectedIndex="{Binding ManagedType.SelectedIndex}" VerticalContentAlignment="Center" />
 
-                            <Label Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=accessComboBox}" Content="{x:Static p:dnSpy_AsmEditor_Resources.Method_Access}" />
+                            <Label Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=accessComboBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Method_Access}" />
                             <ComboBox Grid.Row="1" Grid.Column="1" Margin="5 5 0 0" Name="accessComboBox" HorizontalAlignment="Stretch" DisplayMemberPath="Name" ItemsSource="{Binding MethodAccess.Items}" SelectedIndex="{Binding MethodAccess.SelectedIndex}" VerticalContentAlignment="Center" />
                             <Label Grid.Row="1" Grid.Column="2" Margin="5 5 0 0" Target="{Binding ElementName=vtableLayoutComboBox}" Content="VtableLayout" />
                             <ComboBox Grid.Row="1" Grid.Column="3" Margin="5 5 0 0" Name="vtableLayoutComboBox" HorizontalAlignment="Stretch" DisplayMemberPath="Name" ItemsSource="{Binding VtableLayout.Items}" SelectedIndex="{Binding VtableLayout.SelectedIndex}" VerticalContentAlignment="Center" />
@@ -139,37 +139,37 @@
                     </Grid>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.MethodSignatureTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodSignatureTab}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <dnlibdlgs:MethodSigCreatorControl Grid.Row="0" Margin="0 5 0 0" DataContext="{Binding MethodSigCreator}" />
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.MethodParametersTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodParametersTab}">
                 <dnlibdlgs:ParamDefsControl Margin="0 5 0 0" DataContext="{Binding ParamDefsVM}" />
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.GenericParametersTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GenericParametersTab}">
                 <dnlibdlgs:GenericParamsControl Margin="0 5 0 0" DataContext="{Binding GenericParamsVM}" />
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.ImplMapTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.ImplMapTab}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <dnlibdlgs:ImplMapControl Margin="0 5 0 0" DataContext="{Binding ImplMapVM}" />
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.MethodOverridesTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MethodOverridesTab}">
                 <dnlibdlgs:MethodOverridesControl Margin="0 5 0 0" DataContext="{Binding MethodOverridesVM}" />
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.CustomAttributesTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.CustomAttributesTab}">
                 <dnlibdlgs:CustomAttributesControl Margin="0 5 0 0" DataContext="{Binding CustomAttributesVM}" />
             </TabItem>
-            <TabItem Header="{x:Static p:dnSpy_AsmEditor_Resources.SecurityDeclarationsTab}">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SecurityDeclarationsTab}">
                 <dnlibdlgs:DeclSecuritiesControl Margin="0 5 0 0" DataContext="{Binding DeclSecuritiesVM}" />
             </TabItem>
         </TabControl>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_OK}" IsEnabled="{Binding HasError, Converter={StaticResource NegateBooleanConverter}}" IsDefault="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" Click="okButton_Click" />
-            <Button Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_Cancel}" IsCancel="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" />
-            <Button Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_RestoreSettings}" Style="{StaticResource DialogButton}" Command="{Binding ReinitializeCommand}" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_OK}" IsEnabled="{Binding HasError, Converter={StaticResource NegateBooleanConverter}}" IsDefault="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" Click="okButton_Click" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Cancel}" IsCancel="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_RestoreSettings}" Style="{StaticResource DialogButton}" Command="{Binding ReinitializeCommand}" />
         </StackPanel>
     </Grid>
 </winlocal:WindowBase>

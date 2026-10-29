@@ -1,0 +1,154 @@
+<!--
+    Copyright (C) 2014-2026 de4dot@gmail.com
+
+    This file is part of dnSpy
+
+    dnSpy is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    dnSpy is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<local:DialogWindow x:Class="dnSpy.Avalonia.AsmEditor.TypeOptionsDlg"
+             x:ClassModifier="internal"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:dnSpy.Avalonia.AsmEditor"
+             xmlns:vm="clr-namespace:dnSpy.AsmEditor.Types;assembly=dnSpy.AsmEditor.Core"
+             x:DataType="vm:TypeOptionsVM"
+             xmlns:pc="clr-namespace:dnSpy.AsmEditor.Properties;assembly=dnSpy.AsmEditor.Core"
+             Height="400" Width="600"
+             Title="{x:Static pc:dnSpy_AsmEditor_Core_Resources.EditTypeCommand2}" WindowStartupLocation="CenterOwner"
+             MinHeight="400" MinWidth="500">
+    <Grid local:FocusHelper.FocusedElement="{Binding #nameTextBox}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TabControl Margin="5">
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.MainTab}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="0 5 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Target="{Binding #nsTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Type_Namespace}" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="5 0 0 0" Name="nsTextBox" Text="{Binding Namespace}" local:DataErrorInfoHelper.Source="{Binding}" local:DataErrorInfoHelper.Property="Namespace" />
+                            <Label Grid.Row="0" Grid.Column="2" Margin="5 0 0 0" Target="{Binding #nameTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Type_Name}" />
+                            <TextBox Grid.Row="0" Grid.Column="3" Margin="5 0 0 0" Name="nameTextBox" Text="{Binding Name}" local:DataErrorInfoHelper.Source="{Binding}" local:DataErrorInfoHelper.Property="Name" />
+                            <Label Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Target="{Binding #packingSizeTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Type_PackingSize}" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Margin="5 5 0 0" Name="packingSizeTextBox" Text="{Binding PackingSize.StringValue}" local:DataErrorInfoHelper.Source="{Binding PackingSize}" local:DataErrorInfoHelper.Property="StringValue" />
+                            <Label Grid.Row="1" Grid.Column="2" Margin="5 5 0 0" Target="{Binding #classSizeTextBox}" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Type_ClassSize}" />
+                            <TextBox Grid.Row="1" Grid.Column="3" Margin="5 5 0 0" Name="classSizeTextBox" Text="{Binding ClassSize.StringValue}" local:DataErrorInfoHelper.Source="{Binding ClassSize}" local:DataErrorInfoHelper.Property="StringValue" />
+                        </Grid>
+
+                        <local:GroupBox Grid.Row="1" Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Flags}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <CheckBox Grid.Row="0" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding Abstract}" Content="Abstract" />
+                                <CheckBox Grid.Row="0" Grid.Column="1" Margin="5 5 0 0" IsChecked="{Binding Sealed}" Content="Sealed" />
+                                <CheckBox Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" IsChecked="{Binding Serializable}" Content="Serializable" />
+                                <CheckBox Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding Import}" Content="Import" />
+                                <CheckBox Grid.Row="1" Grid.Column="1" Margin="5 5 0 0" IsChecked="{Binding SpecialName}" Content="SpecialName" />
+                                <CheckBox Grid.Row="1" Grid.Column="2" Margin="5 5 0 0" IsChecked="{Binding RTSpecialName}" Content="RTSpecialName" />
+                                <CheckBox Grid.Row="2" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding WindowsRuntime}" Content="WindowsRuntime" />
+                                <CheckBox Grid.Row="2" Grid.Column="1" Margin="5 5 0 0" IsChecked="{Binding BeforeFieldInit}" Content="BeforeFieldInit" />
+                                <CheckBox Grid.Row="2" Grid.Column="2" Margin="5 5 0 0" IsChecked="{Binding Forwarder}" Content="Forwarder" />
+                            </Grid>
+                        </local:GroupBox>
+
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Type_Flags_Kind}" Target="{Binding #typeKindComboBox}" />
+                            <ComboBox Grid.Row="0" Grid.Column="1" Margin="5 5 0 0" HorizontalAlignment="Stretch" Name="typeKindComboBox" DisplayMemberBinding="{ReflectionBinding Name}" ItemsSource="{Binding TypeKind.Items}" SelectedIndex="{Binding TypeKind.SelectedIndex}" VerticalContentAlignment="Center" />
+                            <Label Grid.Row="0" Grid.Column="2" Margin="0 5 0 0" Content="{Binding VisibilityAccessbilityText}" Target="{Binding #visibilityComboBox}" />
+                            <ComboBox Grid.Row="0" Grid.Column="3" Margin="5 5 0 0" HorizontalAlignment="Stretch" Name="visibilityComboBox" DisplayMemberBinding="{ReflectionBinding Name}" ItemsSource="{Binding TypeVisibility.Items}" SelectedIndex="{Binding TypeVisibility.SelectedIndex}" VerticalContentAlignment="Center" />
+                            <Label Grid.Row="0" Grid.Column="4" Margin="0 5 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Type_Flags_Layout}" Target="{Binding #layoutComboBox}" />
+                            <ComboBox Grid.Row="0" Grid.Column="5" Margin="5 5 0 0" HorizontalAlignment="Stretch" Name="layoutComboBox" DisplayMemberBinding="{ReflectionBinding Name}" ItemsSource="{Binding TypeLayout.Items}" SelectedIndex="{Binding TypeLayout.SelectedIndex}" VerticalContentAlignment="Center" />
+
+                            <Label Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Type_Flags_String}" Target="{Binding #stringFormatComboBox}" />
+                            <ComboBox Grid.Row="1" Grid.Column="1" Margin="5 5 0 0" HorizontalAlignment="Stretch" Name="stringFormatComboBox" DisplayMemberBinding="{ReflectionBinding Name}" ItemsSource="{Binding TypeStringFormat.Items}" SelectedIndex="{Binding TypeStringFormat.SelectedIndex}" VerticalContentAlignment="Center" />
+                            <Label Grid.Row="1" Grid.Column="2" Margin="0 5 0 0" Content="Semantics" Target="{Binding #semanticsComboBox}" />
+                            <ComboBox Grid.Row="1" Grid.Column="3" Margin="5 5 0 0" HorizontalAlignment="Stretch" Name="semanticsComboBox" DisplayMemberBinding="{ReflectionBinding Name}" ItemsSource="{Binding TypeSemantics.Items}" SelectedIndex="{Binding TypeSemantics.SelectedIndex}" VerticalContentAlignment="Center" />
+                            <Label Grid.Row="1" Grid.Column="4" Margin="0 5 0 0" Content="Custom" Target="{Binding #customFormatComboBox}" />
+                            <ComboBox Grid.Row="1" Grid.Column="5" Margin="5 5 0 0" HorizontalAlignment="Stretch" Name="customFormatComboBox" DisplayMemberBinding="{ReflectionBinding Name}" ItemsSource="{Binding TypeCustomFormat.Items}" SelectedIndex="{Binding TypeCustomFormat.SelectedIndex}" VerticalContentAlignment="Center" />
+                        </Grid>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.BaseTypeTab}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <local:TypeSigCreatorControl Grid.Row="0" Margin="0 5 0 0" DataContext="{Binding TypeSigCreator}" />
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.GenericParametersTab}">
+                <local:GenericParamsControl Margin="0 5 0 0" DataContext="{Binding GenericParamsVM}" />
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.InterfacesTab}">
+                <local:TypeDefOrRefAndCAsControl Margin="0 5 0 0" DataContext="{Binding InterfaceImplsVM}" />
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.CustomAttributesTab}">
+                <local:CustomAttributesControl Margin="0 5 0 0" DataContext="{Binding CustomAttributesVM}" />
+            </TabItem>
+            <TabItem Header="{x:Static pc:dnSpy_AsmEditor_Core_Resources.SecurityDeclarationsTab}">
+                <local:DeclSecuritiesControl Margin="0 5 0 0" DataContext="{Binding DeclSecuritiesVM}" />
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 5 5">
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_OK}" IsEnabled="{Binding !HasError}" IsDefault="True" Classes="dialog" Margin="0,0,5,0" Click="okButton_Click" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_Cancel}" IsCancel="True" Click="cancelButton_Click" Classes="dialog" Margin="0,0,5,0" />
+            <Button Content="{x:Static pc:dnSpy_AsmEditor_Core_Resources.Button_RestoreSettings}" Classes="dialog" Command="{Binding ReinitializeCommand}" />
+        </StackPanel>
+    </Grid>
+</local:DialogWindow>
