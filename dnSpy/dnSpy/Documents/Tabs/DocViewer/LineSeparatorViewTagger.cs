@@ -88,7 +88,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 				yield break;
 			var snapshot = spans[0].Snapshot;
 			foreach (var span in spans) {
-				foreach (var pos in lineSeparatorCollection.Find(span.Span)) {
+				foreach (var pos in lineSeparatorCollection.Find(span.Span.ToDsTextSpan())) {
 					if (pos > snapshot.Length)
 						yield break;// Old data, we'll get called again
 					yield return new TagSpan<ILineSeparatorTag>(new SnapshotSpan(snapshot, pos, 0), lineSeparatorTag);

@@ -21,12 +21,12 @@ using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Documents.Tabs.DocViewer;
 
 namespace dnSpy.Documents.Tabs.DocViewer {
-	[ExportDocumentViewerCustomDataProvider]
-	sealed class LineSeparatorDocumentViewerCustomDataProvider : IDocumentViewerCustomDataProvider {
-		public void OnCustomData(IDocumentViewerCustomDataContext context) {
-			var data = context.GetData<LineSeparator>(PredefinedCustomDataIds.LineSeparator);
-			var coll = data.Length == 0 ? LineSeparatorCollection.Empty : new LineSeparatorCollection(data);
-			context.AddCustomData(DocumentViewerContentDataIds.LineSeparator, coll);
+	[ExportContentCustomDataProvider]
+	sealed class BlockStructureContentCustomDataProvider : IContentCustomDataProvider {
+		public void OnCustomData(IContentCustomDataContext context) {
+			var data = context.GetData<CodeBracesRange>(PredefinedCustomDataIds.CodeBracesRange);
+			var coll = data.Length == 0 ? LazyBlockStructureCollection.Empty : new LazyBlockStructureCollection(data);
+			context.AddCustomData(DocumentViewerContentDataIds.BlockStructure, coll);
 		}
 	}
 }

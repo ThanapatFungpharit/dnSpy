@@ -18,7 +18,6 @@
 */
 
 using System;
-using Microsoft.VisualStudio.Text.Editor;
 
 namespace dnSpy.Contracts.Settings.Groups {
 	/// <summary>
@@ -31,7 +30,7 @@ namespace dnSpy.Contracts.Settings.Groups {
 		public string ContentType { get; }
 
 		/// <summary>
-		/// Option id, eg. <see cref="DefaultTextViewOptions.WordWrapStyleName"/>
+		/// Option id, eg. <c>DefaultTextViewOptions.WordWrapStyleName</c>
 		/// </summary>
 		public string OptionId { get; }
 
@@ -39,7 +38,7 @@ namespace dnSpy.Contracts.Settings.Groups {
 		/// Constructor
 		/// </summary>
 		/// <param name="contentType">Content type</param>
-		/// <param name="optionId">Option id, eg. <see cref="DefaultTextViewOptions.WordWrapStyleName"/></param>
+		/// <param name="optionId">Option id, eg. <c>DefaultTextViewOptions.WordWrapStyleName</c></param>
 		public TextViewOptionChangedEventArgs(string contentType, string optionId) {
 			ContentType = contentType ?? throw new ArgumentNullException(nameof(contentType));
 			OptionId = optionId ?? throw new ArgumentNullException(nameof(optionId));

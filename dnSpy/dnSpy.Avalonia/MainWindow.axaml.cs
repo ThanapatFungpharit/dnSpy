@@ -302,6 +302,7 @@ namespace dnSpy.Avalonia {
 			var cancellation = decompileCancellation = new CancellationTokenSource();
 			var decompiler = host.DecompilerService.Decompiler;
 			var documentService = host.DocumentService;
+			var contentCustomDataService = host.ContentCustomDataService;
 
 			var task = Task.Run(() => {
 				var output = new DocumentViewerOutputBase();
@@ -322,7 +323,7 @@ namespace dnSpy.Avalonia {
 					foreach (var line in ex.ToString().Split('\n'))
 						decompiler.WriteCommentLine(output, line.TrimEnd('\r'));
 				}
-				return output.CreateContent();
+				return contentCustomDataService.CreateContent(output);
 			}, cancellation.Token);
 
 			// Don't show the old code while a slow node (eg. a big namespace) is being decompiled

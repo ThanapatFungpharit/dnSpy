@@ -46,7 +46,10 @@ using dnSpy.Avalonia.AsmEditor;
 using dnSpy.Avalonia.Controls;
 using dnSpy.Avalonia.Editing;
 using dnSpy.Avalonia.TreeNodes;
+using dnSpy.Contracts.AsmEditor.Compiler;
 using dnSpy.Contracts.Decompiler;
+using dnSpy.Contracts.Documents.Tabs.DocViewer;
+using dnSpy.Documents.Tabs.DocViewer;
 
 namespace dnSpy.Avalonia.SmokeTest {
 	// Drives the real MainWindow with the headless platform (simulated mouse/keyboard input, Skia
@@ -139,6 +142,13 @@ namespace dnSpy.Avalonia.SmokeTest {
 			PressKey(Key.Right, RawInputModifiers.Alt, PhysicalKey.ArrowRight);
 			Check("Alt+Right goes forward", WaitFor(() => code.Text.Contains("class ModuleDefMD2 ")));
 
+			// The UI independent custom data providers in dnSpy.Core run on headless content too
+			var content = code.Content;
+			Check("content has method debug info", content?.MethodDebugInfos.Count > 0);
+			int braceIndex = code.Text.IndexOf('{');
+			Check("content has brace pairs", braceIndex >= 0 && content?.GetCustomData<BracePairCollection>(DocumentViewerContentDataIds.BracePair)?.GetBracePairs(braceIndex) is not null);
+			Check("content has block structure", content?.GetCustomData<LazyBlockStructureCollection>(DocumentViewerContentDataIds.BlockStructure)?.Collection.GetRanges(new TextSpan(braceIndex, 1)).Any() == true);
+
 			// The assembly resolver finds the BCL in the installed .NET runtime and it gets its own root node
 			var stringRef = code.Content?.ReferenceCollection.FirstOrDefault(a => a.Data.Reference is ITypeDefOrRef t && t.FullName == "System.String" && !a.Data.IsDefinition);
 			Check("code has a System.String reference", stringRef?.Data.Reference is not null);
@@ -185,12 +195,14 @@ namespace dnSpy.Avalonia.SmokeTest {
 		}
 
 		const string EditMarker = "dnSpy edit test";
+		// Its decompiled code compiles as-is (IsNullOrEmpty's 'utf8 == null' is ambiguous between UTF8String's == operators)
+		const string EditedMethod = "Contains(string";
 		string? savedModuleFilename;
 
 		// Edit Method: decompile into the editor, completion, a compile error, a successful compile, undo/redo and save
 		void TestEditCode() {
-			ExpandAndSelect("UTF8String", "IsNullOrEmpty(");
-			Check("method is decompiled", WaitFor(() => code.Text.Contains("IsNullOrEmpty(")));
+			ExpandAndSelect("UTF8String", EditedMethod);
+			Check("method is decompiled", WaitFor(() => code.Text.Contains(EditedMethod)));
 			var method = (treeView.SelectedItem as TreeNode)?.Reference as MethodDef;
 			Check("a method is selected", method is not null);
 			if (method is null)
@@ -202,35 +214,39 @@ namespace dnSpy.Avalonia.SmokeTest {
 			if (editWindow is null || editWindow.Editors.Count == 0)
 				return;
 			var editor = editWindow.Editors[0];
-			Check("editor has the method", editor.Text.Contains("IsNullOrEmpty(") && editor.Text.Contains("class UTF8String"));
+			Check("editor has the method", editor.Text.Contains(EditedMethod) && editor.Text.Contains("class UTF8String"));
 			Check("editor has a .g file with the other members", editWindow.Editors.Count == 2);
 			Check("editor gets diagnostics and colors", WaitFor(() => editor.DiagnosticsUpdateCount > 0, TimeSpan.FromSeconds(60)));
 			Screenshot("09-edit-method");
 
 			// Insert code at the start of the method body
-			int nameIndex = editor.Text.IndexOf("IsNullOrEmpty(", StringComparison.Ordinal);
+			int nameIndex = editor.Text.IndexOf(EditedMethod, StringComparison.Ordinal);
 			int bodyStart = editor.Text.IndexOf('{', nameIndex) + 1;
-			editor.Document.Insert(bodyStart, "\n\t\t\tSystem.Console.Wri");
-			editor.CaretOffset = bodyStart + "\n\t\t\tSystem.Console.Wri".Length;
+			editor.Document.Insert(bodyStart, "\n\t\t\tSystem.String.Conc");
+			editor.CaretOffset = bodyStart + "\n\t\t\tSystem.String.Conc".Length;
 			editor.TextArea.Focus();
 			Settle();
 			editWindow.KeyPress(Key.Space, RawInputModifiers.Control, PhysicalKey.Space, null);
 			editWindow.KeyRelease(Key.Space, RawInputModifiers.Control, PhysicalKey.Space, null);
-			Check("Ctrl+Space shows completion items", WaitFor(() => editor.ActiveCompletionWindow?.CompletionList.CompletionData.Any(a => a.Text == "WriteLine") == true, TimeSpan.FromSeconds(60)));
+			Check("Ctrl+Space shows completion items", WaitFor(() => editor.ActiveCompletionWindow?.CompletionList.CompletionData.Any(a => a.Text == "Concat") == true, TimeSpan.FromSeconds(60)));
+			if (editor.ActiveCompletionWindow is null)
+				Console.WriteLine($"  focused: {editWindow.FocusManager?.GetFocusedElement()?.GetType().Name ?? "(none)"}, editor focused: {editor.TextArea.IsKeyboardFocusWithin}");
 			Screenshot("10-completion");
 			editor.ActiveCompletionWindow?.Close();
 
 			// A compile error keeps the window open and shows the error
-			editor.Document.Replace(bodyStart, "\n\t\t\tSystem.Console.Wri".Length, "\n\t\t\tint dnSpyError = \"\";");
+			editor.Document.Replace(bodyStart, "\n\t\t\tSystem.String.Conc".Length, "\n\t\t\tint dnSpyError = \"\";");
 			_ = editWindow.CompileAsync();
-			Check("compile error is reported", WaitFor(() => !editWindow.IsCompiling && editWindow.DiagnosticItems.Any(a => a.Diagnostic.Id == "CS0029"), TimeSpan.FromSeconds(60)));
+			if (!Check("compile error is reported", WaitFor(() => !editWindow.IsCompiling && editWindow.DiagnosticItems.Any(a => a.Diagnostic.Id == "CS0029"), TimeSpan.FromSeconds(60))))
+				PrintDiagnostics(editWindow);
 			Check("window stays open after a compile error", !editTask.IsCompleted);
 			Screenshot("11-compile-error");
 
 			int errorStart = editor.Text.IndexOf("int dnSpyError", StringComparison.Ordinal);
-			editor.Document.Replace(errorStart, "int dnSpyError = \"\";".Length, $"System.Console.WriteLine(\"{EditMarker}\");");
+			editor.Document.Replace(errorStart, "int dnSpyError = \"\";".Length, $"System.String.Concat(\"{EditMarker}\", \"\");");
 			_ = editWindow.CompileAsync();
-			Check("successful compile closes the window", WaitFor(() => editTask.IsCompleted, TimeSpan.FromSeconds(60)));
+			if (!Check("successful compile closes the window", WaitFor(() => editTask.IsCompleted, TimeSpan.FromSeconds(60))))
+				PrintDiagnostics(editWindow);
 			Check("edited method is decompiled with the new code", WaitFor(() => code.Text.Contains(EditMarker)));
 			Check("method body was replaced", method.Body?.Instructions.Any(a => a.Operand is string str && str == EditMarker) == true);
 			Check("module is marked as modified", window.EditService.IsModified(method.Module) && window.Title?.StartsWith("*", StringComparison.Ordinal) == true);
@@ -238,7 +254,7 @@ namespace dnSpy.Avalonia.SmokeTest {
 
 			treeView.Focus();
 			PressKey(Key.Z, RawInputModifiers.Control, PhysicalKey.Z);
-			Check("Ctrl+Z undoes the edit", WaitFor(() => !code.Text.Contains(EditMarker) && code.Text.Contains("IsNullOrEmpty(")));
+			Check("Ctrl+Z undoes the edit", WaitFor(() => !code.Text.Contains(EditMarker) && code.Text.Contains(EditedMethod)));
 			Check("undo restores the module", !window.EditService.IsModified(method.Module));
 			PressKey(Key.Y, RawInputModifiers.Control, PhysicalKey.Y);
 			Check("Ctrl+Y redoes the edit", WaitFor(() => code.Text.Contains(EditMarker)));
@@ -288,6 +304,10 @@ namespace dnSpy.Avalonia.SmokeTest {
 			}
 			// The rest of the test uses the code view
 			treeView.Focus();
+			// Undo the Edit Method change so closing dnlib at the end doesn't ask to save it
+			while (window.EditService.CanUndo)
+				window.EditService.Undo();
+			Check("undoing the edits restores dnlib", WaitFor(() => !window.EditService.ModifiedModules.Any()));
 		}
 
 		TypeDef? utf8StringType;
@@ -756,10 +776,24 @@ namespace dnSpy.Avalonia.SmokeTest {
 			return node;
 		}
 
-		void Check(string name, bool ok) {
+		// Shows why a compile check failed
+		static void PrintDiagnostics(EditCodeWindow editWindow) {
+			Console.WriteLine($"  compiling: {editWindow.IsCompiling}, {editWindow.DiagnosticItems.Count} diagnostic(s)");
+			foreach (var item in editWindow.DiagnosticItems.Take(10)) {
+				Console.WriteLine($"  {item.Diagnostic.Severity} {item.Diagnostic.Id}: {item.Diagnostic.Description} {item.Location}");
+				if (item.Diagnostic.Severity == CompilerDiagnosticSeverity.Error && item.Diagnostic.LineLocationSpan is LineLocationSpan span && item.Diagnostic.Filename == "main.cs") {
+					var doc = editWindow.Editors[0].Document;
+					if (span.StartLinePosition.Line < doc.LineCount)
+						Console.WriteLine("    " + doc.GetText(doc.GetLineByNumber(span.StartLinePosition.Line + 1)).Trim());
+				}
+			}
+		}
+
+		bool Check(string name, bool ok) {
 			Console.WriteLine($"{(ok ? "PASS" : "FAIL")}: {name}");
 			if (!ok)
 				failures++;
+			return ok;
 		}
 
 		// Runs the dispatcher until the condition is true. Decompilation happens on another thread.

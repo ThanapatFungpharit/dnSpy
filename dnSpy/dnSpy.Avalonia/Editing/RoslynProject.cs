@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using dnSpy.Contracts.AsmEditor.Compiler;
@@ -132,14 +133,17 @@ namespace dnSpy.Avalonia.Editing {
 
 		Project Project => workspace.CurrentSolution.GetProject(projectId)!;
 
+		// The compiler can't emit the PDB if the source text has no encoding (CS8055)
+		static SourceText CreateSourceText(string text) => SourceText.From(text, Encoding.UTF8);
+
 		public DocumentId AddDocument(string name, string text) {
 			var info = DocumentInfo.Create(DocumentId.CreateNewId(projectId), name, null, SourceCodeKind.Regular,
-				TextLoader.From(TextAndVersion.Create(SourceText.From(text), VersionStamp.Create())), filePath: name);
+				TextLoader.From(TextAndVersion.Create(CreateSourceText(text), VersionStamp.Create())), filePath: name);
 			return workspace.AddDocument(info).Id;
 		}
 
 		public void UpdateText(DocumentId documentId, string text) {
-			var solution = workspace.CurrentSolution.WithDocumentText(documentId, SourceText.From(text));
+			var solution = workspace.CurrentSolution.WithDocumentText(documentId, CreateSourceText(text));
 			workspace.TryApplyChanges(solution);
 		}
 

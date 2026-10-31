@@ -21,7 +21,6 @@ using System;
 using dnlib.DotNet;
 using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Documents;
-using dnSpy.Contracts.Documents.TreeView;
 
 namespace dnSpy.Contracts.Settings.Dialog {
 	/// <summary>
@@ -119,7 +118,7 @@ namespace dnSpy.Contracts.Settings.Dialog {
 		public const double ORDER_LISTENER_DECOMPILER = 1000;
 
 		/// <summary>
-		/// Order of <see cref="IDocumentTreeView"/>'s <see cref="IAppSettingsModifiedListener"/> instance
+		/// Order of <c>IDocumentTreeView</c>'s <see cref="IAppSettingsModifiedListener"/> instance
 		/// </summary>
 		public const double ORDER_LISTENER_DOCUMENTTREEVIEW = 2000;
 

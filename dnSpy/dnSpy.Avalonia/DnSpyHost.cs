@@ -27,6 +27,7 @@ using dnSpy.Composition;
 using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Documents;
 using dnSpy.Contracts.Settings;
+using dnSpy.Documents.Tabs.DocViewer;
 using Microsoft.VisualStudio.Composition;
 
 namespace dnSpy.Avalonia {
@@ -44,6 +45,7 @@ namespace dnSpy.Avalonia {
 		public ISettingsService SettingsService { get; }
 		public IMethodAnnotations MethodAnnotations { get; }
 		public RawModuleBytesProvider RawModuleBytesProvider { get; }
+		public ContentCustomDataService ContentCustomDataService { get; }
 
 		// useUserFiles is false in the smoke test: it doesn't read the settings file or read/write the MEF cache.
 		// Settings are only written by SaveSettings().
@@ -68,6 +70,7 @@ namespace dnSpy.Avalonia {
 			SettingsService = exportProvider.GetExportedValue<ISettingsService>();
 			MethodAnnotations = exportProvider.GetExportedValue<IMethodAnnotations>();
 			RawModuleBytesProvider = exportProvider.GetExportedValue<RawModuleBytesProvider>();
+			ContentCustomDataService = exportProvider.GetExportedValue<ContentCustomDataService>();
 			// The method body editor writes IL operands with it. WPF initializes it with an IAutoLoaded part.
 			global::dnSpy.AsmEditor.MethodBody.BodyUtils.Initialize(exportProvider.GetExportedValues<ISimpleILPrinter>());
 			DocumentService.SetDispatcher(a => Dispatcher.UIThread.Post(a, DispatcherPriority.Background));

@@ -21,12 +21,11 @@ using System.Diagnostics;
 using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Documents.Tabs.DocViewer;
 using dnSpy.Contracts.Text;
-using Microsoft.VisualStudio.Text;
 
 namespace dnSpy.Documents.Tabs.DocViewer {
-	[ExportDocumentViewerCustomDataProvider]
-	sealed class SpanReferenceDocumentViewerCustomDataProvider : IDocumentViewerCustomDataProvider {
-		public void OnCustomData(IDocumentViewerCustomDataContext context) {
+	[ExportContentCustomDataProvider]
+	sealed class SpanReferenceContentCustomDataProvider : IContentCustomDataProvider {
+		public void OnCustomData(IContentCustomDataContext context) {
 			SpanDataCollection<ReferenceAndId> result;
 			var data = context.GetData<SpanReference>(PredefinedCustomDataIds.SpanReference);
 			if (data.Length == 0)

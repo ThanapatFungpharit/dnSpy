@@ -21,9 +21,9 @@ using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Documents.Tabs.DocViewer;
 
 namespace dnSpy.Documents.Tabs.DocViewer {
-	[ExportDocumentViewerCustomDataProvider]
-	sealed class BracePairDocumentViewerCustomDataProvider : IDocumentViewerCustomDataProvider {
-		public void OnCustomData(IDocumentViewerCustomDataContext context) {
+	[ExportContentCustomDataProvider]
+	sealed class BracePairContentCustomDataProvider : IContentCustomDataProvider {
+		public void OnCustomData(IContentCustomDataContext context) {
 			var data = context.GetData<CodeBracesRange>(PredefinedCustomDataIds.CodeBracesRange);
 			var coll = data.Length == 0 ? BracePairCollection.Empty : new BracePairCollection(data);
 			context.AddCustomData(DocumentViewerContentDataIds.BracePair, coll);

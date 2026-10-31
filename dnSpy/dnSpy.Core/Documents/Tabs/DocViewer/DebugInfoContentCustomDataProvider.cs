@@ -17,16 +17,19 @@
     along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+using System;
+using System.Collections.ObjectModel;
 using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Documents.Tabs.DocViewer;
 
 namespace dnSpy.Documents.Tabs.DocViewer {
-	[ExportDocumentViewerCustomDataProvider]
-	sealed class BlockStructureDocumentViewerCustomDataProvider : IDocumentViewerCustomDataProvider {
-		public void OnCustomData(IDocumentViewerCustomDataContext context) {
-			var data = context.GetData<CodeBracesRange>(PredefinedCustomDataIds.CodeBracesRange);
-			var coll = data.Length == 0 ? LazyBlockStructureCollection.Empty : new LazyBlockStructureCollection(data);
-			context.AddCustomData(DocumentViewerContentDataIds.BlockStructure, coll);
+	[ExportContentCustomDataProvider]
+	sealed class DebugInfoContentCustomDataProvider : IContentCustomDataProvider {
+		public void OnCustomData(IContentCustomDataContext context) {
+			var data = context.GetData<MethodDebugInfo>(PredefinedCustomDataIds.DebugInfo);
+			var coll = data.Length == 0 ? emptyCollection : new ReadOnlyCollection<MethodDebugInfo>(data);
+			context.AddCustomData(DocumentViewerContentDataIds.DebugInfo, coll);
 		}
+		static readonly ReadOnlyCollection<MethodDebugInfo> emptyCollection = new ReadOnlyCollection<MethodDebugInfo>(Array.Empty<MethodDebugInfo>());
 	}
 }

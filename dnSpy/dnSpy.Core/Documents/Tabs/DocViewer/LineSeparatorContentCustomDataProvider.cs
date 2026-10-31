@@ -17,19 +17,16 @@
     along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Collections.ObjectModel;
 using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Documents.Tabs.DocViewer;
 
 namespace dnSpy.Documents.Tabs.DocViewer {
-	[ExportDocumentViewerCustomDataProvider]
-	sealed class DebugInfoDocumentViewerCustomDataProvider : IDocumentViewerCustomDataProvider {
-		public void OnCustomData(IDocumentViewerCustomDataContext context) {
-			var data = context.GetData<MethodDebugInfo>(PredefinedCustomDataIds.DebugInfo);
-			var coll = data.Length == 0 ? emptyCollection : new ReadOnlyCollection<MethodDebugInfo>(data);
-			context.AddCustomData(DocumentViewerContentDataIds.DebugInfo, coll);
+	[ExportContentCustomDataProvider]
+	sealed class LineSeparatorContentCustomDataProvider : IContentCustomDataProvider {
+		public void OnCustomData(IContentCustomDataContext context) {
+			var data = context.GetData<LineSeparator>(PredefinedCustomDataIds.LineSeparator);
+			var coll = data.Length == 0 ? LineSeparatorCollection.Empty : new LineSeparatorCollection(data);
+			context.AddCustomData(DocumentViewerContentDataIds.LineSeparator, coll);
 		}
-		static readonly ReadOnlyCollection<MethodDebugInfo> emptyCollection = new ReadOnlyCollection<MethodDebugInfo>(Array.Empty<MethodDebugInfo>());
 	}
 }

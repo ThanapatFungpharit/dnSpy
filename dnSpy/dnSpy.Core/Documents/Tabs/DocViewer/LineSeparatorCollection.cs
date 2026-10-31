@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using dnSpy.Contracts.Decompiler;
-using Microsoft.VisualStudio.Text;
 
 namespace dnSpy.Documents.Tabs.DocViewer {
 	sealed class LineSeparatorCollection {
@@ -41,7 +40,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 			this.lineSeparators = lineSeparators;
 		}
 
-		public IEnumerable<int> Find(Span span) => Find(span.Start, span.Length);
+		public IEnumerable<int> Find(TextSpan span) => Find(span.Start, span.Length);
 
 		public IEnumerable<int> Find(int position, int length) {
 			if (position < 0)

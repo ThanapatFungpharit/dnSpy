@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using dnSpy.Contracts.Command;
+using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Documents.Tabs.DocViewer;
 using dnSpy.Contracts.Text;
 using dnSpy.Contracts.Text.Classification;
@@ -332,11 +333,11 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 			}
 		}
 
-		void RefreshTags(Span span) {
+		void RefreshTags(TextSpan span) {
 			if (tagger is not null) {
 				var snapshot = textView.TextSnapshot;
 				if (span.End <= snapshot.Length)
-					tagger?.RaiseTagsChanged(new SnapshotSpan(snapshot, span));
+					tagger?.RaiseTagsChanged(new SnapshotSpan(snapshot, span.ToVsSpan()));
 			}
 		}
 
@@ -364,14 +365,14 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 				yield break;
 			var snapshot = textView.TextSnapshot;
 			if (currentBracePair.Value.First.Left.End <= snapshot.Length)
-				yield return new TagSpan<IBracePairTag>(new SnapshotSpan(snapshot, currentBracePair.Value.First.Left), BracePairTag.Instance);
+				yield return new TagSpan<IBracePairTag>(new SnapshotSpan(snapshot, currentBracePair.Value.First.Left.ToVsSpan()), BracePairTag.Instance);
 			if (currentBracePair.Value.First.Right.End <= snapshot.Length)
-				yield return new TagSpan<IBracePairTag>(new SnapshotSpan(snapshot, currentBracePair.Value.First.Right), BracePairTag.Instance);
+				yield return new TagSpan<IBracePairTag>(new SnapshotSpan(snapshot, currentBracePair.Value.First.Right.ToVsSpan()), BracePairTag.Instance);
 			if (currentBracePair.Value.Second is not null) {
 				if (currentBracePair.Value.Second.Value.Left.End <= snapshot.Length)
-					yield return new TagSpan<IBracePairTag>(new SnapshotSpan(snapshot, currentBracePair.Value.Second.Value.Left), BracePairTag.Instance);
+					yield return new TagSpan<IBracePairTag>(new SnapshotSpan(snapshot, currentBracePair.Value.Second.Value.Left.ToVsSpan()), BracePairTag.Instance);
 				if (currentBracePair.Value.Second.Value.Right.End <= snapshot.Length)
-					yield return new TagSpan<IBracePairTag>(new SnapshotSpan(snapshot, currentBracePair.Value.Second.Value.Right), BracePairTag.Instance);
+					yield return new TagSpan<IBracePairTag>(new SnapshotSpan(snapshot, currentBracePair.Value.Second.Value.Right.ToVsSpan()), BracePairTag.Instance);
 			}
 		}
 
